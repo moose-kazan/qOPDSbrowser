@@ -24,14 +24,51 @@
     <item>
      <layout class="QVBoxLayout" name="rootLayout">
       <item>
-       <widget class="QLineEdit" name="urlEdit">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="toolbarLayout">
+        <item>
+         <widget class="QToolButton" name="toolButtonPrev">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset theme="go-previous">
+            <normaloff>.</normaloff>.</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButtonNext">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset theme="go-next">
+            <normaloff>.</normaloff>.</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButtonRefresh">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset theme="view-refresh">
+            <normaloff>.</normaloff>.</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="urlEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <layout class="QHBoxLayout" name="mainLayout" stretch="1,4">
@@ -309,6 +346,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>toolButtonPrev</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionGoPrev()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>22</x>
+     <y>45</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>304</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButtonNext</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionGoNext()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>52</x>
+     <y>45</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>304</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButtonRefresh</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionRefresh()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>82</x>
+     <y>45</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>304</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>actionAbout()</slot>
@@ -318,5 +403,8 @@
   <slot>actionBookmarkRemove()</slot>
   <slot>actionNavigateBookmark(QModelIndex)</slot>
   <slot>actionBrowserViewClick(QModelIndex)</slot>
+  <slot>actionRefresh()</slot>
+  <slot>actionGoNext()</slot>
+  <slot>actionGoPrev()</slot>
  </slots>
 </ui>

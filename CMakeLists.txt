@@ -32,32 +32,12 @@ set(PROJECT_SOURCES
 	${TS_FILES}
 )
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(qOPDSbrowser
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-    )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET qOPDSbrowser APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-
-    qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-else()
-    if(ANDROID)
-        add_library(qOPDSbrowser SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(qOPDSbrowser
-            ${PROJECT_SOURCES}
-        )
-    endif()
-
-    qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-endif()
+qt_add_executable(qOPDSbrowser
+    MANUAL_FINALIZATION
+    ${PROJECT_SOURCES}
+)
+qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
 target_link_libraries(qOPDSbrowser PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(qOPDSbrowser PRIVATE Qt${QT_VERSION_MAJOR}::Network)

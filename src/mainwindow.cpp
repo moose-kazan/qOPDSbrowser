@@ -226,6 +226,42 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
 
 
     urlEdit->setText(reply->url().toString());
+
+    switch (urlHistoryDirection)
+    {
+        case historyGoBack:
+            if (urlHistoryIndex > 0)
+            {
+                urlHistoryIndex--;
+            }
+        break;
+
+        case historyGoNext:
+            if (urlHistoryIndex < urlHistoryList.count()-1)
+            {
+                urlHistoryIndex++;
+            }
+        break;
+
+        case historyGoRefresh:
+            // Do nothing
+        break;
+
+        case historyGoDefault:
+            if (urlHistoryIndex <= urlHistoryList.count()-1)
+            {
+                urlHistoryIndex++;
+                urlHistoryList.insert(urlHistoryIndex, reply->url());
+            }
+            else
+            {
+                urlHistoryList.append(reply->url());
+                urlHistoryIndex = urlHistoryList.count()-1;
+            }
+        break;
+    }
+
+    urlHistoryDirection = historyGoDefault;
 }
 
 void MainWindow::actionBrowserViewClick(QModelIndex modelIndex)
@@ -240,7 +276,10 @@ void MainWindow::actionBrowserViewClick(QModelIndex modelIndex)
         }
 
         navigateTo(linkData.at(1));
-        return;
+        return;    qDebug() << urlHistoryDirection;
+        qDebug() << urlHistoryIndex;
+        qDebug() << urlHistoryList;
+
     }
     else if (browserViewModel->data(modelIndex.siblingAtColumn(1)) == FeedEntry::book) {
         if (linkData.count() < 2)
@@ -278,10 +317,6 @@ void MainWindow::actionBrowserViewClick(QModelIndex modelIndex)
         saveDialog->setNameFilters(nameFilters);
         if (saveDialog->exec() == QDialog::Accepted)
         {
-            qDebug() << saveDialog->selectedFiles().at(0);
-            qDebug() << saveDialog->selectedNameFilter();
-            qDebug() << filterToLinkMap.value(saveDialog->selectedNameFilter());
-
             downloadTo(filterToLinkMap.value(saveDialog->selectedNameFilter()), saveDialog->selectedFiles().at(0));
         }
         return;
@@ -341,3 +376,31 @@ void MainWindow::downloadFinish(QNetworkReply *reply, QString fileName)
 
     bookFile.close();
 }
+
+void MainWindow::actionRefresh()
+{
+    if (urlEdit->text() != "")
+    {
+        urlHistoryDirection = historyGoRefresh;
+        navigateTo(urlEdit->text());
+    }
+}
+
+void MainWindow::actionGoNext()
+{
+    if (urlHistoryIndex < urlHistoryList.count()-1)
+    {
+        urlHistoryDirection = historyGoNext;
+        navigateTo(urlHistoryList.at(urlHistoryIndex+1));
+    }
+}
+
+void MainWindow::actionGoPrev()
+{
+    if (urlHistoryIndex > 0 && urlHistoryList.count() > 1)
+    {
+        urlHistoryDirection = historyGoBack;
+        navigateTo(urlHistoryList.at(urlHistoryIndex-1));
+    }
+}
+

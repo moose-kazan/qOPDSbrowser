@@ -48,6 +48,10 @@ private:
 
     FeedParser *feedParser;
 
+    QList<QUrl> urlHistoryList;
+    int urlHistoryIndex = -1;
+    enum {historyGoDefault, historyGoBack, historyGoRefresh, historyGoNext} urlHistoryDirection = historyGoDefault;
+
 private slots:
     void actionExit();
     void actionAbout();
@@ -56,6 +60,9 @@ private slots:
     void actionBookmarkRemove();
     void actionNavigateBookmark(QModelIndex modelIndex);
     void actionBrowserViewClick(QModelIndex modelIndex);
+    void actionRefresh();
+    void actionGoNext();
+    void actionGoPrev();
 
 };
 #endif // MAINWINDOW_H
