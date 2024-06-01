@@ -9,6 +9,7 @@
 
 #include "dialogbookmarkadd.h"
 #include "dialogbookmarkedit.h"
+#include "dialogsettings.h"
 #include "feedparser.h"
 
 QT_BEGIN_NAMESPACE
@@ -33,6 +34,7 @@ private:
     Ui::MainWindow *ui;
     DialogBookmarkAdd *dialogBookmarkAdd;
     DialogBookmarkEdit *dialogBookmarkEdit;
+    DialogSettings *dialogSettings;
 
     QListView *bookmarksView;
     QListView *browserView;
@@ -63,6 +65,7 @@ private slots:
     void actionRefresh();
     void actionGoNext();
     void actionGoPrev();
+    void actionSettings();
 
 };
 #endif // MAINWINDOW_H

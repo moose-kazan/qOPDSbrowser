@@ -1,5 +1,6 @@
 #include "dialogbookmarkadd.h"
 #include "opdslist.h"
+#include "settings.h"
 
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
@@ -21,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     dialogBookmarkAdd = new DialogBookmarkAdd(this, Qt::Dialog);
     dialogBookmarkEdit = new DialogBookmarkEdit(this, Qt::Dialog);
+    dialogSettings= new DialogSettings(this, Qt::Dialog);
 
     downloadManager = new QNetworkAccessManager();
     navigateManager = new QNetworkAccessManager();
@@ -148,8 +150,7 @@ void MainWindow::navigateTo(QUrl url)
 
     QNetworkRequest request;
     request.setUrl(url);
-    request.setRawHeader("User-Agent", "curl/8.7.1");
-
+    request.setRawHeader("User-Agent", Settings::getUserAgent().toUtf8());
 
     navigateManager->get(request);
 }
@@ -198,7 +199,7 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
         {
             browserViewModel->item(i)->setIcon(QIcon::fromTheme("folder-remote"));
         }
-        else if (feedData.entries.at(i).entryType == FeedEntry::book)
+        else if (feedData.entries.at    (i).entryType == FeedEntry::book)
         {
             browserViewModel->item(i)->setIcon(QIcon::fromTheme("text-x-generic"));
         }
@@ -243,7 +244,10 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
             }
         break;
 
-        case historyGoRefresh:
+        case historyGoRefresh:    qDebug() << urlHistoryDirection;
+        qDebug() << urlHistoryIndex;
+        qDebug() << urlHistoryList;
+
             // Do nothing
         break;
 
@@ -276,10 +280,7 @@ void MainWindow::actionBrowserViewClick(QModelIndex modelIndex)
         }
 
         navigateTo(linkData.at(1));
-        return;    qDebug() << urlHistoryDirection;
-        qDebug() << urlHistoryIndex;
-        qDebug() << urlHistoryList;
-
+        return;
     }
     else if (browserViewModel->data(modelIndex.siblingAtColumn(1)) == FeedEntry::book) {
         if (linkData.count() < 2)
@@ -331,7 +332,7 @@ void MainWindow::downloadTo(QUrl url, QString fileName)
     (void) fileName;
     QNetworkRequest request;
     request.setUrl(url);
-    request.setRawHeader("User-Agent", "curl/8.7.1");
+    request.setRawHeader("User-Agent", Settings::getUserAgent().toUtf8());
 
     connect(
         downloadManager,
@@ -404,3 +405,11 @@ void MainWindow::actionGoPrev()
     }
 }
 
+void MainWindow::actionSettings()
+{
+    dialogSettings->setData(Settings::getUserAgentVariants(), Settings::getUserAgentName());
+    if (dialogSettings->exec() == QDialog::Accepted)
+    {
+        Settings::setUserAgentName(dialogSettings->getUserAgentName());
+    }
+}

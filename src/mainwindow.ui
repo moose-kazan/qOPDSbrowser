@@ -61,7 +61,7 @@
         <item>
          <widget class="QLineEdit" name="urlEdit">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -153,7 +153,14 @@
     <addaction name="actionBookmarkEdit"/>
     <addaction name="actionBookmarkRemove"/>
    </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionSettings"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuSettings"/>
    <addaction name="menuBookmarks"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -181,6 +188,11 @@
   <action name="actionBookmarkRemove">
    <property name="text">
     <string>Remove</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
    </property>
   </action>
  </widget>
@@ -394,6 +406,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionSettings</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionSettings()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>304</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>actionAbout()</slot>
@@ -406,5 +434,6 @@
   <slot>actionRefresh()</slot>
   <slot>actionGoNext()</slot>
   <slot>actionGoPrev()</slot>
+  <slot>actionSettings()</slot>
  </slots>
 </ui>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DialogSettings</class>
+ <widget class="QDialog" name="DialogSettings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>290</width>
+    <height>127</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Settings</string>
+  </property>
+  <widget class="QGroupBox" name="groupUserAgent">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>271</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>User Agent</string>
+   </property>
+   <widget class="QComboBox" name="userAgentList">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>251</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="buttonOK">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>90</y>
+     <width>80</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="buttonCancel">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>90</y>
+     <width>80</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonOK</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogSettings</receiver>
+   <slot>actionOK()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>149</x>
+     <y>102</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>144</x>
+     <y>63</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogSettings</receiver>
+   <slot>actionCancel()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>239</x>
+     <y>102</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>144</x>
+     <y>63</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>actionOK()</slot>
+  <slot>actionCancel()</slot>
+ </slots>
+</ui>
