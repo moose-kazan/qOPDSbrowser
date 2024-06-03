@@ -300,11 +300,17 @@ void MainWindow::actionBrowserViewClick(QModelIndex modelIndex)
 
             if (typeSuffix == "")
             {
-                if (mimeType == "application/fb2+zip")
+                // fb2.zip, rtf.zip and many other
+                if (mimeType.startsWith("application/", Qt::CaseInsensitive) && mimeType.endsWith("+zip", Qt::CaseInsensitive))
                 {
-                    typeSuffix = "fb2.zip";
-                    typeComment = tr("Zip-compressed FB2");
+                    QString intExt = mimeType;
+                    intExt.replace(mimeType.length()-QString("+zip").length(), QString("+zip").length(), "");
+                    intExt.replace(0, QString("application/").length(), "");
+
+                    typeSuffix = intExt.toLower() + ".zip";
+                    typeComment = tr("Zip-compressed %1").arg(typeSuffix.toUpper());
                 }
+
             }
 
             if (typeSuffix != "" && typeComment != "")
