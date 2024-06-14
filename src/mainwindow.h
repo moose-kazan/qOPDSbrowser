@@ -60,12 +60,12 @@ private slots:
     void actionBookmarkAdd();
     void actionBookmarkEdit();
     void actionBookmarkRemove();
-    void actionNavigateBookmark(QModelIndex modelIndex);
-    void actionBrowserViewClick(QModelIndex modelIndex);
     void actionRefresh();
     void actionGoNext();
     void actionGoPrev();
     void actionSettings();
 
+    void actionBookmarksViewActivated(QModelIndex modelIndex);
+    void actionBrowserViewActivated(QModelIndex modelIndex);
 };
 #endif // MAINWINDOW_H

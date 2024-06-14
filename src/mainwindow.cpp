@@ -138,7 +138,7 @@ void MainWindow::reloadBookmarks()
 }
 
 
-void MainWindow::actionNavigateBookmark(QModelIndex modelIndex)
+void MainWindow::actionBookmarksViewActivated(QModelIndex modelIndex)
 {
     QString url = bookmarksViewModel->data(modelIndex.siblingAtColumn(1)).toString();
     navigateTo(url);
@@ -268,7 +268,7 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
     urlHistoryDirection = historyGoDefault;
 }
 
-void MainWindow::actionBrowserViewClick(QModelIndex modelIndex)
+void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
 {
     QStringList linkData = browserViewModel->data(modelIndex.siblingAtColumn(2)).toString().split("\n");
 
@@ -419,3 +419,5 @@ void MainWindow::actionSettings()
         Settings::setUserAgentName(dialogSettings->getUserAgentName());
     }
 }
+
+

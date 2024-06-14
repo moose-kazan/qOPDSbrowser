@@ -328,9 +328,9 @@
   </connection>
   <connection>
    <sender>bookmarksView</sender>
-   <signal>doubleClicked(QModelIndex)</signal>
+   <signal>activated(QModelIndex)</signal>
    <receiver>MainWindow</receiver>
-   <slot>actionNavigateBookmark(QModelIndex)</slot>
+   <slot>actionBookmarksViewActivated(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>138</x>
@@ -344,9 +344,9 @@
   </connection>
   <connection>
    <sender>browserView</sender>
-   <signal>doubleClicked(QModelIndex)</signal>
+   <signal>activated(QModelIndex)</signal>
    <receiver>MainWindow</receiver>
-   <slot>actionBrowserViewClick(QModelIndex)</slot>
+   <slot>actionBrowserViewActivated(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>435</x>
@@ -429,11 +429,11 @@
   <slot>actionBookmarkAdd()</slot>
   <slot>actionBookmarkEdit()</slot>
   <slot>actionBookmarkRemove()</slot>
-  <slot>actionNavigateBookmark(QModelIndex)</slot>
-  <slot>actionBrowserViewClick(QModelIndex)</slot>
   <slot>actionRefresh()</slot>
   <slot>actionGoNext()</slot>
   <slot>actionGoPrev()</slot>
   <slot>actionSettings()</slot>
+  <slot>actionBookmarksViewActivated(QModelIndex)</slot>
+  <slot>actionBrowserViewActivated(QModelIndex)</slot>
  </slots>
 </ui>
