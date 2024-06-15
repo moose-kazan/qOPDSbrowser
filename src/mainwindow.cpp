@@ -1,5 +1,6 @@
 #include "dialogbookmarkadd.h"
 #include "opdslist.h"
+#include "quuid.h"
 #include "settings.h"
 
 #include "mainwindow.h"
@@ -13,6 +14,7 @@
 #include <QMimeType>
 #include <QMimeDatabase>
 #include <QFileDialog>
+#include <QDesktopServices>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -27,8 +29,10 @@ MainWindow::MainWindow(QWidget *parent)
     downloadManager = new QNetworkAccessManager();
     navigateManager = new QNetworkAccessManager();
     connect(navigateManager, &QNetworkAccessManager::finished, this, &MainWindow::navigateFinish);
+    connect(downloadManager, &QNetworkAccessManager::finished, this, &MainWindow::downloadFinish);
 
     feedParser = new FeedParser();
+    downloadHistory = new DownloadHistory();
 
     bookmarksView = findChild<QListView *>("bookmarksView");
     browserView = findChild<QListView *>("browserView");
@@ -335,22 +339,15 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
 
 void MainWindow::downloadTo(QUrl url, QString fileName)
 {
-    (void) fileName;
     QNetworkRequest request;
     request.setUrl(url);
     request.setRawHeader("User-Agent", Settings::getUserAgent().toUtf8());
+    request.setRawHeader("Download-ID", downloadHistory->Add(url, fileName));
 
-    connect(
-        downloadManager,
-        &QNetworkAccessManager::finished,
-        [=](QNetworkReply *reply) {
-            downloadFinish(reply, fileName);
-        }
-    );
     downloadManager->get(request);
 }
 
-void MainWindow::downloadFinish(QNetworkReply *reply, QString fileName)
+void MainWindow::downloadFinish(QNetworkReply *reply)
 {
     if (reply->error())
     {
@@ -362,9 +359,22 @@ void MainWindow::downloadFinish(QNetworkReply *reply, QString fileName)
         return;
     }
 
+    DownloadHistoryItem historyItem = downloadHistory->Get(reply->request().rawHeader("Download-ID"));
+
+    if (historyItem.isNull)
+    {
+        QMessageBox::critical(
+            this,
+            tr("Critical error"),
+            tr("Critical error: can't expand download id!")
+        );
+        return;
+
+    }
+
     QByteArray responseBody = reply->readAll();
 
-    QFile bookFile(fileName);
+    QFile bookFile(historyItem.fileName);
 
     if (!bookFile.open(QIODevice::WriteOnly))
     {
@@ -376,12 +386,17 @@ void MainWindow::downloadFinish(QNetworkReply *reply, QString fileName)
         QMessageBox::critical(
             this,
             tr("Can't save file"),
-            tr("Can't save %1: %2").arg(fileName).arg(bookFile.error())
+            tr("Can't save %1: %2").arg(historyItem.fileName).arg(bookFile.error())
         );
         return;
     }
 
     bookFile.close();
+
+    if (Settings::getOpenAfterDownload())
+    {
+        QDesktopServices::openUrl(QUrl(historyItem.fileName));
+    }
 }
 
 void MainWindow::actionRefresh()
@@ -413,10 +428,12 @@ void MainWindow::actionGoPrev()
 
 void MainWindow::actionSettings()
 {
-    dialogSettings->setData(Settings::getUserAgentVariants(), Settings::getUserAgentName());
+    dialogSettings->setUaVariants(Settings::getUserAgentVariants(), Settings::getUserAgentName());
+    dialogSettings->setOpenAfterDownload(Settings::getOpenAfterDownload());
     if (dialogSettings->exec() == QDialog::Accepted)
     {
         Settings::setUserAgentName(dialogSettings->getUserAgentName());
+        Settings::setOpenAfterDownload(dialogSettings->getOpenAfterDownload());
     }
 }
 

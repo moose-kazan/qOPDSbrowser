@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QComboBox>
+#include <QCheckBox>
 #include <QStandardItemModel>
 
 namespace Ui {
@@ -16,14 +17,18 @@ class DialogSettings : public QDialog
 public:
     explicit DialogSettings(QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
     ~DialogSettings();
-    void setData(QMap<QString, QString> uaVariants, QString uaSelected);
+    void setUaVariants(QMap<QString, QString> uaVariants, QString uaSelected);
     QString getUserAgentName();
+
+    void setOpenAfterDownload(bool openAfterDownload);
+    bool getOpenAfterDownload();
 
 private:
     Ui::DialogSettings *ui;
     void showEvent(QShowEvent *event) override;
 
     QComboBox *userAgentList;
+    QCheckBox *openFileAfterDownload;
 
 private slots:
     void actionOK();

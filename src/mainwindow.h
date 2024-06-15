@@ -11,6 +11,7 @@
 #include "dialogbookmarkedit.h"
 #include "dialogsettings.h"
 #include "feedparser.h"
+#include "downloadhistory.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,7 +30,7 @@ private:
     void navigateTo(QUrl url);
     void navigateFinish(QNetworkReply *reply);
     void downloadTo(QUrl url, QString fileName);
-    void downloadFinish(QNetworkReply *reply, QString fileName);
+    void downloadFinish(QNetworkReply *reply);
 
     Ui::MainWindow *ui;
     DialogBookmarkAdd *dialogBookmarkAdd;
@@ -49,6 +50,7 @@ private:
     QNetworkAccessManager *navigateManager;
 
     FeedParser *feedParser;
+    DownloadHistory *downloadHistory;
 
     QList<QUrl> urlHistoryList;
     int urlHistoryIndex = -1;

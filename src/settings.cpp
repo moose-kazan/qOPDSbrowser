@@ -66,3 +66,13 @@ void Settings::setUserAgentName(QString userAgentName)
 {
     getCfg()->setValue("userAgentName", userAgentName);
 }
+
+bool Settings::getOpenAfterDownload()
+{
+    return getCfg()->value("openAfterDownload", false).toBool();
+}
+
+void Settings::setOpenAfterDownload(bool openAfterDownload)
+{
+    getCfg()->setValue("openAfterDownload", openAfterDownload);
+}

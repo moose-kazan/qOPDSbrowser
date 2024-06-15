@@ -8,6 +8,7 @@ DialogSettings::DialogSettings(QWidget *parent, Qt::WindowFlags f) :
     ui->setupUi(this);
 
     userAgentList = findChild<QComboBox *>("userAgentList");
+    openFileAfterDownload = findChild<QCheckBox *>("openFileAfterDownload");
 }
 
 DialogSettings::~DialogSettings()
@@ -30,7 +31,7 @@ void DialogSettings::showEvent(QShowEvent *event)
     (void)event;
 }
 
-void DialogSettings::setData(QMap<QString, QString> uaVariants, QString uaSelected)
+void DialogSettings::setUaVariants(QMap<QString, QString> uaVariants, QString uaSelected)
 {
     userAgentList->clear();
     for (int i = 0; i < uaVariants.keys().size(); i++)
@@ -44,3 +45,14 @@ QString DialogSettings::getUserAgentName()
 {
     return userAgentList->currentText();
 }
+
+void DialogSettings::setOpenAfterDownload(bool openAfterDownload)
+{
+    openFileAfterDownload->setChecked(openAfterDownload);
+}
+
+bool DialogSettings::getOpenAfterDownload()
+{
+    return openFileAfterDownload->isChecked();
+}
+

@@ -34,6 +34,8 @@ set(PROJECT_SOURCES
 	src/dialogsettings.h
 	src/dialogsettings.cpp
 	src/dialogsettings.ui
+	src/downloadhistory.h
+	src/downloadhistory.cpp
 	${TS_FILES}
 )
 

@@ -12,6 +12,8 @@ public:
     static QString getUserAgent();
     static QString getUserAgentName();
     static void setUserAgentName(QString userAgent);
+    static bool getOpenAfterDownload();
+    static void setOpenAfterDownload(bool openAfterDownload);
 
 protected:
     static QSettings* getCfg();
