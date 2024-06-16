@@ -351,8 +351,12 @@ void MainWindow::downloadTo(QUrl url, QString fileName)
 
 void MainWindow::downloadFinish(QNetworkReply *reply)
 {
+    QByteArray downloadID = reply->request().rawHeader("Download-ID");
+    DownloadHistoryItem historyItem = downloadHistory->HistoryItemGet(downloadID);
+
     if (reply->error())
     {
+        downloadHistory->HistoryItemFailed(downloadID);
         QMessageBox::critical(
             this,
             tr("Can't load url"),
@@ -361,12 +365,8 @@ void MainWindow::downloadFinish(QNetworkReply *reply)
         return;
     }
 
-    QByteArray downloadID = reply->request().rawHeader("Download-ID");
-    DownloadHistoryItem historyItem = downloadHistory->HistoryItemGet(downloadID);
-
     if (historyItem.isNull)
     {
-        downloadHistory->HistoryItemFailed(downloadID);
         QMessageBox::critical(
             this,
             tr("Critical error"),
