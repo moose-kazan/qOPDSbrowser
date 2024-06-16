@@ -1,6 +1,5 @@
 #include "dialogbookmarkadd.h"
 #include "opdslist.h"
-#include "quuid.h"
 #include "settings.h"
 
 #include "mainwindow.h"
@@ -32,11 +31,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(downloadManager, &QNetworkAccessManager::finished, this, &MainWindow::downloadFinish);
 
     feedParser = new FeedParser();
-    downloadHistory = new DownloadHistory();
 
     bookmarksView = findChild<QListView *>("bookmarksView");
     browserView = findChild<QListView *>("browserView");
     urlEdit = findChild<QLineEdit *>("urlEdit");
+    tableDownloads = findChild<QTableView *>("tableDownloads");
 
     saveDialog = new QFileDialog(this);
     saveDialog->setAcceptMode(QFileDialog::AcceptSave);
@@ -46,6 +45,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     browserViewModel = new QStandardItemModel(this);
     browserView->setModel(browserViewModel);
+
+    downloadHistory = new DownloadHistory(this);
+    tableDownloads->setModel(downloadHistory);
 
     reloadBookmarks();
 
@@ -342,7 +344,7 @@ void MainWindow::downloadTo(QUrl url, QString fileName)
     QNetworkRequest request;
     request.setUrl(url);
     request.setRawHeader("User-Agent", Settings::getUserAgent().toUtf8());
-    request.setRawHeader("Download-ID", downloadHistory->Add(url, fileName));
+    request.setRawHeader("Download-ID", downloadHistory->HistoryItemAdd(url, fileName));
 
     downloadManager->get(request);
 }
@@ -359,10 +361,12 @@ void MainWindow::downloadFinish(QNetworkReply *reply)
         return;
     }
 
-    DownloadHistoryItem historyItem = downloadHistory->Get(reply->request().rawHeader("Download-ID"));
+    QByteArray downloadID = reply->request().rawHeader("Download-ID");
+    DownloadHistoryItem historyItem = downloadHistory->HistoryItemGet(downloadID);
 
     if (historyItem.isNull)
     {
+        downloadHistory->HistoryItemFailed(downloadID);
         QMessageBox::critical(
             this,
             tr("Critical error"),
@@ -378,11 +382,13 @@ void MainWindow::downloadFinish(QNetworkReply *reply)
 
     if (!bookFile.open(QIODevice::WriteOnly))
     {
+        downloadHistory->HistoryItemFailed(downloadID);
         return;
     }
 
     if (bookFile.write(responseBody) < responseBody.length())
     {
+        downloadHistory->HistoryItemFailed(downloadID);
         QMessageBox::critical(
             this,
             tr("Can't save file"),
@@ -392,6 +398,7 @@ void MainWindow::downloadFinish(QNetworkReply *reply)
     }
 
     bookFile.close();
+    downloadHistory->HistoryItemSuccess(downloadID);
 
     if (Settings::getOpenAfterDownload())
     {

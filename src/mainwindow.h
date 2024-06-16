@@ -6,6 +6,7 @@
 #include <QStandardItemModel>
 #include <QNetworkAccessManager>
 #include <QFileDialog>
+#include <QTableWidget>
 
 #include "dialogbookmarkadd.h"
 #include "dialogbookmarkedit.h"
@@ -40,6 +41,7 @@ private:
     QListView *bookmarksView;
     QListView *browserView;
     QLineEdit *urlEdit;
+    QTableView *tableDownloads;
 
     QFileDialog *saveDialog;
 
