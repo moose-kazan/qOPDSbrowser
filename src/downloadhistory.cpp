@@ -68,7 +68,7 @@ QVariant DownloadHistory::data( const QModelIndex &index, int role ) const
 
 void DownloadHistory::populate(QList<DownloadHistoryItem> *newValues)
 {
-    qDebug() << "DownloadHistory::populate";
+    //qDebug() << "DownloadHistory::populate";
     int idx = historyList->count();
     beginInsertRows(QModelIndex(), 1, idx);
     historyList = newValues;
