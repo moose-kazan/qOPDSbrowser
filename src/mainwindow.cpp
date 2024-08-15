@@ -313,8 +313,8 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
                     intExt.replace(mimeType.length()-QString("+zip").length(), QString("+zip").length(), "");
                     intExt.replace(0, QString("application/").length(), "");
 
+                    typeComment = tr("Zip-compressed %1").arg(intExt.toUpper());
                     typeSuffix = intExt.toLower() + ".zip";
-                    typeComment = tr("Zip-compressed %1").arg(typeSuffix.toUpper());
                 }
 
             }
