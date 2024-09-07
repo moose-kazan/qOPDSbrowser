@@ -250,10 +250,7 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
             }
         break;
 
-        case historyGoRefresh:    qDebug() << urlHistoryDirection;
-        qDebug() << urlHistoryIndex;
-        qDebug() << urlHistoryList;
-
+        case historyGoRefresh:
             // Do nothing
         break;
 
@@ -289,12 +286,6 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
         return;
     }
     else if (browserViewModel->data(modelIndex.siblingAtColumn(1)) == FeedEntry::book) {
-        if (linkData.count() < 2)
-        {
-            QMessageBox::warning(this, tr("Warning"), tr("No link found for this book!"));
-            return;
-        }
-
         QMimeDatabase mimeDB;
         QStringList nameFilters;
         QMap<QString,QString> filterToLinkMap;
@@ -303,6 +294,7 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
             QString mimeType = linkData.at(i);
             QString typeSuffix = mimeDB.mimeTypeForName(mimeType).preferredSuffix();
             QString typeComment = mimeDB.mimeTypeForName(mimeType).comment();
+            qDebug() << typeComment;
 
             if (typeSuffix == "")
             {
@@ -316,7 +308,11 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
                     typeComment = tr("Zip-compressed %1").arg(intExt.toUpper());
                     typeSuffix = intExt.toLower() + ".zip";
                 }
-
+                else if (mimeType == "application/djvu")
+                {
+                    typeSuffix = "djvu";
+                    typeComment = "DJVU Document";
+                }
             }
 
             if (typeSuffix != "" && typeComment != "")
@@ -325,6 +321,12 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
                 filterToLinkMap.insert(filterLine, linkData.at(i+1));
                 nameFilters.append(filterLine);
             }
+        }
+
+        if (nameFilters.count() < 1)
+        {
+            QMessageBox::warning(this, tr("Warning"), tr("No link found for this book!"));
+            return;
         }
 
         saveDialog->setNameFilters(nameFilters);
