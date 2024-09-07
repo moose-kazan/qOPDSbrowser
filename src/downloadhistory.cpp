@@ -185,6 +185,6 @@ QString DownloadHistory::statusToString(DownloadHistoryItem::Status status) cons
 QString DownloadHistory::stripFileName(QString fileName) const
 {
     const QFileInfo info(fileName);
-    const QString baseName(info.baseName());
+    const QString baseName(info.completeBaseName());
     return baseName;
 }
