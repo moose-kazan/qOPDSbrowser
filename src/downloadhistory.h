@@ -13,8 +13,10 @@ struct DownloadHistoryItem
     QByteArray id;
     QUrl url;
     QString fileName;
+    qint64 bytesReceived;
+    qint64 bytesTotal;
     QTime moment = QTime::currentTime();
-    enum Status {downloadProgress, downloadSuccess, downloadFailed} status = downloadProgress;
+    enum Status {downloadWaiting, downloadProgress, downloadSuccess, downloadFailed} status = downloadWaiting;
 };
 
 
@@ -22,7 +24,8 @@ class DownloadHistory : public QAbstractListModel
 {
 public:
     static const int COLUMN_FILENAME = 0;
-    static const int COLUMN_STATUS = 1;
+    static const int COLUMN_STATUS   = 1;
+    static const int COLUMN_PROGRESS = 2;
 
     DownloadHistory(QObject *parent=nullptr);
 
@@ -36,11 +39,14 @@ public:
     DownloadHistoryItem HistoryItemGet(QByteArray id);
     void HistoryItemSuccess(QByteArray id);
     void HistoryItemFailed(QByteArray id);
+    void HistoryItemProgress(QByteArray id, qint64 bytesReceived, qint64 bytesTotal);
 
 private:
     QList<DownloadHistoryItem> *historyList;
     QString statusToString(DownloadHistoryItem::Status status) const;
     QString stripFileName(QString fileName) const;
+    QString prepareProgress(DownloadHistoryItem historyItem) const;
+    QString prepareSize(qint64 size) const;
 };
 
 #endif // DOWNLOADHISTORY_H

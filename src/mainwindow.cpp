@@ -294,7 +294,6 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
             QString mimeType = linkData.at(i);
             QString typeSuffix = mimeDB.mimeTypeForName(mimeType).preferredSuffix();
             QString typeComment = mimeDB.mimeTypeForName(mimeType).comment();
-            qDebug() << typeComment;
 
             if (typeSuffix == "")
             {
@@ -346,9 +345,14 @@ void MainWindow::downloadTo(QUrl url, QString fileName)
     QNetworkRequest request;
     request.setUrl(url);
     request.setRawHeader("User-Agent", Settings::getUserAgent().toUtf8());
-    request.setRawHeader("Download-ID", downloadHistory->HistoryItemAdd(url, fileName));
+    QByteArray downloadID = downloadHistory->HistoryItemAdd(url, fileName);
+    request.setRawHeader("Download-ID", downloadID);
 
-    downloadManager->get(request);
+    QNetworkReply* networkReply = downloadManager->get(request);
+    //connect(downloadManager, &QNetworkAccessManager::finished, this, &MainWindow::downloadFinish);
+    connect(networkReply, &QNetworkReply::downloadProgress, [=] (qint64 bytesReceived, qint64 bytesTotal) {
+        downloadHistory->HistoryItemProgress(downloadID, bytesReceived, bytesTotal);
+    });
 }
 
 void MainWindow::downloadFinish(QNetworkReply *reply)

@@ -24,7 +24,7 @@ int DownloadHistory::rowCount(const QModelIndex &) const
 int DownloadHistory::columnCount(const QModelIndex &) const
 {
     //qDebug() << "DownloadHistory::columnCount";
-    return 2;
+    return 3;
 }
 
 QVariant DownloadHistory::data( const QModelIndex &index, int role ) const
@@ -39,6 +39,12 @@ QVariant DownloadHistory::data( const QModelIndex &index, int role ) const
                 case COLUMN_FILENAME:
                 {
                     value = stripFileName(historyList->at(index.row()).fileName);
+                }
+                break;
+
+                case COLUMN_PROGRESS:
+                {
+                    value = prepareProgress(historyList->at(index.row()));
                 }
                 break;
 
@@ -82,6 +88,10 @@ QVariant DownloadHistory::headerData(int section, Qt::Orientation orientation, i
         switch (section) {
             case COLUMN_FILENAME:
                 return QString(tr("File name"));
+            break;
+
+            case COLUMN_PROGRESS:
+                return QString(tr("Download progress"));
             break;
 
             case COLUMN_STATUS:
@@ -161,11 +171,36 @@ void DownloadHistory::HistoryItemFailed(QByteArray id)
     }
 }
 
+void DownloadHistory::HistoryItemProgress(QByteArray id, qint64 bytesReceived, qint64 bytesTotal)
+{
+    for (int i = 0; i < historyList->length(); i++)
+    {
+        if (historyList->at(i).id == id)
+        {
+            DownloadHistoryItem tmpItem = historyList->at(i);
+            tmpItem.status = DownloadHistoryItem::downloadProgress;
+            tmpItem.bytesReceived = bytesReceived;
+            tmpItem.bytesTotal = bytesTotal;
+            historyList->replace(i, tmpItem);
+
+            QModelIndex item_idx_s = this->index(i, 0);
+            QModelIndex item_idx_e = this->index(i, this->columnCount(QModelIndex()));
+            emit this->dataChanged(item_idx_s ,item_idx_e);
+
+            return;
+        }
+    }
+}
+
 QString DownloadHistory::statusToString(DownloadHistoryItem::Status status) const
 {
     QString statusName;
     switch (status)
     {
+        case DownloadHistoryItem::downloadWaiting:
+            statusName = "Waiting";
+        break;
+
         case DownloadHistoryItem::downloadProgress:
             statusName = "Progress";
         break;
@@ -185,6 +220,37 @@ QString DownloadHistory::statusToString(DownloadHistoryItem::Status status) cons
 QString DownloadHistory::stripFileName(QString fileName) const
 {
     const QFileInfo info(fileName);
-    const QString baseName(info.completeBaseName());
+    const QString baseName(info.fileName());
     return baseName;
+}
+
+QString DownloadHistory::prepareProgress(DownloadHistoryItem historyItem) const
+{
+    if (historyItem.status != DownloadHistoryItem::downloadProgress)
+    {
+        return "";
+    }
+
+    QString strReceived = prepareSize(historyItem.bytesReceived);
+    QString strTotal = tr("unknown");
+    if (historyItem.bytesTotal > 0)
+    {
+        strTotal = prepareSize(historyItem.bytesTotal);
+    }
+
+    return QString("%1/%2").arg(strReceived).arg(strTotal);
+}
+
+QString DownloadHistory::prepareSize(qint64 size) const
+{
+    if (size < 1024)
+    {
+        return QString("%1b").arg(size);
+    }
+    else if (size < 1024*1024)
+    {
+        return QString("%1Kb").arg(qint64(size/1024));
+    }
+
+    return QString("%1Kb").arg(qint64(size/(1024*1024)));
 }
