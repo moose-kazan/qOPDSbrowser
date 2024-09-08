@@ -231,6 +231,7 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
         }
     }
 
+    browserView->scrollToTop();
 
     urlEdit->setText(reply->url().toString());
 
