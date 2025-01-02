@@ -35,7 +35,11 @@ MainWindow::MainWindow(QWidget *parent)
     bookmarksView = findChild<QListView *>("bookmarksView");
     browserView = findChild<QListView *>("browserView");
     urlEdit = findChild<QLineEdit *>("urlEdit");
+    searchLineEdit = findChild<QLineEdit *>("searchLine");
     tableDownloads = findChild<QTableView *>("tableDownloads");
+
+    searchLineEdit->addAction(QIcon::fromTheme("system-search"), QLineEdit::TrailingPosition);
+    searchLineEdit->setEnabled(false);
 
     saveDialog = new QFileDialog(this);
     saveDialog->setAcceptMode(QFileDialog::AcceptSave);
@@ -280,6 +284,8 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
     }
 
     urlHistoryDirection = historyGoDefault;
+
+    searchLineEdit->setEnabled(feedParser->haveSearch());
 }
 
 void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
@@ -462,3 +468,7 @@ void MainWindow::actionSettings()
 }
 
 
+void MainWindow::actionSearch()
+{
+    navigateTo(feedParser->getSearchLink(searchLineEdit->text()));
+}

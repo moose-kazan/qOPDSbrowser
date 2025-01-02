@@ -68,6 +68,9 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QLineEdit" name="searchLine"/>
+        </item>
        </layout>
       </item>
       <item>
@@ -437,6 +440,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>searchLine</sender>
+   <signal>returnPressed()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionSearch()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>475</x>
+     <y>45</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>304</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>actionAbout()</slot>
@@ -450,5 +469,6 @@
   <slot>actionSettings()</slot>
   <slot>actionBookmarksViewActivated(QModelIndex)</slot>
   <slot>actionBrowserViewActivated(QModelIndex)</slot>
+  <slot>actionSearch()</slot>
  </slots>
 </ui>

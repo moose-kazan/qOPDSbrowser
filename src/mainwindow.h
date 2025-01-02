@@ -41,6 +41,7 @@ private:
     QListView *bookmarksView;
     QListView *browserView;
     QLineEdit *urlEdit;
+    QLineEdit *searchLineEdit;
     QTableView *tableDownloads;
 
     QFileDialog *saveDialog;
@@ -68,6 +69,7 @@ private slots:
     void actionGoNext();
     void actionGoPrev();
     void actionSettings();
+    void actionSearch();
 
     void actionBookmarksViewActivated(QModelIndex modelIndex);
     void actionBrowserViewActivated(QModelIndex modelIndex);

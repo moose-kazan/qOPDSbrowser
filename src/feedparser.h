@@ -32,6 +32,8 @@ public:
     bool parse(QByteArray data, QUrl baseXmlUrl);
     QString errorLine();
     FeedData getData();
+    bool haveSearch();
+    QString getSearchLink(QString searchTerms);
 
 private:
     QString errorString;
@@ -40,6 +42,7 @@ private:
     void collectEntries();
     void collectLinks();
     QUrl baseUrl;
+    QString searchLink;
 };
 
 #endif // FEEDPARSER_H

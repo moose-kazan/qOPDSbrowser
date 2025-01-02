@@ -130,6 +130,15 @@ void FeedParser::collectLinks()
 
             feedData.entries.append(fEntry);
         }
+
+        if (linkRel == "search")
+        {
+            QString linkHref = linkItem.attribute("href", "");
+            if (linkHref != "")
+            {
+                searchLink = baseUrl.resolved(linkHref).toString();
+            }
+        }
     }
 }
 
@@ -137,6 +146,7 @@ bool FeedParser::parse(QByteArray data, QUrl baseXmlUrl)
 {
     feedData.entries.clear();
     baseUrl = baseXmlUrl;
+    searchLink = "";
 
     QString paserXmlErrorMsg;
     int parserXmlErrorLine;
@@ -172,4 +182,16 @@ QString FeedParser::errorLine()
 FeedData FeedParser::getData()
 {
     return feedData;
+}
+
+bool FeedParser::haveSearch()
+{
+    return searchLink != "";
+}
+
+QString FeedParser::getSearchLink(QString searchTerms)
+{
+    QString searchUrl = searchLink;
+
+    return searchUrl.replace(QString("%7BsearchTerms%7D"), QUrl::toPercentEncoding(searchTerms));
 }
