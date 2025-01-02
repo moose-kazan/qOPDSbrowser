@@ -22,14 +22,16 @@ bool FeedParser::parse(QByteArray data, QUrl baseUrl)
     int parserXmlErrorColumn;
 
     if (!parserXml->setContent(
-        data,
+        QString::fromUtf8(data),
         true,
         &paserXmlErrorMsg,
         &parserXmlErrorLine,
         &parserXmlErrorColumn)
     )
     {
-        errorString = paserXmlErrorMsg;
+        errorString = QString("Error at [%1:%2]: %3").arg(parserXmlErrorLine)
+                .arg(parserXmlErrorColumn)
+                .arg(paserXmlErrorMsg);
         return false;
     }
 
