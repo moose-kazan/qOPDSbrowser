@@ -13,28 +13,8 @@ FeedParser::FeedParser()
     parserXml = new QDomDocument();
 }
 
-bool FeedParser::parse(QByteArray data, QUrl baseUrl)
+void FeedParser::collectEntries()
 {
-    feedData.entries.clear();
-
-    QString paserXmlErrorMsg;
-    int parserXmlErrorLine;
-    int parserXmlErrorColumn;
-
-    if (!parserXml->setContent(
-        QString::fromUtf8(data),
-        true,
-        &paserXmlErrorMsg,
-        &parserXmlErrorLine,
-        &parserXmlErrorColumn)
-    )
-    {
-        errorString = QString("Error at [%1:%2]: %3").arg(parserXmlErrorLine)
-                .arg(parserXmlErrorColumn)
-                .arg(paserXmlErrorMsg);
-        return false;
-    }
-
     QDomNodeList docEntries = parserXml->firstChildElement("feed").elementsByTagName("entry");
 
     for (int i = 0; i < docEntries.count(); i++)
@@ -106,6 +86,79 @@ bool FeedParser::parse(QByteArray data, QUrl baseUrl)
             feedData.entries.append(fEntry);
         }
     }
+}
+
+void FeedParser::collectLinks()
+{
+    QDomNodeList docLinks = parserXml->firstChildElement("feed").elementsByTagName("link");
+
+    for (int i = 0; i < docLinks.count(); i++)
+    {
+        QDomElement linkItem = docLinks.at(i).toElement();
+
+        // Skip broken tags
+        if (linkItem.hasChildNodes() || !linkItem.hasAttributes())
+        {
+            continue;
+        }
+
+        QString linkRel = linkItem.attribute("rel", "");
+        QString linkType = linkItem.attribute("type", "").toLower();
+
+        bool linkToFeed = linkType.split(";").contains("profile=opds-catalog") || linkType.split(";").contains("application/atom+xml");
+
+        if (!linkToFeed)
+        {
+            continue;
+        }
+
+        if (linkRel == "next" || linkRel == "prev" || linkRel == "previous") {
+            FeedEntry fEntry;
+            fEntry.entryType = FeedEntry::feed;
+
+            fEntry.title = tr("Prveious page");
+            if (linkRel == "next")
+            {
+                fEntry.title = tr("Next page");
+            }
+
+            FeedEntryLink fLink;
+            fLink.link = baseUrl.resolved(linkItem.attribute("href", "")).toString();
+            fLink.type = linkType;
+
+            fEntry.links.append(fLink);
+
+            feedData.entries.append(fEntry);
+        }
+    }
+}
+
+bool FeedParser::parse(QByteArray data, QUrl baseXmlUrl)
+{
+    feedData.entries.clear();
+    baseUrl = baseXmlUrl;
+
+    QString paserXmlErrorMsg;
+    int parserXmlErrorLine;
+    int parserXmlErrorColumn;
+
+    if (!parserXml->setContent(
+        QString::fromUtf8(data),
+        true,
+        &paserXmlErrorMsg,
+        &parserXmlErrorLine,
+        &parserXmlErrorColumn)
+    )
+    {
+        errorString = QString(tr("Error at [%1:%2]: %3")).arg(parserXmlErrorLine)
+                .arg(parserXmlErrorColumn)
+                .arg(paserXmlErrorMsg);
+        return false;
+    }
+
+    collectEntries();
+
+    collectLinks();
 
     errorString = "";
     return true;

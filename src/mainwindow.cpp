@@ -215,7 +215,7 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
         {
             browserViewModel->item(i)->setIcon(QIcon::fromTheme("folder-remote"));
         }
-        else if (feedData.entries.at    (i).entryType == FeedEntry::book)
+        else if (feedData.entries.at(i).entryType == FeedEntry::book)
         {
             browserViewModel->item(i)->setIcon(QIcon::fromTheme("text-x-generic"));
         }

@@ -1,6 +1,7 @@
 #ifndef FEEDPARSER_H
 #define FEEDPARSER_H
 
+#include <QObject>
 #include <QByteArray>
 #include <QString>
 #include <QDomDocument>
@@ -23,11 +24,12 @@ public:
     QList<FeedEntry> entries;
 };
 
-class FeedParser
+class FeedParser: public QObject
 {
+    Q_OBJECT
 public:
     FeedParser();
-    bool parse(QByteArray data, QUrl baseUrl);
+    bool parse(QByteArray data, QUrl baseXmlUrl);
     QString errorLine();
     FeedData getData();
 
@@ -35,6 +37,9 @@ private:
     QString errorString;
     QDomDocument *parserXml;
     FeedData feedData;
+    void collectEntries();
+    void collectLinks();
+    QUrl baseUrl;
 };
 
 #endif // FEEDPARSER_H
