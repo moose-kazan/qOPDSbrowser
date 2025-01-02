@@ -165,10 +165,20 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
 {
     if (reply->error())
     {
+        QString loadErrorMsg = tr("Can't load %1: %2").arg(reply->url().toString())
+                .arg(reply->errorString());
+
+        if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isValid()) {
+            loadErrorMsg = tr("Can't load %1 with http code %2: %3").arg(reply->url().toString())
+                    .arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toString())
+                    .arg(reply->errorString());
+        }
+
+
         QMessageBox::critical(
             this,
             tr("Can't load url"),
-            tr("Can't load %1: %2").arg(reply->url().toString()).arg(reply->errorString())
+            loadErrorMsg
         );
         return;
     }
