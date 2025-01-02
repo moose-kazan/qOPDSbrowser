@@ -22,6 +22,7 @@ struct DownloadHistoryItem
 
 class DownloadHistory : public QAbstractListModel
 {
+    Q_OBJECT
 public:
     static const int COLUMN_FILENAME = 0;
     static const int COLUMN_STATUS   = 1;
