@@ -12,7 +12,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Network Xml LinguistTools)
 find_package(Qt6 REQUIRED COMPONENTS Widgets Network Xml LinguistTools)
 
-set(TS_FILES qOPDSbrowser_ru_RU.ts)
+set (ICON_FILES
+    src/icons/icon16.png
+    src/icons/icon24.png
+    src/icons/icon32.png
+    src/icons/icon48.png
+    src/icons/icon64.png
+    src/icons/icon96.png
+    src/icons/icon128.png
+    src/icons/icon256.png
+    src/icons/icon512.png
+)
+
+set(TS_FILES qOPDSbrowser_ru_RU.ts qOPDSbrowser_en_US.ts)
 
 set(PROJECT_SOURCES
         src/main.cpp
@@ -36,6 +48,9 @@ set(PROJECT_SOURCES
 	src/dialogsettings.ui
 	src/downloadhistory.h
 	src/downloadhistory.cpp
+	qOPDSbrowser.desktop
+	src/qOPDSbrowser.qrc
+	${ICON_FILES}
 	${TS_FILES}
 )
 
@@ -51,7 +66,7 @@ target_link_libraries(qOPDSbrowser PRIVATE Qt${QT_VERSION_MAJOR}::Network)
 target_link_libraries(qOPDSbrowser PRIVATE Qt${QT_VERSION_MAJOR}::Xml)
 
 set_target_properties(qOPDSbrowser PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
+    MACOSX_BUNDLE_GUI_IDENTIFIER com.ylsoftware.qopdsbrowser
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
@@ -61,6 +76,9 @@ set_target_properties(qOPDSbrowser PROPERTIES
 install(TARGETS qOPDSbrowser
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(FILES qOPDSbrowser.desktop DESTINATION share/applications)
+install(FILES src/icons/icon512.png DESTINATION share/icons)
+
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(qOPDSbrowser)

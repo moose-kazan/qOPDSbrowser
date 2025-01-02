@@ -1,5 +1,7 @@
 # qOPDSbrowser #
 
+![Screenshot](./screenshot.png)
+
 ## About ##
 
 Simple OPDS browser. Written with C++/Qt.

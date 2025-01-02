@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Qt OPDS Browser
+Exec=qOPDSbrowser
+Icon=qOPDSbrowser
+Categories=Qt;Office;Viewer;Literature
+GenericName=Simple OPDS browser
+GenericName[ru]=Простой браузер OPDS-каталогов

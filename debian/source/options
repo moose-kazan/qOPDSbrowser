@@ -1,0 +1,5 @@
+tar-ignore=build
+tar-ignore=.git
+tar-ignore=scripts
+tar-ignore=release
+tar-ignore=package

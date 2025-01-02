@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
             break;
         }
     }
+    a.setWindowIcon(QIcon(":/icons/icon64.png"));
     MainWindow w;
     w.show();
     return a.exec();
