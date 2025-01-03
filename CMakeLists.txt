@@ -24,7 +24,7 @@ set (ICON_FILES
     src/icons/icon512.png
 )
 
-set(TS_FILES qOPDSbrowser_ru_RU.ts qOPDSbrowser_en_US.ts)
+set(TS_FILES src/languages/qOPDSbrowser_ru.ts src/languages/qOPDSbrowser_en.ts)
 
 set(PROJECT_SOURCES
         src/main.cpp
@@ -58,8 +58,17 @@ qt_add_executable(qOPDSbrowser
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
 )
-qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+
+qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES en ru)
+
+#qt_add_lupdate(qOPDSbrowser TS_FILES ${TS_FILES})
+#qt_add_lrelease(qOPDSbrowser TS_FILES ${TS_FILES})
+
+qt_add_translations(
+    qOPDSbrowser
+    TS_FILES ${TS_FILES}
+    RESOURCE_PREFIX "i18n"
+)
 
 target_link_libraries(qOPDSbrowser PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(qOPDSbrowser PRIVATE Qt${QT_VERSION_MAJOR}::Network)

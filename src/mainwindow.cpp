@@ -72,7 +72,7 @@ void MainWindow::actionExit()
 
 void MainWindow::actionAbout()
 {
-    QMessageBox::about(this, "qOPDSbrowser", "Simple client for OPDS feeds.");
+    QMessageBox::about(this, "qOPDSbrowser", tr("Simple client for OPDS feeds."));
 }
 
 void MainWindow::actionBookmarkAdd()
@@ -116,7 +116,7 @@ void MainWindow::actionBookmarkRemove()
     QString id = bookmarksViewModel->data(indexList.at(0).siblingAtColumn(2)).toString();
     //qDebug() << id;
 
-    if (QMessageBox::question(this, tr("Confirmation"), tr("Are you sure?")) == QMessageBox::Yes)
+    if (QMessageBox::question(this, tr("Remove bookmark"), tr("Do you want to remove this bookmark?")) == QMessageBox::Yes)
     {
         OPDSList::remove(id);
         reloadBookmarks();
