@@ -198,19 +198,19 @@ QString DownloadHistory::statusToString(DownloadHistoryItem::Status status) cons
     switch (status)
     {
         case DownloadHistoryItem::downloadWaiting:
-            statusName = "Waiting";
+            statusName = tr("Waiting");
         break;
 
         case DownloadHistoryItem::downloadProgress:
-            statusName = "Progress";
+            statusName = tr("Progress");
         break;
 
         case DownloadHistoryItem::downloadFailed:
-            statusName = "Failed";
+            statusName = tr("Failed");
         break;
 
         case DownloadHistoryItem::downloadSuccess:
-            statusName = "Success";
+            statusName = tr("Success");
         break;
     }
 

@@ -120,6 +120,26 @@
         <translation>Download status</translation>
     </message>
     <message>
+        <location filename="../downloadhistory.cpp" line="201"/>
+        <source>Waiting</source>
+        <translation>Waiting</translation>
+    </message>
+    <message>
+        <location filename="../downloadhistory.cpp" line="205"/>
+        <source>Progress</source>
+        <translation>Progress</translation>
+    </message>
+    <message>
+        <location filename="../downloadhistory.cpp" line="209"/>
+        <source>Failed</source>
+        <translation>Failed</translation>
+    </message>
+    <message>
+        <location filename="../downloadhistory.cpp" line="213"/>
+        <source>Success</source>
+        <translation>Success</translation>
+    </message>
+    <message>
         <location filename="../downloadhistory.cpp" line="235"/>
         <source>unknown</source>
         <translation>unknown</translation>

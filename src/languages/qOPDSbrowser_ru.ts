@@ -120,6 +120,26 @@
         <translation>Статус загрузки</translation>
     </message>
     <message>
+        <location filename="../downloadhistory.cpp" line="201"/>
+        <source>Waiting</source>
+        <translation>Ожидание</translation>
+    </message>
+    <message>
+        <location filename="../downloadhistory.cpp" line="205"/>
+        <source>Progress</source>
+        <translation>Скачивание</translation>
+    </message>
+    <message>
+        <location filename="../downloadhistory.cpp" line="209"/>
+        <source>Failed</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <location filename="../downloadhistory.cpp" line="213"/>
+        <source>Success</source>
+        <translation>Успех</translation>
+    </message>
+    <message>
         <location filename="../downloadhistory.cpp" line="235"/>
         <source>unknown</source>
         <translation>неизвестно</translation>
