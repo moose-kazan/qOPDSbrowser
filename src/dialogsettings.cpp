@@ -9,6 +9,11 @@ DialogSettings::DialogSettings(QWidget *parent, Qt::WindowFlags f) :
 
     userAgentList = findChild<QComboBox *>("userAgentList");
     openFileAfterDownload = findChild<QCheckBox *>("openFileAfterDownload");
+    defaultDownloadDirectory = findChild<QLineEdit *>("defaultDownloadDirectoryEdit");
+
+    defaultDownloadDirectoryDialog = new QFileDialog(this);
+    defaultDownloadDirectoryDialog->setFileMode(QFileDialog::Directory);
+    defaultDownloadDirectoryDialog->setOption(QFileDialog::ShowDirsOnly, true);
 }
 
 DialogSettings::~DialogSettings()
@@ -24,6 +29,15 @@ void DialogSettings::actionOK()
 void DialogSettings::actionCancel()
 {
     reject();
+}
+
+void DialogSettings::actionSelectDefaultDownloadDirectory()
+{
+    defaultDownloadDirectoryDialog->setDirectory(getDefaultSaveDirectory());
+    if (defaultDownloadDirectoryDialog->exec() == QDialog::Accepted)
+    {
+        setDefaultSaveDirectory(defaultDownloadDirectoryDialog->directory().absolutePath());
+    }
 }
 
 void DialogSettings::showEvent(QShowEvent *event)
@@ -56,3 +70,12 @@ bool DialogSettings::getOpenAfterDownload()
     return openFileAfterDownload->isChecked();
 }
 
+QString DialogSettings::getDefaultSaveDirectory()
+{
+    return defaultDownloadDirectory->text();
+}
+
+void DialogSettings::setDefaultSaveDirectory(QString dir)
+{
+    defaultDownloadDirectory->setText(dir);
+}

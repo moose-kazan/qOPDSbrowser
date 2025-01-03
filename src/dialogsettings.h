@@ -4,6 +4,8 @@
 #include <QDialog>
 #include <QComboBox>
 #include <QCheckBox>
+#include <QLineEdit>
+#include <QFileDialog>
 #include <QStandardItemModel>
 
 namespace Ui {
@@ -23,16 +25,22 @@ public:
     void setOpenAfterDownload(bool openAfterDownload);
     bool getOpenAfterDownload();
 
+    QString getDefaultSaveDirectory();
+    void setDefaultSaveDirectory(QString dir);
+
 private:
     Ui::DialogSettings *ui;
     void showEvent(QShowEvent *event) override;
 
     QComboBox *userAgentList;
     QCheckBox *openFileAfterDownload;
+    QLineEdit *defaultDownloadDirectory;
+    QFileDialog *defaultDownloadDirectoryDialog;
 
 private slots:
     void actionOK();
     void actionCancel();
+    void actionSelectDefaultDownloadDirectory();
 };
 
 #endif // DIALOGSETTINGS_H

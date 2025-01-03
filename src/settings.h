@@ -14,6 +14,8 @@ public:
     static void setUserAgentName(QString userAgent);
     static bool getOpenAfterDownload();
     static void setOpenAfterDownload(bool openAfterDownload);
+    static QString getDefaultSaveDirectory();
+    static void setDefaultSaveDirectory(QString dir);
 
 protected:
     static QSettings* getCfg();

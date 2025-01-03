@@ -43,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     saveDialog = new QFileDialog(this);
     saveDialog->setAcceptMode(QFileDialog::AcceptSave);
+    saveDialog->setDirectory(Settings::getDefaultSaveDirectory());
 
     bookmarksViewModel = new QStandardItemModel(this);
     bookmarksView->setModel(bookmarksViewModel);
@@ -460,10 +461,14 @@ void MainWindow::actionSettings()
 {
     dialogSettings->setUaVariants(Settings::getUserAgentVariants(), Settings::getUserAgentName());
     dialogSettings->setOpenAfterDownload(Settings::getOpenAfterDownload());
+    dialogSettings->setDefaultSaveDirectory(Settings::getDefaultSaveDirectory());
     if (dialogSettings->exec() == QDialog::Accepted)
     {
         Settings::setUserAgentName(dialogSettings->getUserAgentName());
         Settings::setOpenAfterDownload(dialogSettings->getOpenAfterDownload());
+        Settings::setDefaultSaveDirectory(dialogSettings->getDefaultSaveDirectory());
+
+        saveDialog->setDirectory(dialogSettings->getDefaultSaveDirectory());
     }
 }
 

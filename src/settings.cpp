@@ -76,3 +76,13 @@ void Settings::setOpenAfterDownload(bool openAfterDownload)
 {
     getCfg()->setValue("openAfterDownload", openAfterDownload);
 }
+
+QString Settings::getDefaultSaveDirectory()
+{
+    return getCfg()->value("defaultSaveDirectory", "").toString();
+}
+
+void Settings::setDefaultSaveDirectory(QString dir)
+{
+    getCfg()->setValue("defaultSaveDirectory", dir);
+}
