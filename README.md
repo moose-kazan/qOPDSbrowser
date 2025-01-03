@@ -6,12 +6,19 @@
 
 Simple OPDS browser. Written with C++/Qt.
 
-## Install on Debian 12 and Ubuntu 22.04 ##
+## Install from Ubuntu PPA ###
+
+```
+sudo add-apt-repository ppa:bulvinkl/ppa
+sudo apt update
+sudo apt install qopdsbrowser
+```
+
+## Install from source on Debian 12 and Ubuntu 22.04 ##
 
 Install dependencies:
 
 ```
-
 apt install git cmake build-essential qt6-base-dev qt6-tools-dev
 ```
 
@@ -32,7 +39,7 @@ cd qOPDSbrowser
 Build it with CMake:
 
 ```
-mkdir -p build && cd build && cmake .. && cmake
+mkdir -p build && cd build && cmake .. && make
 ```
 
 Run:
