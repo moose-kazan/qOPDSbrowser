@@ -1,13 +1,13 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: plasmoid-ydinfo
-Source: https://github.com/moose-kazan/plasmoid-ydinfo
+Upstream-Name: qOPDSbrowser
+Source: https://github.com/moose-kazan/qOPDSbrowser
 
 Files: *
-Copyright: 2020-2022 Vadim Kalinnikov <moose@ylsoftware.com>
+Copyright: 2024-2025 Vadim Kalinnikov <moose@ylsoftware.com>
 License: LGPL-2.1+
 
 Files: debian/*
-Copyright: 2020-2022 Vadim Kalinnikov <moose@ylsoftware.com>
+Copyright: 2023-2025 Vadim Kalinnikov <moose@ylsoftware.com>
 License: LGPL-2.1+
 
 License: LGPL-2.1+

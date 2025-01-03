@@ -86,7 +86,7 @@ install(TARGETS qOPDSbrowser
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 install(FILES qOPDSbrowser.desktop DESTINATION share/applications)
-install(FILES src/icons/icon512.png DESTINATION share/icons)
+install(FILES src/icons/icon512.png DESTINATION share/icons RENAME qOPDSbrowser.png)
 
 
 if(QT_VERSION_MAJOR EQUAL 6)
