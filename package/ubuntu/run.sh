@@ -3,6 +3,7 @@
 cd /
 cp -a /source /src
 cd /src
+rm -rf build
 mkdir -p build
 cmake -S. -Bbuild
 cmake --build build
