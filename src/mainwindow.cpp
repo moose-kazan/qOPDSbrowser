@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
     saveDialog->setAcceptMode(QFileDialog::AcceptSave);
     saveDialog->setDirectory(Settings::getDefaultSaveDirectory());
 
-    bookmarksViewModel = new QStandardItemModel(this);
+    bookmarksViewModel = new OPDSList(this);
     bookmarksView->setModel(bookmarksViewModel);
 
     browserViewModel = new QStandardItemModel(this);
@@ -54,10 +54,8 @@ MainWindow::MainWindow(QWidget *parent)
     downloadHistory = new DownloadHistory(this);
     tableDownloads->setModel(downloadHistory);
 
-    reloadBookmarks();
-
     browserViewModel->setColumnCount(3);
-    browserViewModel->removeRows(0, bookmarksViewModel->rowCount());
+    browserViewModel->removeRows(0, browserViewModel->rowCount());
 }
 
 MainWindow::~MainWindow()
@@ -79,8 +77,7 @@ void MainWindow::actionBookmarkAdd()
 {
     if (dialogBookmarkAdd->exec() == QDialog::Accepted)
     {
-        OPDSList::add(dialogBookmarkAdd->bookmarkUrl, dialogBookmarkAdd->bookmarkTitle);
-        reloadBookmarks();
+        bookmarksViewModel->add(dialogBookmarkAdd->bookmarkUrl, dialogBookmarkAdd->bookmarkTitle);
     }
 }
 
@@ -93,14 +90,15 @@ void MainWindow::actionBookmarkEdit()
         return;
     }
 
-    dialogBookmarkEdit->bookmarkId = bookmarksViewModel->data(indexList.at(0).siblingAtColumn(2)).toString();
-    dialogBookmarkEdit->bookmarkTitle = bookmarksViewModel->data(indexList.at(0).siblingAtColumn(0)).toString();
-    dialogBookmarkEdit->bookmarkUrl = bookmarksViewModel->data(indexList.at(0).siblingAtColumn(1)).toString();
+    OPDSFeedBookmark bm = bookmarksViewModel->at(indexList.at(0).row());
+
+    dialogBookmarkEdit->bookmarkId = bm.id;
+    dialogBookmarkEdit->bookmarkTitle = bm.title;
+    dialogBookmarkEdit->bookmarkUrl = bm.url;
 
     if (dialogBookmarkEdit->exec() == QDialog::Accepted)
     {
-        OPDSList::update(dialogBookmarkEdit->bookmarkId, dialogBookmarkEdit->bookmarkUrl, dialogBookmarkEdit->bookmarkTitle);
-        reloadBookmarks();
+        bookmarksViewModel->update(dialogBookmarkEdit->bookmarkId, dialogBookmarkEdit->bookmarkUrl, dialogBookmarkEdit->bookmarkTitle);
     }
 }
 
@@ -113,45 +111,18 @@ void MainWindow::actionBookmarkRemove()
         return;
     }
 
-    QString id = bookmarksViewModel->data(indexList.at(0).siblingAtColumn(2)).toString();
-    //qDebug() << id;
+    QString id = bookmarksViewModel->at(indexList.at(0).row()).id;
 
     if (QMessageBox::question(this, tr("Remove bookmark"), tr("Do you want to remove this bookmark?")) == QMessageBox::Yes)
     {
-        OPDSList::remove(id);
-        reloadBookmarks();
-    }
-}
-
-void MainWindow::reloadBookmarks()
-{
-    OPDSFeedBookmarks bookmarks = OPDSList::list();
-
-    bookmarksViewModel->setColumnCount(3);
-    bookmarksViewModel->removeRows(0, bookmarksViewModel->rowCount());
-
-    for (int i = 0; i < bookmarks.bookmarks.count(); i++)
-    {
-        bookmarksViewModel->insertRows(i, 1);
-        bookmarksViewModel->setData(
-            bookmarksViewModel->index(i, 0),
-            bookmarks.bookmarks.at(i).title
-        );
-        bookmarksViewModel->setData(
-            bookmarksViewModel->index(i, 1),
-            bookmarks.bookmarks.at(i).url
-        );
-        bookmarksViewModel->setData(
-            bookmarksViewModel->index(i,2),
-            bookmarks.bookmarks.at(i).id
-        );
+        bookmarksViewModel->remove(id);
     }
 }
 
 
 void MainWindow::actionBookmarksViewActivated(QModelIndex modelIndex)
 {
-    QString url = bookmarksViewModel->data(modelIndex.siblingAtColumn(1)).toString();
+    QString url = bookmarksViewModel->at(modelIndex.row()).url;
     navigateTo(url);
 }
 

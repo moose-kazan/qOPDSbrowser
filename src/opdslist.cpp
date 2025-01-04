@@ -2,36 +2,51 @@
 
 #include <QUuid>
 
-OPDSList::OPDSList()
-{
-
-}
-
 QSettings *OPDSList::cfg = nullptr;
+
+OPDSList::OPDSList(QObject *parent) : QAbstractListModel(parent)
+{
+    load();
+}
 
 void OPDSList::add(QString url, QString title)
 {
-    OPDSFeedBookmarks bookmarksList = list();
+    if (url == "" || title == "")
+    {
+        return;
+    }
 
     OPDSFeedBookmark newBookmark;
+
     newBookmark.title = title;
     newBookmark.url = url;
     newBookmark.id = QUuid::createUuid().toString();
 
-    bookmarksList.bookmarks.append(newBookmark);
+    for (int i = 0; i < bookmarksList.count(); i++)
+    {
+        if (bookmarksList.at(i).title > newBookmark.title)
+        {
+            beginInsertRows(QModelIndex(), i, i);
+            bookmarksList.insert(i, newBookmark);
+            endInsertRows();
+            return;
+        }
+    }
 
-    save(bookmarksList);
+    int newRow = bookmarksList.count()+1;
+    beginInsertRows(QModelIndex(), newRow, newRow);
+    bookmarksList.append(newBookmark);
+    endInsertRows();
+
+    save();
 }
 
 void OPDSList::remove(QString Id)
 {
-    OPDSFeedBookmarks bookmarksList = list();
-
-
     int pos = -1;
-    for (int i = 0; i < bookmarksList.bookmarks.count(); i++)
+    for (int i = 0; i < bookmarksList.count(); i++)
     {
-        if (bookmarksList.bookmarks.at(i).id == Id)
+        if (bookmarksList.at(i).id == Id)
         {
             pos = i;
             break;
@@ -40,32 +55,66 @@ void OPDSList::remove(QString Id)
 
     if (pos != -1)
     {
-        bookmarksList.bookmarks.removeAt(pos);
+        beginRemoveRows(QModelIndex(), pos, pos);
+        bookmarksList.removeAt(pos);
+        endRemoveRows();
     }
 
-    save(bookmarksList);
+    save();
 }
 
 void OPDSList::update(QString Id, QString url, QString title)
 {
-    OPDSFeedBookmarks bookmarksList = list();
-
-    for (int i = 0; i < bookmarksList.bookmarks.count(); i++)
+    if (url == "" || title == "")
     {
-        if (bookmarksList.bookmarks.at(i).id == Id)
+        return;
+    }
+
+    int indexOld = -1;
+    int indexNew = -1;
+
+    for (int i = 0; i < bookmarksList.count(); i++)
+    {
+        if (bookmarksList.at(i).id == Id)
         {
-            bookmarksList.bookmarks[i].title = title;
-            bookmarksList.bookmarks[i].url = url;
-            break;
+            indexOld = i;
+        }
+        else if (indexNew == -1 && bookmarksList.at(i).title > title)
+        {
+            indexNew = i;
         }
     }
 
-    save(bookmarksList);
+    if (indexOld != -1)
+    {
+        bookmarksList[indexOld].title = title;
+        bookmarksList[indexOld].url = url;
+        dataChanged(createIndex(indexOld, 0), createIndex(indexOld,0));
+    }
+
+    if (indexOld != -1)
+    {
+        if (indexNew == -1)
+        {
+            indexNew = bookmarksList.count()-1;
+        }
+
+        beginMoveRows(QModelIndex(), indexOld, indexOld, QModelIndex(), indexNew);
+        bookmarksList.move(indexOld, indexNew);
+        endMoveRows();
+    }
+
+    save();
 }
 
-OPDSFeedBookmarks OPDSList::list()
+OPDSFeedBookmark OPDSList::at(int rowNum)
 {
-    OPDSFeedBookmarks bookmarksList;
+    return bookmarksList.at(rowNum);
+}
+
+void OPDSList::load()
+{
+    bookmarksList.clear();
 
     int size = getCfg()->beginReadArray("bookmarks");
 
@@ -79,40 +128,38 @@ OPDSFeedBookmarks OPDSList::list()
 
         if (bookmark.url != "" && bookmark.title != "")
         {
-            bookmarksList.bookmarks.append(bookmark);
+            bookmarksList.append(bookmark);
         }
     }
 
     getCfg()->endArray();
 
-    for (int i = 0; i < bookmarksList.bookmarks.count()-1; i++)
+    for (int i = 0; i < bookmarksList.count()-1; i++)
     {
-        for (int j = i+1; j < bookmarksList.bookmarks.count(); j++)
+        for (int j = i+1; j < bookmarksList.count(); j++)
         {
-            OPDSFeedBookmark sI = bookmarksList.bookmarks[i];
-            OPDSFeedBookmark sJ = bookmarksList.bookmarks[j];
+            OPDSFeedBookmark sI = bookmarksList[i];
+            OPDSFeedBookmark sJ = bookmarksList[j];
 
             if (sI.title.compare(sJ.title, Qt::CaseInsensitive) > 0)
             {
-                bookmarksList.bookmarks[i] = sJ;
-                bookmarksList.bookmarks[j] = sI;
+                bookmarksList[i] = sJ;
+                bookmarksList[j] = sI;
             }
         }
     }
-
-    return bookmarksList;
 }
 
-void OPDSList::save(OPDSFeedBookmarks data)
+void OPDSList::save()
 {
     getCfg()->beginWriteArray("bookmarks");
 
-    for (int i = 0; i < data.bookmarks.count(); i++)
+    for (int i = 0; i < bookmarksList.count(); i++)
     {
         getCfg()->setArrayIndex(i);
-        getCfg()->setValue("url", data.bookmarks.at(i).url);
-        getCfg()->setValue("title", data.bookmarks.at(i).title);
-        getCfg()->setValue("id", data.bookmarks.at(i).id);
+        getCfg()->setValue("url", bookmarksList.at(i).url);
+        getCfg()->setValue("title", bookmarksList.at(i).title);
+        getCfg()->setValue("id", bookmarksList.at(i).id);
     }
     getCfg()->endArray();
 }
@@ -124,3 +171,69 @@ QSettings* OPDSList::getCfg()
     }
     return cfg;
 }
+
+
+int OPDSList::rowCount(const QModelIndex &) const
+{
+    return bookmarksList.count();
+}
+
+int OPDSList::columnCount(const QModelIndex &) const
+{
+    return 1;
+}
+
+QVariant OPDSList::data(const QModelIndex &index, int role) const
+{
+    QVariant value;
+    switch (role)
+    {
+        case Qt::DisplayRole: //string
+        {
+            switch (index.column())
+            {
+                case COLUMN_TITLE:
+                {
+                    value = bookmarksList.at(index.row()).title;
+                }
+                break;
+            }
+        }
+        break;
+
+        case Qt::UserRole: //data
+        {
+            value = bookmarksList.at(index.row()).title;
+        }
+        break;
+
+        default:
+        break;
+    }
+
+    //qDebug() << "DownloadHistory::data" << value;
+
+    return value;
+
+}
+
+void OPDSList::populate(QList<OPDSFeedBookmark> *newValues)
+{
+    int idx = bookmarksList.count();
+    beginInsertRows(QModelIndex(), 1, idx);
+    bookmarksList = *newValues;
+    endInsertRows();
+}
+
+
+QVariant OPDSList::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
+        switch (section) {
+            case COLUMN_TITLE:
+                return QString(tr("Bookmark title"));
+            break;
+        }
+    }
+    return QVariant();
+};

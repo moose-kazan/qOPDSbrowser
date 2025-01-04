@@ -13,6 +13,7 @@
 #include "dialogsettings.h"
 #include "feedparser.h"
 #include "downloadhistory.h"
+#include "opdslist.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -46,7 +47,7 @@ private:
 
     QFileDialog *saveDialog;
 
-    QStandardItemModel *bookmarksViewModel;
+    OPDSList *bookmarksViewModel;
     QStandardItemModel *browserViewModel;
 
     QNetworkAccessManager *downloadManager;
