@@ -217,14 +217,6 @@ QVariant OPDSList::data(const QModelIndex &index, int role) const
 
 }
 
-void OPDSList::populate(QList<OPDSFeedBookmark> *newValues)
-{
-    int idx = bookmarksList.count();
-    beginInsertRows(QModelIndex(), 1, idx);
-    bookmarksList = *newValues;
-    endInsertRows();
-}
-
 
 QVariant OPDSList::headerData(int section, Qt::Orientation orientation, int role) const
 {

@@ -41,6 +41,8 @@ set(PROJECT_SOURCES
 	src/opdslist.h
 	src/feedparser.h
 	src/feedparser.cpp
+	src/feedparserviewmodel.h
+	src/feedparserviewmodel.cpp
 	src/settings.h
 	src/settings.cpp
 	src/dialogsettings.h

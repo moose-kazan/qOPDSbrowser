@@ -1,4 +1,5 @@
 #include "dialogbookmarkadd.h"
+#include "feedparserviewmodel.h"
 #include "opdslist.h"
 #include "settings.h"
 
@@ -48,14 +49,11 @@ MainWindow::MainWindow(QWidget *parent)
     bookmarksViewModel = new OPDSList(this);
     bookmarksView->setModel(bookmarksViewModel);
 
-    browserViewModel = new QStandardItemModel(this);
+    browserViewModel = new FeedParserViewModel(this);
     browserView->setModel(browserViewModel);
 
     downloadHistory = new DownloadHistory(this);
     tableDownloads->setModel(downloadHistory);
-
-    browserViewModel->setColumnCount(3);
-    browserViewModel->removeRows(0, browserViewModel->rowCount());
 }
 
 MainWindow::~MainWindow()
@@ -174,48 +172,7 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
     }
 
 
-    FeedData feedData = feedParser->getData();
-
-    browserViewModel->setColumnCount(3);
-    browserViewModel->removeRows(0, browserViewModel->rowCount());
-
-    for (int i = 0; i < feedData.entries.count(); i++)
-    {
-        browserViewModel->insertRows(i, 1);
-        browserViewModel->setData(
-            browserViewModel->index(i, 0),
-            feedData.entries.at(i).title
-        );
-
-        if (feedData.entries.at(i).entryType == FeedEntry::feed)
-        {
-            browserViewModel->item(i)->setIcon(QIcon::fromTheme("folder-remote"));
-        }
-        else if (feedData.entries.at(i).entryType == FeedEntry::book)
-        {
-            browserViewModel->item(i)->setIcon(QIcon::fromTheme("text-x-generic"));
-        }
-
-        browserViewModel->setData(
-            browserViewModel->index(i, 1),
-            feedData.entries.at(i).entryType
-        );
-        if (feedData.entries.at(i).links.count() > 0)
-        {
-            QString linkData;
-
-            for (int j = 0; j < feedData.entries.at(i).links.count(); j++)
-            {
-                linkData += feedData.entries.at(i).links.at(j).type + "\n";
-                linkData += feedData.entries.at(i).links.at(j).link + "\n";
-            }
-
-            browserViewModel->setData(
-                browserViewModel->index(i, 2),
-                linkData
-            );
-        }
-    }
+    browserViewModel->populate(feedParser->getData());
 
     browserView->scrollToTop();
 
@@ -262,25 +219,27 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
 
 void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
 {
-    QStringList linkData = browserViewModel->data(modelIndex.siblingAtColumn(2)).toString().split("\n");
+    FeedEntry feedEntry = browserViewModel->at(modelIndex.row());
 
-    if (browserViewModel->data(modelIndex.siblingAtColumn(1)) == FeedEntry::feed) {
-        if (linkData.count() < 2)
+    if (feedEntry.entryType == FeedEntry::feed)
+    {
+        if (feedEntry.links.count() == 0)
         {
             QMessageBox::warning(this, tr("Warning"), tr("No link found for this feed!"));
             return;
         }
 
-        navigateTo(linkData.at(1));
+        navigateTo(feedEntry.links.at(0).link);
         return;
+
     }
-    else if (browserViewModel->data(modelIndex.siblingAtColumn(1)) == FeedEntry::book) {
+    else if (feedEntry.entryType == FeedEntry::book) {
         QMimeDatabase mimeDB;
         QStringList nameFilters;
         QMap<QString,QString> filterToLinkMap;
-        for (int i = 0; i < linkData.count(); i+=2)
+        for (int i = 0; i < feedEntry.links.count(); i++)
         {
-            QString mimeType = linkData.at(i);
+            QString mimeType = feedEntry.links.at(i).type;
             QString typeSuffix = mimeDB.mimeTypeForName(mimeType).preferredSuffix();
             QString typeComment = mimeDB.mimeTypeForName(mimeType).comment();
 
@@ -306,7 +265,7 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
             if (typeSuffix != "" && typeComment != "")
             {
                 QString filterLine = QString("%1 (*.%2)").arg(typeComment).arg(typeSuffix);
-                filterToLinkMap.insert(filterLine, linkData.at(i+1));
+                filterToLinkMap.insert(filterLine, feedEntry.links.at(i).link);
                 nameFilters.append(filterLine);
             }
         }
@@ -326,7 +285,7 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
     }
 
     qDebug() << "Not implemented";
-    qDebug() << browserViewModel->data(modelIndex.siblingAtColumn(2)).toString();
+    qDebug() << feedEntry.entryType;
 }
 
 void MainWindow::downloadTo(QUrl url, QString fileName)

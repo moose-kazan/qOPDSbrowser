@@ -13,6 +13,7 @@
 #include "dialogsettings.h"
 #include "feedparser.h"
 #include "downloadhistory.h"
+#include "feedparserviewmodel.h"
 #include "opdslist.h"
 
 QT_BEGIN_NAMESPACE
@@ -48,7 +49,7 @@ private:
     QFileDialog *saveDialog;
 
     OPDSList *bookmarksViewModel;
-    QStandardItemModel *browserViewModel;
+    FeedParserViewModel *browserViewModel;
 
     QNetworkAccessManager *downloadManager;
     QNetworkAccessManager *navigateManager;

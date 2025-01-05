@@ -19,11 +19,6 @@ struct FeedEntry {
     QList<FeedEntryLink> links;
 };
 
-class FeedData {
-public:
-    QList<FeedEntry> entries;
-};
-
 class FeedParser: public QObject
 {
     Q_OBJECT
@@ -31,14 +26,14 @@ public:
     FeedParser();
     bool parse(QByteArray data, QUrl baseXmlUrl);
     QString errorLine();
-    FeedData getData();
+    QList<FeedEntry> getData();
     bool haveSearch();
     QString getSearchLink(QString searchTerms);
 
 private:
     QString errorString;
     QDomDocument *parserXml;
-    FeedData feedData;
+    QList<FeedEntry> feedData;
     void collectEntries();
     void collectLinks();
     QUrl baseUrl;

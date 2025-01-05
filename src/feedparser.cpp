@@ -83,7 +83,7 @@ void FeedParser::collectEntries()
 
         if (fEntry.entryType != FeedEntry::unknown)
         {
-            feedData.entries.append(fEntry);
+            feedData.append(fEntry);
         }
     }
 }
@@ -128,7 +128,7 @@ void FeedParser::collectLinks()
 
             fEntry.links.append(fLink);
 
-            feedData.entries.append(fEntry);
+            feedData.append(fEntry);
         }
 
         if (linkRel == "search")
@@ -144,7 +144,7 @@ void FeedParser::collectLinks()
 
 bool FeedParser::parse(QByteArray data, QUrl baseXmlUrl)
 {
-    feedData.entries.clear();
+    feedData.clear();
     baseUrl = baseXmlUrl;
     searchLink = "";
 
@@ -179,7 +179,7 @@ QString FeedParser::errorLine()
     return errorString;
 }
 
-FeedData FeedParser::getData()
+QList<FeedEntry> FeedParser::getData()
 {
     return feedData;
 }

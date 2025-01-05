@@ -33,7 +33,6 @@ public:
     int rowCount(const QModelIndex &) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
-    void populate(QList<DownloadHistoryItem> *newValues);
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
     QByteArray HistoryItemAdd(QUrl url, QString fileName);
