@@ -346,7 +346,7 @@
   </connection>
   <connection>
    <sender>bookmarksView</sender>
-   <signal>activated(QModelIndex)</signal>
+   <signal>clicked(QModelIndex)</signal>
    <receiver>MainWindow</receiver>
    <slot>actionBookmarksViewActivated(QModelIndex)</slot>
    <hints>
@@ -362,7 +362,7 @@
   </connection>
   <connection>
    <sender>browserView</sender>
-   <signal>activated(QModelIndex)</signal>
+   <signal>clicked(QModelIndex)</signal>
    <receiver>MainWindow</receiver>
    <slot>actionBrowserViewActivated(QModelIndex)</slot>
    <hints>
