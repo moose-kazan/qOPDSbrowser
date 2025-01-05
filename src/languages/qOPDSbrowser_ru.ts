@@ -105,42 +105,42 @@
 <context>
     <name>DownloadHistory</name>
     <message>
-        <location filename="../downloadhistory.cpp" line="90"/>
+        <location filename="../downloadhistory.cpp" line="81"/>
         <source>File name</source>
         <translation>Имя файла</translation>
     </message>
     <message>
-        <location filename="../downloadhistory.cpp" line="94"/>
+        <location filename="../downloadhistory.cpp" line="85"/>
         <source>Download progress</source>
         <translation>Прогресс загрузки</translation>
     </message>
     <message>
-        <location filename="../downloadhistory.cpp" line="98"/>
+        <location filename="../downloadhistory.cpp" line="89"/>
         <source>Download status</source>
         <translation>Статус загрузки</translation>
     </message>
     <message>
-        <location filename="../downloadhistory.cpp" line="201"/>
+        <location filename="../downloadhistory.cpp" line="192"/>
         <source>Waiting</source>
         <translation>Ожидание</translation>
     </message>
     <message>
-        <location filename="../downloadhistory.cpp" line="205"/>
+        <location filename="../downloadhistory.cpp" line="196"/>
         <source>Progress</source>
         <translation>Скачивание</translation>
     </message>
     <message>
-        <location filename="../downloadhistory.cpp" line="209"/>
+        <location filename="../downloadhistory.cpp" line="200"/>
         <source>Failed</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../downloadhistory.cpp" line="213"/>
+        <location filename="../downloadhistory.cpp" line="204"/>
         <source>Success</source>
         <translation>Успех</translation>
     </message>
     <message>
-        <location filename="../downloadhistory.cpp" line="235"/>
+        <location filename="../downloadhistory.cpp" line="226"/>
         <source>unknown</source>
         <translation>неизвестно</translation>
     </message>
@@ -161,6 +161,14 @@
         <location filename="../feedparser.cpp" line="163"/>
         <source>Error at [%1:%2]: %3</source>
         <translation>Ошибка на [%1:%2]: %3</translation>
+    </message>
+</context>
+<context>
+    <name>FeedParserViewModel</name>
+    <message>
+        <location filename="../feedparserviewmodel.cpp" line="85"/>
+        <source>Title</source>
+        <translation>Заголовок</translation>
     </message>
 </context>
 <context>
@@ -235,87 +243,95 @@
         <translation type="vanished">Вы действительно уверены?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="75"/>
+        <location filename="../mainwindow.cpp" line="71"/>
         <source>Simple client for OPDS feeds.</source>
         <translation>Простой клиент для OPDS-каталогов.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="119"/>
+        <location filename="../mainwindow.cpp" line="114"/>
         <source>Remove bookmark</source>
         <translation>Удаление закладки</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="119"/>
+        <location filename="../mainwindow.cpp" line="114"/>
         <source>Do you want to remove this bookmark?</source>
         <translation>Вы действительно хотите удалить эту закладку?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="173"/>
-        <location filename="../mainwindow.cpp" line="387"/>
+        <location filename="../mainwindow.cpp" line="142"/>
+        <location filename="../mainwindow.cpp" line="317"/>
         <source>Can&apos;t load %1: %2</source>
         <translation>Невозможно скачать %1: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="177"/>
+        <location filename="../mainwindow.cpp" line="146"/>
         <source>Can&apos;t load %1 with http code %2: %3</source>
         <translation>Невозможно скачать %1, http код %2: %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="185"/>
-        <location filename="../mainwindow.cpp" line="386"/>
+        <location filename="../mainwindow.cpp" line="154"/>
+        <location filename="../mainwindow.cpp" line="316"/>
         <source>Can&apos;t load url</source>
         <translation>Невозможно загрузить url</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="196"/>
+        <location filename="../mainwindow.cpp" line="165"/>
         <source>Can&apos;t parse url</source>
         <translation>Невощможно распарсить url</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="197"/>
+        <location filename="../mainwindow.cpp" line="166"/>
         <source>Can&apos;t parse %1: %2</source>
         <translation>Невозможно распарсить %1: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="299"/>
-        <location filename="../mainwindow.cpp" line="345"/>
+        <location filename="../mainwindow.cpp" line="228"/>
+        <location filename="../mainwindow.cpp" line="275"/>
         <source>Warning</source>
         <translation>Предупреждение</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="299"/>
+        <location filename="../mainwindow.cpp" line="228"/>
         <source>No link found for this feed!</source>
         <translation>Не найдено ссылки для этого фида!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="325"/>
+        <location filename="../mainwindow.cpp" line="255"/>
         <source>Zip-compressed %1</source>
         <translation>Упакованный в Zip %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="345"/>
+        <location filename="../mainwindow.cpp" line="275"/>
         <source>No link found for this book!</source>
         <translation>Для этой книги нет ссылок для скачивания!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="396"/>
+        <location filename="../mainwindow.cpp" line="326"/>
         <source>Critical error</source>
         <translation>Критическая ошибка</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="397"/>
+        <location filename="../mainwindow.cpp" line="327"/>
         <source>Critical error: can&apos;t expand download id!</source>
         <translation>Критическая ошибка: не удалось раскрыть идентификатор загрузки!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="418"/>
+        <location filename="../mainwindow.cpp" line="348"/>
         <source>Can&apos;t save file</source>
         <translation>Не удалось сохранить файл</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="419"/>
+        <location filename="../mainwindow.cpp" line="349"/>
         <source>Can&apos;t save %1: %2</source>
         <translation>Не удалось сохранить %1: %2</translation>
+    </message>
+</context>
+<context>
+    <name>OPDSList</name>
+    <message>
+        <location filename="../opdslist.cpp" line="226"/>
+        <source>Bookmark title</source>
+        <translation>Название закладки</translation>
     </message>
 </context>
 </TS>
