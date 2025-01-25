@@ -27,7 +27,7 @@ set (ICON_FILES
 set(TS_FILES src/languages/qOPDSbrowser_ru.ts src/languages/qOPDSbrowser_en.ts)
 
 set(PROJECT_SOURCES
-        src/main.cpp
+	src/main.cpp
 	src/mainwindow.cpp
 	src/mainwindow.h
 	src/mainwindow.ui
@@ -61,10 +61,7 @@ qt_add_executable(qOPDSbrowser
     ${PROJECT_SOURCES}
 )
 
-qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES en ru)
-
-#qt_add_lupdate(qOPDSbrowser TS_FILES ${TS_FILES})
-#qt_add_lrelease(qOPDSbrowser TS_FILES ${TS_FILES})
+qt6_standard_project_setup()
 
 qt_add_translations(
     qOPDSbrowser
