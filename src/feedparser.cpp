@@ -27,7 +27,7 @@ void FeedParser::collectEntries()
         {
             fEntry.entryType = FeedEntry::book;
             QDomElement authorName = docEntries.at(i).firstChildElement("author").firstChildElement("name");
-            if (!authorName.isNull())
+            if (!authorName.isNull() && authorName.text() != "")
             {
                 fEntry.title = authorName.text() + " - " + fEntry.title;
             }
