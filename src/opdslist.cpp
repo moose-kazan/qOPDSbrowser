@@ -29,6 +29,9 @@ void OPDSList::add(QString url, QString title)
             beginInsertRows(QModelIndex(), i, i);
             bookmarksList.insert(i, newBookmark);
             endInsertRows();
+
+            save();
+
             return;
         }
     }
