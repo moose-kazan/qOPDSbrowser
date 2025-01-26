@@ -9,5 +9,8 @@
         <file>icons/icon128.png</file>
         <file>icons/icon256.png</file>
         <file>icons/icon512.png</file>
+        <file>icons/icon32-reload.png</file>
+        <file>icons/icon32-prev.png</file>
+        <file>icons/icon32-next.png</file>
     </qresource>
 </RCC>

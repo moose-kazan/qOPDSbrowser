@@ -31,8 +31,8 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset theme="go-previous">
-            <normaloff>.</normaloff>.</iconset>
+           <iconset resource="qOPDSbrowser.qrc">
+            <normaloff>:/icons/icon32-prev.png</normaloff>:/icons/icon32-prev.png</iconset>
           </property>
          </widget>
         </item>
@@ -42,8 +42,8 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset theme="go-next">
-            <normaloff>.</normaloff>.</iconset>
+           <iconset resource="qOPDSbrowser.qrc">
+            <normaloff>:/icons/icon32-next.png</normaloff>:/icons/icon32-next.png</iconset>
           </property>
          </widget>
         </item>
@@ -53,8 +53,8 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset theme="view-refresh">
-            <normaloff>.</normaloff>.</iconset>
+           <iconset resource="qOPDSbrowser.qrc">
+            <normaloff>:/icons/icon32-reload.png</normaloff>:/icons/icon32-reload.png</iconset>
           </property>
          </widget>
         </item>
@@ -214,7 +214,9 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="qOPDSbrowser.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionAbout</sender>
