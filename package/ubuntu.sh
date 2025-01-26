@@ -7,7 +7,6 @@ PKG_VER="$1"
 PPA_VER="$2"
 
 DISTR_LIST="noble oracular"
-DISTR_LIST="oracular"
 
 buildpkg() {
 	PKG_VER="$1"
