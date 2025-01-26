@@ -243,7 +243,9 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
             QString typeSuffix = mimeDB.mimeTypeForName(mimeType).preferredSuffix();
             QString typeComment = mimeDB.mimeTypeForName(mimeType).comment();
 
-            if (typeSuffix == "")
+            qDebug() << typeSuffix;
+
+            if (typeSuffix == "" || typeSuffix.toLower() == "zip")
             {
                 // fb2.zip, rtf.zip and many other
                 if (mimeType.startsWith("application/", Qt::CaseInsensitive) && mimeType.endsWith("+zip", Qt::CaseInsensitive))
