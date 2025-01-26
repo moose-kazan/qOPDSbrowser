@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     searchLineEdit = findChild<QLineEdit *>("searchLine");
     tableDownloads = findChild<QTableView *>("tableDownloads");
 
-    searchLineEdit->addAction(QIcon::fromTheme("system-search"), QLineEdit::TrailingPosition);
+    searchLineEdit->addAction(QIcon::fromTheme("system-search", QIcon(":/icons/icon32-find.png")), QLineEdit::TrailingPosition);
     searchLineEdit->setEnabled(false);
 
     saveDialog = new QFileDialog(this);

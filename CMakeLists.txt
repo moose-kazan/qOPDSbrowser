@@ -16,6 +16,10 @@ set (ICON_FILES
     src/icons/icon16.png
     src/icons/icon24.png
     src/icons/icon32.png
+    src/icons/icon32-find.png
+    src/icons/icon32-next.png
+    src/icons/icon32-prev.png
+    src/icons/icon32-reload.png
     src/icons/icon48.png
     src/icons/icon64.png
     src/icons/icon96.png
@@ -87,6 +91,9 @@ install(TARGETS qOPDSbrowser
 install(FILES qOPDSbrowser.desktop DESTINATION share/applications)
 install(FILES src/icons/icon512.png DESTINATION share/icons RENAME qOPDSbrowser.png)
 
+foreach(SIZE 16 24 32 48 64 96 128 256 512)
+    install(FILES src/icons/icon${SIZE}.png DESTINATION share/icons/hicolor/${SIZE}x${SIZE}/apps RENAME qOPDSbrowser.png)
+endforeach()
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(qOPDSbrowser)

@@ -12,5 +12,6 @@
         <file>icons/icon32-reload.png</file>
         <file>icons/icon32-prev.png</file>
         <file>icons/icon32-next.png</file>
+        <file>icons/icon32-find.png</file>
     </qresource>
 </RCC>
