@@ -76,3 +76,4 @@ scripts
 release
 src/languages/*.qm
 build/
+.vscode/

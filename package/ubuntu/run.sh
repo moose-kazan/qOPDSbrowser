@@ -4,6 +4,8 @@ cd /
 cp -a /source /src
 cd /src
 rm -rf build
+git checkout v${PKG_VERSION}
+
 mkdir -p build
 cmake -S. -Bbuild
 cmake --build build
@@ -18,6 +20,8 @@ cd /
 rm -rf /src
 cp -a /source /src
 cd /src
+rmm -rf build
+git checkout v${PKG_VERSION}
 
 PKG_DISTR=$(lsb_release -cs)
 
