@@ -237,6 +237,7 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
         QMimeDatabase mimeDB;
         QStringList nameFilters;
         QMap<QString,QString> filterToLinkMap;
+        QString defaultSuffix;
         for (int i = 0; i < feedEntry.links.count(); i++)
         {
             QString mimeType = feedEntry.links.at(i).type;
@@ -269,6 +270,11 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
                 QString filterLine = QString("%1 (*.%2)").arg(typeComment).arg(typeSuffix);
                 filterToLinkMap.insert(filterLine, feedEntry.links.at(i).link);
                 nameFilters.append(filterLine);
+
+                if (defaultSuffix == "")
+                {
+                    defaultSuffix = typeSuffix;
+                }
             }
         }
 
@@ -279,6 +285,8 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
         }
 
         saveDialog->setNameFilters(nameFilters);
+        saveDialog->selectFile(feedEntry.title);
+        saveDialog->setDefaultSuffix(defaultSuffix);
         if (saveDialog->exec() == QDialog::Accepted)
         {
             downloadTo(filterToLinkMap.value(saveDialog->selectedNameFilter()), saveDialog->selectedFiles().at(0));
