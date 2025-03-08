@@ -409,3 +409,11 @@ void MainWindow::actionSearch()
 {
     navigateTo(feedParser->getSearchLink(searchLineEdit->text()));
 }
+
+void MainWindow::actionTableDownloadsDoubleClick(QModelIndex modelIndex)
+{
+    if (downloadHistory->HistoryItemGetByRow(modelIndex.row()).status == DownloadHistoryItem::downloadSuccess)
+    {
+        QDesktopServices::openUrl(QUrl(downloadHistory->HistoryItemGetByRow(modelIndex.row()).fileName));
+    }
+}

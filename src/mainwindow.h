@@ -75,5 +75,6 @@ private slots:
 
     void actionBookmarksViewActivated(QModelIndex modelIndex);
     void actionBrowserViewActivated(QModelIndex modelIndex);
+    void actionTableDownloadsDoubleClick(QModelIndex modelIndex);
 };
 #endif // MAINWINDOW_H

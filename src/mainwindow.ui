@@ -458,6 +458,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>tableDownloads</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionTableDownloadsDoubleClick(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>304</x>
+     <y>356</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>304</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>actionAbout()</slot>
@@ -472,5 +488,6 @@
   <slot>actionBookmarksViewActivated(QModelIndex)</slot>
   <slot>actionBrowserViewActivated(QModelIndex)</slot>
   <slot>actionSearch()</slot>
+  <slot>actionTableDownloadsDoubleClick(QModelIndex)</slot>
  </slots>
 </ui>

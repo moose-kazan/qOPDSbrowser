@@ -37,6 +37,7 @@ public:
 
     QByteArray HistoryItemAdd(QUrl url, QString fileName);
     DownloadHistoryItem HistoryItemGet(QByteArray id);
+    DownloadHistoryItem HistoryItemGetByRow(int row);
     void HistoryItemSuccess(QByteArray id);
     void HistoryItemFailed(QByteArray id);
     void HistoryItemProgress(QByteArray id, qint64 bytesReceived, qint64 bytesTotal);

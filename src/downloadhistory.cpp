@@ -124,6 +124,11 @@ DownloadHistoryItem DownloadHistory::HistoryItemGet(QByteArray id)
     return DownloadHistoryItem();
 }
 
+DownloadHistoryItem DownloadHistory::HistoryItemGetByRow(int row)
+{
+    return historyList->at(row);
+}
+
 void DownloadHistory::HistoryItemSuccess(QByteArray id)
 {
     for (int i = 0; i < historyList->length(); i++)
