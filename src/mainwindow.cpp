@@ -234,62 +234,25 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
 
     }
     else if (feedEntry.entryType == FeedEntry::book) {
-        QMimeDatabase mimeDB;
-        QStringList nameFilters;
-        QMap<QString,QString> filterToLinkMap;
-        QString defaultSuffix;
+        fileTypes.reset();
+
         for (int i = 0; i < feedEntry.links.count(); i++)
         {
-            QString mimeType = feedEntry.links.at(i).type;
-            QString typeSuffix = mimeDB.mimeTypeForName(mimeType).preferredSuffix();
-            QString typeComment = mimeDB.mimeTypeForName(mimeType).comment();
-
-            qDebug() << typeSuffix;
-
-            if (typeSuffix == "" || typeSuffix.toLower() == "zip")
-            {
-                // fb2.zip, rtf.zip and many other
-                if (mimeType.startsWith("application/", Qt::CaseInsensitive) && mimeType.endsWith("+zip", Qt::CaseInsensitive))
-                {
-                    QString intExt = mimeType;
-                    intExt.replace(mimeType.length()-QString("+zip").length(), QString("+zip").length(), "");
-                    intExt.replace(0, QString("application/").length(), "");
-
-                    typeComment = tr("Zip-compressed %1").arg(intExt.toUpper());
-                    typeSuffix = intExt.toLower() + ".zip";
-                }
-                else if (mimeType == "application/djvu")
-                {
-                    typeSuffix = "djvu";
-                    typeComment = "DJVU Document";
-                }
-            }
-
-            if (typeSuffix != "" && typeComment != "")
-            {
-                QString filterLine = QString("%1 (*.%2)").arg(typeComment).arg(typeSuffix);
-                filterToLinkMap.insert(filterLine, feedEntry.links.at(i).link);
-                nameFilters.append(filterLine);
-
-                if (defaultSuffix == "")
-                {
-                    defaultSuffix = typeSuffix;
-                }
-            }
+            fileTypes.add(feedEntry.links.at(i).type, feedEntry.links.at(i).link);
         }
 
-        if (nameFilters.count() < 1)
+        if (fileTypes.count() < 1)
         {
             QMessageBox::warning(this, tr("Warning"), tr("No link found for this book!"));
             return;
         }
 
-        saveDialog->setNameFilters(nameFilters);
+        saveDialog->setNameFilters(fileTypes.getNameFilters());
         saveDialog->selectFile(feedEntry.title);
-        saveDialog->setDefaultSuffix(defaultSuffix);
+        saveDialog->setDefaultSuffix(fileTypes.getDefaultSuffix());
         if (saveDialog->exec() == QDialog::Accepted)
         {
-            downloadTo(filterToLinkMap.value(saveDialog->selectedNameFilter()), saveDialog->selectedFiles().at(0));
+            downloadTo(fileTypes.getLinkByNameFilter(saveDialog->selectedNameFilter()), saveDialog->selectedFiles().at(0));
         }
         return;
     }

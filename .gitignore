@@ -77,3 +77,4 @@ release
 src/languages/*.qm
 build/
 .vscode/
+.cache

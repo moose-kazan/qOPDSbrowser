@@ -15,6 +15,7 @@
 #include "downloadhistory.h"
 #include "feedparserviewmodel.h"
 #include "opdslist.h"
+#include "filetypes.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -57,6 +58,7 @@ private:
     FeedParser *feedParser;
     DownloadHistory *downloadHistory;
 
+    FileTypes fileTypes;
     QList<QUrl> urlHistoryList;
     int urlHistoryIndex = -1;
     enum {historyGoDefault, historyGoBack, historyGoRefresh, historyGoNext} urlHistoryDirection = historyGoDefault;
