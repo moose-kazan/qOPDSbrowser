@@ -6,7 +6,12 @@ ROOTPATH=$(dirname $(dirname $(readlink -f $0)))
 PKG_VER="$1"
 PPA_VER="$2"
 
-DISTR_LIST="noble oracular"
+DST_DISTR="$3"
+
+DISTR_LIST="noble oracular bookworm"
+
+test -z "${DST_DISTR}" || DISTR_LIST="${DST_DISTR}"
+
 
 buildpkg() {
 	PKG_VER="$1"
@@ -24,8 +29,12 @@ buildpkg() {
 	    exit
 	fi
 
+        if [ -z $PKG_DISTR ]; then
+	    echo "Distr name can't be empty!"
+	    exit
+	fi
 
-	docker build -f package/ubuntu/Dockerfile.${PKG_DISTR} -t $IMGNAME $ROOTPATH
+        docker build -f package/deb/Dockerfile.${PKG_DISTR} -t $IMGNAME $ROOTPATH
 
 	docker run --rm -it \
 	    -e PKG_VERSION=${PKG_VER} \
