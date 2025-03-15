@@ -92,6 +92,8 @@ install(TARGETS qOPDSbrowser
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 install(FILES qOPDSbrowser.desktop DESTINATION share/applications)
 install(FILES src/icons/icon512.png DESTINATION share/icons RENAME qOPDSbrowser.png)
+install(FILES qOPDSbrowser.conf DESTINATION /etc/xdg/YLSoftware/)
+#install(FILES qOPDSbrowser.conf DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/xdg/YLSoftware/)
 
 foreach(SIZE 16 24 32 48 64 96 128 256 512)
     install(FILES src/icons/icon${SIZE}.png DESTINATION share/icons/hicolor/${SIZE}x${SIZE}/apps RENAME qOPDSbrowser.png)

@@ -33,5 +33,6 @@ It allow browse OPDS feeds like web/ftp sites and download books.
 /usr/share/icons/hicolor/64x64/apps/qOPDSbrowser.png
 /usr/share/icons/hicolor/96x96/apps/qOPDSbrowser.png
 /usr/share/icons/qOPDSbrowser.png
+/etc/xdg/YLSoftware/qOPDSbrowser.conf
 
 %changelog

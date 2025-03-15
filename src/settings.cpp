@@ -12,6 +12,7 @@ QSettings* Settings::getCfg()
 {
     if (cfg == nullptr) {
       cfg = new QSettings("YLSoftware", "qOPDSbrowser");
+      cfg->setFallbacksEnabled(true);
     }
     return cfg;
 }
