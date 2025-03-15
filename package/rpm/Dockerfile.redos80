@@ -1,0 +1,6 @@
+FROM bulvinkl/redos:8.0
+RUN dnf -y install rpm-build git cmake qt6-qtbase-devel qt6-qttools-devel
+ENV PKG_VERSION=0.0.1
+ENV PKG_RELEASE=1
+WORKDIR /
+ENTRYPOINT [ "/source/package/rpm/run.sh", "red80" ]
