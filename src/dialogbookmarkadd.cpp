@@ -3,6 +3,10 @@
 
 #include "urlvalidator.h"
 
+#include <QClipboard>
+#include <QGuiApplication>
+
+
 DialogBookmarkAdd::DialogBookmarkAdd(QWidget *parent, Qt::WindowFlags f) :
     QDialog(parent, f),
     ui(new Ui::DialogBookmarkAdd)
@@ -52,9 +56,13 @@ void DialogBookmarkAdd::showEvent(QShowEvent *event)
 {
     (void)event;
 
+    QClipboard *clipboard = QGuiApplication::clipboard();
+    QString clipboardText = clipboard->text();
+
     editTitle->setText("");
     editUrl->setText("");
+    editUrl->insert(clipboardText);
 
     bookmarkTitle = "";
-    bookmarkUrl = "";
+    bookmarkUrl = editUrl->text();
 }
