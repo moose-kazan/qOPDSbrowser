@@ -24,7 +24,7 @@ void OPDSList::add(QString url, QString title)
 
     for (int i = 0; i < bookmarksList.count(); i++)
     {
-        if (bookmarksList.at(i).title > newBookmark.title)
+        if (bookmarksList.at(i).title.toUpper() > newBookmark.title.toUpper())
         {
             beginInsertRows(QModelIndex(), i, i);
             bookmarksList.insert(i, newBookmark);
@@ -82,7 +82,7 @@ void OPDSList::update(QString Id, QString url, QString title)
         {
             indexOld = i;
         }
-        else if (indexNew == -1 && bookmarksList.at(i).title > title)
+        else if (indexNew == -1 && bookmarksList.at(i).title.toUpper() > title.toUpper())
         {
             indexNew = i;
         }
