@@ -56,6 +56,8 @@ set(PROJECT_SOURCES
 	src/dialogsettings.ui
 	src/downloadhistory.h
 	src/downloadhistory.cpp
+	src/urlvalidator.h
+	src/urlvalidator.cpp
 	qOPDSbrowser.desktop
 	src/qOPDSbrowser.qrc
 	${ICON_FILES}
@@ -65,6 +67,7 @@ set(PROJECT_SOURCES
 qt_add_executable(qOPDSbrowser
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
+    src/urlvalidator.h src/urlvalidator.cpp
 )
 
 qt6_standard_project_setup()

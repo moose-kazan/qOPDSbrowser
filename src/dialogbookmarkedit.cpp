@@ -1,6 +1,8 @@
 #include "dialogbookmarkedit.h"
 #include "ui_dialogbookmarkedit.h"
 
+#include "urlvalidator.h"
+
 DialogBookmarkEdit::DialogBookmarkEdit(QWidget *parent, Qt::WindowFlags f) :
     QDialog(parent, f),
     ui(new Ui::DialogBookmarkEdit)
@@ -12,6 +14,7 @@ DialogBookmarkEdit::DialogBookmarkEdit(QWidget *parent, Qt::WindowFlags f) :
 
     editTitle = findChild<QLineEdit *>("titleEdit");
     editUrl = findChild<QLineEdit *>("urlEdit");
+    editUrl->setValidator(new UrlValidator(this));
 }
 
 DialogBookmarkEdit::~DialogBookmarkEdit()
@@ -29,7 +32,7 @@ void DialogBookmarkEdit::actionOK()
         return;
     }
 
-    if (bookmarkUrl == "" || !QUrl(bookmarkUrl).isValid())
+    if (!editUrl->hasAcceptableInput() || !QUrl(bookmarkUrl).isValid())
     {
         return;
     }

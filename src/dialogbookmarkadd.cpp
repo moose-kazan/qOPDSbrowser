@@ -1,6 +1,8 @@
 #include "dialogbookmarkadd.h"
 #include "ui_dialogbookmarkadd.h"
 
+#include "urlvalidator.h"
+
 DialogBookmarkAdd::DialogBookmarkAdd(QWidget *parent, Qt::WindowFlags f) :
     QDialog(parent, f),
     ui(new Ui::DialogBookmarkAdd)
@@ -11,7 +13,11 @@ DialogBookmarkAdd::DialogBookmarkAdd(QWidget *parent, Qt::WindowFlags f) :
     setFixedSize(size());
 
     editTitle = findChild<QLineEdit *>("titleEdit");
+    editTitle->setPlaceholderText(tr("Bookmark title"));
+
     editUrl = findChild<QLineEdit *>("urlEdit");
+    editUrl->setPlaceholderText("https://");
+    editUrl->setValidator(new UrlValidator(this));
 }
 
 DialogBookmarkAdd::~DialogBookmarkAdd()
@@ -29,7 +35,7 @@ void DialogBookmarkAdd::actionOK()
         return;
     }
 
-    if (bookmarkUrl == "" || !QUrl(bookmarkUrl).isValid())
+    if (!editUrl->hasAcceptableInput() || !QUrl(bookmarkUrl).isValid())
     {
         return;
     }
