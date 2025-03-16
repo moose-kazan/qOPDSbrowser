@@ -54,6 +54,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     downloadHistory = new DownloadHistory(this);
     tableDownloads->setModel(downloadHistory);
+
+    downloadTableContextMenu = new DownloadTableContextMenu(this);
 }
 
 MainWindow::~MainWindow()
@@ -386,5 +388,16 @@ void MainWindow::actionTableDownloadsDoubleClick(QModelIndex modelIndex)
     if (downloadHistory->HistoryItemGetByRow(modelIndex.row()).status == DownloadHistoryItem::downloadSuccess)
     {
         QDesktopServices::openUrl(QUrl(downloadHistory->HistoryItemGetByRow(modelIndex.row()).fileName));
+    }
+}
+
+void MainWindow::actionTableDownloadsCustomContextMenu(QPoint pos)
+{
+    QModelIndex index = tableDownloads->indexAt(pos);
+    if (index.row() > -1) {
+        tableDownloads->selectRow(index.row());
+        DownloadHistoryItem item = downloadHistory->HistoryItemGetByRow(index.row());
+        downloadTableContextMenu->setData(item.status == item.downloadSuccess, item.fileName, item.url);
+        downloadTableContextMenu->getMenu()->popup(tableDownloads->viewport()->mapToGlobal(pos));
     }
 }

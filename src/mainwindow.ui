@@ -125,6 +125,9 @@
       </item>
       <item>
        <widget class="QTableView" name="tableDownloads">
+        <property name="contextMenuPolicy">
+         <enum>Qt::CustomContextMenu</enum>
+        </property>
         <property name="editTriggers">
          <set>QAbstractItemView::NoEditTriggers</set>
         </property>
@@ -474,6 +477,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>tableDownloads</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionTableDownloadsCustomContextMenu(QPoint)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>304</x>
+     <y>356</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>304</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>actionAbout()</slot>
@@ -489,5 +508,6 @@
   <slot>actionBrowserViewActivated(QModelIndex)</slot>
   <slot>actionSearch()</slot>
   <slot>actionTableDownloadsDoubleClick(QModelIndex)</slot>
+  <slot>actionTableDownloadsCustomContextMenu(QPoint)</slot>
  </slots>
 </ui>

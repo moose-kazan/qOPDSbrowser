@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Network Xml LinguistTools)
-find_package(Qt6 REQUIRED COMPONENTS Widgets Network Xml LinguistTools)
+find_package(Qt6 REQUIRED COMPONENTS Gui Widgets Network Xml LinguistTools)
 
 set (ICON_FILES
     src/icons/icon16.png
@@ -58,6 +58,8 @@ set(PROJECT_SOURCES
 	src/downloadhistory.cpp
 	src/urlvalidator.h
 	src/urlvalidator.cpp
+	src/downloadtablecontextmenu.h
+	src/downloadtablecontextmenu.cpp
 	qOPDSbrowser.desktop
 	src/qOPDSbrowser.qrc
 	${ICON_FILES}
@@ -68,6 +70,7 @@ qt_add_executable(qOPDSbrowser
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
     src/urlvalidator.h src/urlvalidator.cpp
+    src/downloadtablecontextmenu.h src/downloadtablecontextmenu.cpp
 )
 
 qt6_standard_project_setup()

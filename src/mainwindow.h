@@ -16,6 +16,7 @@
 #include "feedparserviewmodel.h"
 #include "opdslist.h"
 #include "filetypes.h"
+#include "downloadtablecontextmenu.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -57,6 +58,7 @@ private:
 
     FeedParser *feedParser;
     DownloadHistory *downloadHistory;
+    DownloadTableContextMenu *downloadTableContextMenu;
 
     FileTypes fileTypes;
     QList<QUrl> urlHistoryList;
@@ -78,5 +80,6 @@ private slots:
     void actionBookmarksViewActivated(QModelIndex modelIndex);
     void actionBrowserViewActivated(QModelIndex modelIndex);
     void actionTableDownloadsDoubleClick(QModelIndex modelIndex);
+    void actionTableDownloadsCustomContextMenu(QPoint pos);
 };
 #endif // MAINWINDOW_H
