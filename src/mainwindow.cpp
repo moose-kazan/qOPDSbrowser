@@ -331,7 +331,7 @@ void MainWindow::downloadFinish(QNetworkReply *reply)
 
     if (Settings::getOpenAfterDownload())
     {
-        QDesktopServices::openUrl(QUrl(historyItem.fileName));
+        QDesktopServices::openUrl(QUrl::fromLocalFile(historyItem.fileName));
     }
 }
 

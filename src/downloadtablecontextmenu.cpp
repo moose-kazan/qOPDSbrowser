@@ -35,7 +35,7 @@ void DownloadTableContextMenu::actionOpenFile()
 {
     if (dataDownloaded)
     {
-        QDesktopServices::openUrl(QUrl(dataFileName));
+        QDesktopServices::openUrl(QUrl::fromLocalFile(dataFileName));
     }
 }
 
