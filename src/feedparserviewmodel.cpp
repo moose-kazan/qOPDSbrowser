@@ -1,5 +1,8 @@
 #include "feedparserviewmodel.h"
-#include "qicon.h"
+
+#include "icons.h"
+
+#include <QIcon>
 
 FeedParserViewModel::FeedParserViewModel(QObject *parent) : QAbstractListModel(parent)
 {
@@ -45,11 +48,11 @@ QVariant FeedParserViewModel::data(const QModelIndex &index, int role) const
             switch (feedEntries.at(index.row()).entryType)
             {
                 case FeedEntry::feed:
-                    value = QIcon::fromTheme("folder-remote");
+                value = QIcon::fromTheme("folder-remote", QIcon(icons::folderRemote));
                 break;
 
                 case FeedEntry::book:
-                    value = QIcon::fromTheme("text-x-generic");
+                    value = QIcon::fromTheme("text-x-generic", QIcon(icons::textXGeneric));
                 break;
 
                 default:

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512.0px"
+   height="512.0px"
+   viewBox="0 0 512.0 512.0"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="qopdsbrowser-book.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview15554"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="1.012009"
+     inkscape:cx="253.45625"
+     inkscape:cy="265.80792"
+     inkscape:window-width="2560"
+     inkscape:window-height="1342"
+     inkscape:window-x="0"
+     inkscape:window-y="48"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid15677" />
+  </sodipodi:namedview>
+  <defs
+     id="defs15549">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="-79.435004 : 241.84413 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="2070.6888 : 233.59308 : 1"
+       inkscape:persp3d-origin="266.565 : 170.5108 : 1"
+       id="perspective1427" />
+  </defs>
+  <g
+     inkscape:label="Слой 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#c6ffff;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       id="rect15684"
+       width="490"
+       height="490"
+       x="10"
+       y="10"
+       ry="45" />
+    <g
+       sodipodi:type="inkscape:box3d"
+       id="g1429"
+       style="fill:#f2f1d5;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:43.8;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.935803;paint-order:normal"
+       inkscape:perspectiveID="#perspective1427"
+       inkscape:corner0="1.0352941 : 0.43768627 : 0 : 1"
+       inkscape:corner7="0.50434783 : -0.24457971 : 0.24717736 : 1">
+      <path
+         sodipodi:type="inkscape:box3dside"
+         id="path1441"
+         style="fill:#f2f1d5;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.935803;paint-order:normal"
+         inkscape:box3dsidetype="11"
+         d="M 305,110.54228 421.5352,62.158024 V 451.68481 L 305,409.45773 Z"
+         points="421.5352,62.158024 421.5352,451.68481 305,409.45773 305,110.54228 " />
+      <path
+         sodipodi:type="inkscape:box3dside"
+         id="path1431"
+         style="fill:#f2f1d5;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.935803;paint-order:normal"
+         inkscape:box3dsidetype="6"
+         d="M 90.564999,90.155869 V 425.37326 L 305,409.45773 V 110.54228 Z"
+         points="90.564999,425.37326 305,409.45773 305,110.54228 90.564999,90.155869 " />
+      <path
+         sodipodi:type="inkscape:box3dside"
+         id="path1439"
+         style="fill:#f2f1d5;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.935803;paint-order:normal"
+         inkscape:box3dsidetype="13"
+         d="M 90.564999,425.37326 150.565,480.15587 421.5352,451.68481 305,409.45773 Z"
+         points="150.565,480.15587 421.5352,451.68481 305,409.45773 90.564999,425.37326 " />
+      <path
+         sodipodi:type="inkscape:box3dside"
+         id="path1433"
+         style="fill:#f2f1d5;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.935803;paint-order:normal"
+         inkscape:box3dsidetype="5"
+         d="M 90.564999,90.155869 150.565,26.62646 421.5352,62.158024 305,110.54228 Z"
+         points="150.565,26.62646 421.5352,62.158024 305,110.54228 90.564999,90.155869 " />
+      <path
+         sodipodi:type="inkscape:box3dside"
+         id="path1437"
+         style="fill:#f2f1d5;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.935803;paint-order:normal"
+         inkscape:box3dsidetype="14"
+         d="M 150.565,26.62646 V 480.15587 L 421.5352,451.68481 V 62.158024 Z"
+         points="150.565,480.15587 421.5352,451.68481 421.5352,62.158024 150.565,26.62646 " />
+      <path
+         sodipodi:type="inkscape:box3dside"
+         id="path1435"
+         style="fill:#f2f1d5;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.935803;paint-order:normal"
+         inkscape:box3dsidetype="3"
+         d="M 90.564999,90.155869 150.565,26.62646 V 480.15587 L 90.564999,425.37326 Z"
+         points="150.565,26.62646 150.565,480.15587 90.564999,425.37326 90.564999,90.155869 " />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:46.4778px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.16195px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="205.04518"
+       y="258.66562"
+       id="text15275"
+       transform="scale(0.8973354,1.1144105)"><tspan
+         sodipodi:role="line"
+         id="tspan15273"
+         x="205.04518"
+         y="258.66562"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:111.547px;font-family:'PT Sans';-inkscape-font-specification:'PT Sans, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.16195px">Book</tspan></text>
+  </g>
+</svg>

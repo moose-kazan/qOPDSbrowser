@@ -20,6 +20,8 @@ set (ICON_FILES
     src/icons/icon32-next.png
     src/icons/icon32-prev.png
     src/icons/icon32-reload.png
+    src/icons/icon32-book.png
+    src/icons/icon32-folder.png
     src/icons/icon48.png
     src/icons/icon64.png
     src/icons/icon96.png
@@ -60,6 +62,8 @@ set(PROJECT_SOURCES
 	src/urlvalidator.cpp
 	src/downloadtablecontextmenu.h
 	src/downloadtablecontextmenu.cpp
+	src/icons.h
+	src/icons.cpp
 	qOPDSbrowser.desktop
 	src/qOPDSbrowser.qrc
 	${ICON_FILES}
@@ -71,6 +75,7 @@ qt_add_executable(qOPDSbrowser
     ${PROJECT_SOURCES}
     src/urlvalidator.h src/urlvalidator.cpp
     src/downloadtablecontextmenu.h src/downloadtablecontextmenu.cpp
+    src/icons.h src/icons.cpp
 )
 
 qt6_standard_project_setup()

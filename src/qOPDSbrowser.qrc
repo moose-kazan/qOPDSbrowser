@@ -13,5 +13,7 @@
         <file>icons/icon32-prev.png</file>
         <file>icons/icon32-next.png</file>
         <file>icons/icon32-find.png</file>
+        <file>icons/icon32-folder.png</file>
+        <file>icons/icon32-book.png</file>
     </qresource>
 </RCC>
