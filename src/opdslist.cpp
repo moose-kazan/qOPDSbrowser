@@ -24,7 +24,7 @@ void OPDSList::add(QString url, QString title)
 
     for (int i = 0; i < bookmarksList.count(); i++)
     {
-        if (bookmarksList.at(i).title.toUpper() > newBookmark.title.toUpper())
+        if (bookmarksList.at(i).title.compare(title, Qt::CaseInsensitive) > 0)
         {
             beginInsertRows(QModelIndex(), i, i);
             bookmarksList.insert(i, newBookmark);
@@ -81,28 +81,49 @@ void OPDSList::update(QString Id, QString url, QString title)
         if (bookmarksList.at(i).id == Id)
         {
             indexOld = i;
+
+            bookmarksList[indexOld].title = title;
+            bookmarksList[indexOld].url = url;
+            dataChanged(createIndex(indexOld, 0), createIndex(indexOld,0));
+
+            break;
         }
-        else if (indexNew == -1 && bookmarksList.at(i).title.toUpper() > title.toUpper())
+    }
+
+    if (indexOld == -1)
+    {
+        return;
+    }
+
+    QList<OPDSFeedBookmark> bookmarksListTmp = bookmarksList;
+    for (int i = 0; i < bookmarksListTmp.count()-1; i++)
+    {
+        for (int j = i+1; j < bookmarksListTmp.count(); j++)
+        {
+            if (bookmarksListTmp[i].title.compare(bookmarksListTmp[j].title, Qt::CaseInsensitive) > 0)
+            {
+                bookmarksListTmp.swapItemsAt(i, j);
+            }
+        }
+    }
+    for (int i = 0; i < bookmarksListTmp.count(); i++)
+    {
+        if (bookmarksListTmp.at(i).id == Id)
         {
             indexNew = i;
+            break;
         }
     }
 
-    if (indexOld != -1)
+    if (indexOld > indexNew)
     {
-        bookmarksList[indexOld].title = title;
-        bookmarksList[indexOld].url = url;
-        dataChanged(createIndex(indexOld, 0), createIndex(indexOld,0));
-    }
-
-    if (indexOld != -1)
-    {
-        if (indexNew == -1)
-        {
-            indexNew = bookmarksList.count()-1;
-        }
-
         beginMoveRows(QModelIndex(), indexOld, indexOld, QModelIndex(), indexNew);
+        bookmarksList.move(indexOld, indexNew);
+        endMoveRows();
+    }
+    else if (indexOld < indexNew)
+    {
+        beginMoveRows(QModelIndex(), indexOld, indexOld, QModelIndex(), indexNew+1);
         bookmarksList.move(indexOld, indexNew);
         endMoveRows();
     }
@@ -141,13 +162,9 @@ void OPDSList::load()
     {
         for (int j = i+1; j < bookmarksList.count(); j++)
         {
-            OPDSFeedBookmark sI = bookmarksList[i];
-            OPDSFeedBookmark sJ = bookmarksList[j];
-
-            if (sI.title.compare(sJ.title, Qt::CaseInsensitive) > 0)
+            if (bookmarksList[i].title.compare(bookmarksList[j].title, Qt::CaseInsensitive) > 0)
             {
-                bookmarksList[i] = sJ;
-                bookmarksList[j] = sI;
+                bookmarksList.swapItemsAt(i, j);
             }
         }
     }
