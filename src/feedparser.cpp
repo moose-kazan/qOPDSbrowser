@@ -25,7 +25,6 @@ void FeedParser::collectEntries()
         QDomElement authorItem = docEntries.at(i).firstChildElement("author");
         if (!authorItem.isNull())
         {
-            fEntry.entryType = FeedEntry::book;
             QDomElement authorName = docEntries.at(i).firstChildElement("author").firstChildElement("name");
             if (!authorName.isNull() && authorName.text() != "")
             {
@@ -33,6 +32,8 @@ void FeedParser::collectEntries()
             }
         }
 
+        QList<FeedEntryLink> bookLinks;
+        QList<FeedEntryLink> feedLinks;
 
         QDomElement linkItem = docEntries.at(i).firstChildElement("link");
         while (!linkItem.isNull()) {
@@ -59,25 +60,28 @@ void FeedParser::collectEntries()
 
             bool linkToFeed = linkType.split(";").contains("profile=opds-catalog") || linkType.split(";").contains("application/atom+xml");
 
-            if (fEntry.entryType == FeedEntry::book)
+            if (linkToFeed)
             {
-                if (!linkToFeed)
-                {
-                    fEntry.links.append(fLink);
-                }
+                feedLinks.clear();
+                feedLinks.append(fLink);
             }
             else
             {
-                if (linkToFeed)
-                {
-                    fEntry.links.clear();
-                    fEntry.links.append(fLink);
-                    fEntry.entryType = FeedEntry::feed;
-                    break;
-                }
+                bookLinks.append(fLink);
             }
 
             linkItem = linkItem.nextSiblingElement("link");
+        }
+
+        if (bookLinks.count() > 0)
+        {
+            fEntry.entryType = FeedEntry::book;
+            fEntry.links.append(bookLinks);
+        }
+        else if (feedLinks.count() > 0)
+        {
+            fEntry.entryType = FeedEntry::feed;
+            fEntry.links.append(feedLinks);
         }
 
 
