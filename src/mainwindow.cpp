@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     feedParser = new FeedParser();
 
     bookmarksView = findChild<QListView *>("bookmarksView");
-    browserView = findChild<QListView *>("browserView");
+    browserView = findChild<QTableView *>("browserView");
     urlEdit = findChild<QLineEdit *>("urlEdit");
     searchLineEdit = findChild<QLineEdit *>("searchLine");
     tableDownloads = findChild<QTableView *>("tableDownloads");

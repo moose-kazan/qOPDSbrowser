@@ -112,13 +112,25 @@
          </layout>
         </item>
         <item>
-         <widget class="QListView" name="browserView">
+         <widget class="QTableView" name="browserView">
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
-          <property name="viewMode">
-           <enum>QListView::ListMode</enum>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
           </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="showGrid">
+           <bool>false</bool>
+          </property>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
          </widget>
         </item>
        </layout>
@@ -130,6 +142,9 @@
         </property>
         <property name="editTriggers">
          <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
         </property>
         <property name="selectionBehavior">
          <enum>QAbstractItemView::SelectRows</enum>
@@ -366,22 +381,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>browserView</sender>
-   <signal>clicked(QModelIndex)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>actionBrowserViewActivated(QModelIndex)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>435</x>
-     <y>218</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>304</x>
-     <y>203</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>toolButtonPrev</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
@@ -486,6 +485,22 @@
     <hint type="sourcelabel">
      <x>304</x>
      <y>356</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>304</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>browserView</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionBrowserViewActivated(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>469</x>
+     <y>187</y>
     </hint>
     <hint type="destinationlabel">
      <x>304</x>

@@ -15,6 +15,14 @@ struct FeedEntryLink {
 
 struct FeedEntry {
     QString title;
+    struct Summary {
+        QString value;
+        enum {unknown, text, html} type = unknown;
+    } summary;
+    struct Content {
+        QString value;
+        enum {unknown, text, html} type = unknown;
+    } content;
     enum {unknown, feed, book} entryType = unknown;
     QList<FeedEntryLink> links;
 };

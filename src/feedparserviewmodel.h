@@ -11,6 +11,7 @@ class FeedParserViewModel : public QAbstractListModel
     Q_OBJECT
 public:
     static const int COLUMN_TITLE = 0;
+    static const int COLUMN_SUMMARY = 1;
 
     FeedParserViewModel(QObject *parent=nullptr);
 

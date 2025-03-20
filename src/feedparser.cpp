@@ -32,6 +32,38 @@ void FeedParser::collectEntries()
             }
         }
 
+        QDomElement summaryItem = docEntries.at(i).firstChildElement("summary");
+        if (!summaryItem.isNull())
+        {
+            QString summaryType = summaryItem.attribute("type", "text").toLower();
+            if (summaryType == "text")
+            {
+                fEntry.summary.type = FeedEntry::Summary::text;
+                fEntry.summary.value = summaryItem.text();
+            }
+            else if (summaryType == "html")
+            {
+                fEntry.summary.type = FeedEntry::Summary::html;
+                fEntry.summary.value = summaryItem.text();
+            }
+        }
+
+        QDomElement contentItem = docEntries.at(i).firstChildElement("content");
+        if (!contentItem.isNull())
+        {
+            QString contentType = contentItem.attribute("type", "text").toLower();
+            if (contentType == "text")
+            {
+                fEntry.content.type = FeedEntry::Content::text;
+                fEntry.content.value = contentItem.text();
+            }
+            else if (contentType == "html")
+            {
+                fEntry.content.type = FeedEntry::Content::html;
+                fEntry.content.value = contentItem.text();
+            }
+        }
+
         QList<FeedEntryLink> bookLinks;
         QList<FeedEntryLink> feedLinks;
 

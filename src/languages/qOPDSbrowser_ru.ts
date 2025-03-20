@@ -166,17 +166,17 @@
 <context>
     <name>FeedParser</name>
     <message>
-        <location filename="../feedparser.cpp" line="123"/>
+        <location filename="../feedparser.cpp" line="155"/>
         <source>Prveious page</source>
         <translation>Предыдущая страница</translation>
     </message>
     <message>
-        <location filename="../feedparser.cpp" line="126"/>
+        <location filename="../feedparser.cpp" line="158"/>
         <source>Next page</source>
         <translation>Следующая страница</translation>
     </message>
     <message>
-        <location filename="../feedparser.cpp" line="167"/>
+        <location filename="../feedparser.cpp" line="199"/>
         <source>Error at [%1:%2]: %3</source>
         <translation>Ошибка на [%1:%2]: %3</translation>
     </message>
@@ -184,9 +184,14 @@
 <context>
     <name>FeedParserViewModel</name>
     <message>
-        <location filename="../feedparserviewmodel.cpp" line="88"/>
+        <location filename="../feedparserviewmodel.cpp" line="101"/>
         <source>Title</source>
         <translation>Заголовок</translation>
+    </message>
+    <message>
+        <location filename="../feedparserviewmodel.cpp" line="105"/>
+        <source>Summary</source>
+        <translation type="unfinished">Резюме</translation>
     </message>
 </context>
 <context>
@@ -213,50 +218,50 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="92"/>
-        <location filename="../mainwindow.ui" line="201"/>
+        <location filename="../mainwindow.ui" line="210"/>
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="99"/>
-        <location filename="../mainwindow.ui" line="206"/>
+        <location filename="../mainwindow.ui" line="215"/>
         <source>Edit</source>
         <translation>Править</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="106"/>
-        <location filename="../mainwindow.ui" line="211"/>
+        <location filename="../mainwindow.ui" line="220"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="160"/>
+        <location filename="../mainwindow.ui" line="169"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="166"/>
+        <location filename="../mainwindow.ui" line="175"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="172"/>
+        <location filename="../mainwindow.ui" line="181"/>
         <source>Bookmarks</source>
         <translation>Закладки</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="180"/>
-        <location filename="../mainwindow.ui" line="216"/>
+        <location filename="../mainwindow.ui" line="189"/>
+        <location filename="../mainwindow.ui" line="225"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="191"/>
+        <location filename="../mainwindow.ui" line="200"/>
         <source>Exit</source>
         <translation>Выйти</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="196"/>
+        <location filename="../mainwindow.ui" line="205"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>

@@ -16,7 +16,7 @@ int FeedParserViewModel::rowCount(const QModelIndex &) const
 
 int FeedParserViewModel::columnCount(const QModelIndex &) const
 {
-    return 1;
+    return 2;
 }
 
 QVariant FeedParserViewModel::data(const QModelIndex &index, int role) const
@@ -33,29 +33,76 @@ QVariant FeedParserViewModel::data(const QModelIndex &index, int role) const
                     value = feedEntries.at(index.row()).title;
                 }
                 break;
+
+                case COLUMN_SUMMARY:
+                    if (feedEntries.at(index.row()).summary.type == FeedEntry::Summary::text)
+                    {
+                        value = feedEntries.at(index.row()).summary.value;
+                    }
+                break;
             }
         }
         break;
 
         case Qt::UserRole: //data
         {
-            value = feedEntries.at(index.row()).title;
+            switch (index.column())
+            {
+                case COLUMN_TITLE:
+                {
+                    value = feedEntries.at(index.row()).title;
+                }
+                break;
+
+                case COLUMN_SUMMARY:
+                if (feedEntries.at(index.row()).summary.type == FeedEntry::Summary::text)
+                {
+                    value = feedEntries.at(index.row()).summary.value;
+                }
+                break;
+            }
         }
         break;
 
         case Qt::DecorationRole:
         {
-            switch (feedEntries.at(index.row()).entryType)
+            switch (index.column())
             {
-                case FeedEntry::feed:
-                value = QIcon::fromTheme("folder-remote", QIcon(icons::folderRemote));
-                break;
+                case COLUMN_TITLE:
+                {
+                    switch (feedEntries.at(index.row()).entryType)
+                    {
+                        case FeedEntry::feed:
+                        value = QIcon::fromTheme("folder-remote", QIcon(icons::folderRemote));
+                        break;
 
-                case FeedEntry::book:
-                    value = QIcon::fromTheme("text-x-generic", QIcon(icons::textXGeneric));
-                break;
+                        case FeedEntry::book:
+                            value = QIcon::fromTheme("text-x-generic", QIcon(icons::textXGeneric));
+                        break;
 
-                default:
+                        default:
+                        break;
+                    }
+                }
+            }
+        }
+        break;
+
+        case Qt::ToolTipRole:
+        {
+            switch (index.column())
+            {
+            case COLUMN_TITLE:
+            {
+                value = feedEntries.at(index.row()).title;
+            }
+            break;
+
+            case COLUMN_SUMMARY:
+                if (feedEntries.at(index.row()).summary.type == FeedEntry::Summary::text)
+                {
+                    value = feedEntries.at(index.row()).summary.value;
+                }
                 break;
             }
         }
@@ -86,6 +133,10 @@ QVariant FeedParserViewModel::headerData(int section, Qt::Orientation orientatio
         switch (section) {
             case COLUMN_TITLE:
                 return QString(tr("Title"));
+            break;
+
+            case COLUMN_SUMMARY:
+                return QString(tr("Summary"));
             break;
         }
     }

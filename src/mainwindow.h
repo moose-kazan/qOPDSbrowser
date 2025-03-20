@@ -43,7 +43,7 @@ private:
     DialogSettings *dialogSettings;
 
     QListView *bookmarksView;
-    QListView *browserView;
+    QTableView *browserView;
     QLineEdit *urlEdit;
     QLineEdit *searchLineEdit;
     QTableView *tableDownloads;
