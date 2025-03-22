@@ -73,9 +73,6 @@ set(PROJECT_SOURCES
 qt_add_executable(qOPDSbrowser
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
-    src/urlvalidator.h src/urlvalidator.cpp
-    src/downloadtablecontextmenu.h src/downloadtablecontextmenu.cpp
-    src/icons.h src/icons.cpp
 )
 
 qt6_standard_project_setup()
@@ -113,6 +110,4 @@ endif()
 #install(FILES qOPDSbrowser.conf DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/xdg/YLSoftware/)
 
 
-if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(qOPDSbrowser)
-endif()
+qt_finalize_executable(qOPDSbrowser)
