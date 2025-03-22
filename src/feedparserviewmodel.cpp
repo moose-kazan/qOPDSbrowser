@@ -3,6 +3,7 @@
 #include "icons.h"
 
 #include <QIcon>
+#include <QTextDocumentFragment>
 
 FeedParserViewModel::FeedParserViewModel(QObject *parent) : QAbstractListModel(parent)
 {
@@ -38,6 +39,10 @@ QVariant FeedParserViewModel::data(const QModelIndex &index, int role) const
                     if (feedEntries.at(index.row()).summary.type == FeedEntry::Summary::text)
                     {
                         value = feedEntries.at(index.row()).summary.value;
+                    }
+                    else if (feedEntries.at(index.row()).summary.type == FeedEntry::Summary::html)
+                    {
+                        value = QTextDocumentFragment::fromHtml(feedEntries.at(index.row()).summary.value).toPlainText();
                     }
                 break;
             }
