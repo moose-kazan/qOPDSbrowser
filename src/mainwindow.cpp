@@ -3,6 +3,7 @@
 #include "opdslist.h"
 #include "settings.h"
 #include "icons.h"
+#include "helpers.h"
 
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
@@ -251,7 +252,7 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
         }
 
         saveDialog->setNameFilters(fileTypes.getNameFilters());
-        saveDialog->selectFile(feedEntry.title);
+        saveDialog->selectFile(Helpers::cleanFileName(feedEntry.title, fileTypes.getDefaultSuffix()));
         saveDialog->setDefaultSuffix(fileTypes.getDefaultSuffix());
         if (saveDialog->exec() == QDialog::Accepted)
         {

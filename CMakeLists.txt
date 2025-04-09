@@ -64,6 +64,8 @@ set(PROJECT_SOURCES
 	src/downloadtablecontextmenu.cpp
 	src/icons.h
 	src/icons.cpp
+	src/helpers.h
+	src/helpers.cpp
 	qOPDSbrowser.desktop
 	src/qOPDSbrowser.qrc
 	${ICON_FILES}
