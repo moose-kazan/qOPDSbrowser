@@ -87,3 +87,41 @@ void Settings::setDefaultSaveDirectory(QString dir)
 {
     getCfg()->setValue("defaultSaveDirectory", dir);
 }
+
+
+QByteArray Settings::getMainWindowState() {
+    return getCfg()->value("mainWindowState").toByteArray();
+}
+
+void Settings::setMainWindowState(QByteArray data) {
+    getCfg()->setValue("mainWindowState", data);
+}
+
+bool Settings::haveMainWindowState() {
+    return getCfg()->contains("mainWindowState");
+}
+
+QByteArray Settings::getMainWindowGeometry() {
+    return getCfg()->value("mainWindowGeometry").toByteArray();
+}
+
+void Settings::setMainWindowGeometry(QByteArray data) {
+    getCfg()->setValue("mainWindowGeometry", data);
+}
+
+bool Settings::haveMainWindowGeometry() {
+    return getCfg()->contains("mainWindowGeometry");
+}
+
+
+QByteArray Settings::getBrowserTableViewState() {
+    return getCfg()->value("browserTableViewState").toByteArray();
+}
+
+void Settings::setBrowserTableViewState(QByteArray data) {
+    getCfg()->setValue("browserTableViewState", data);
+}
+
+bool Settings::haveBrowserTableViewState() {
+    return getCfg()->contains("browserTableViewState");
+}

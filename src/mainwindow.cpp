@@ -58,6 +58,8 @@ MainWindow::MainWindow(QWidget *parent)
     tableDownloads->setModel(downloadHistory);
 
     downloadTableContextMenu = new DownloadTableContextMenu(this);
+
+    stateRestore();
 }
 
 MainWindow::~MainWindow()
@@ -68,6 +70,11 @@ MainWindow::~MainWindow()
 void MainWindow::actionExit()
 {
     close();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event) {
+    stateSave();
+    QMainWindow::closeEvent(event);
 }
 
 void MainWindow::actionAbout()
@@ -401,5 +408,24 @@ void MainWindow::actionTableDownloadsCustomContextMenu(QPoint pos)
         DownloadHistoryItem item = downloadHistory->HistoryItemGetByRow(index.row());
         downloadTableContextMenu->setData(item.status == item.downloadSuccess, item.fileName, item.url);
         downloadTableContextMenu->getMenu()->popup(tableDownloads->viewport()->mapToGlobal(pos));
+    }
+}
+void MainWindow::stateSave() {
+    Settings::setMainWindowState(saveState());
+    Settings::setMainWindowGeometry(saveGeometry());
+    Settings::setBrowserTableViewState(browserView->horizontalHeader()->saveState());
+}
+
+void MainWindow::stateRestore() {
+    if (Settings::haveMainWindowState()) {
+        restoreState(Settings::getMainWindowState());
+    }
+
+    if (Settings::haveMainWindowGeometry()) {
+        restoreGeometry(Settings::getMainWindowGeometry());
+    }
+
+    if (Settings::haveBrowserTableViewState()) {
+        browserView->horizontalHeader()->restoreState(Settings::getBrowserTableViewState());
     }
 }

@@ -8,14 +8,30 @@ class Settings
 
 public:
     Settings();
+
     static QMap<QString, QString> getUserAgentVariants();
     static QString getUserAgent();
+
     static QString getUserAgentName();
     static void setUserAgentName(QString userAgent);
+
     static bool getOpenAfterDownload();
     static void setOpenAfterDownload(bool openAfterDownload);
+
     static QString getDefaultSaveDirectory();
     static void setDefaultSaveDirectory(QString dir);
+
+    static QByteArray getMainWindowState();
+    static void setMainWindowState(QByteArray data);
+    static bool haveMainWindowState();
+
+    static QByteArray getMainWindowGeometry();
+    static void setMainWindowGeometry(QByteArray data);
+    static bool haveMainWindowGeometry();
+
+    static QByteArray getBrowserTableViewState();
+    static void setBrowserTableViewState(QByteArray data);
+    static bool haveBrowserTableViewState();
 
 protected:
     static QSettings* getCfg();

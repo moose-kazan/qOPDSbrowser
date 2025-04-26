@@ -28,6 +28,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void closeEvent(QCloseEvent *event);
     ~MainWindow();
 
 private:
@@ -36,6 +37,8 @@ private:
     void navigateFinish(QNetworkReply *reply);
     void downloadTo(QUrl url, QString fileName);
     void downloadFinish(QNetworkReply *reply);
+    void stateSave();
+    void stateRestore();
 
     Ui::MainWindow *ui;
     DialogBookmarkAdd *dialogBookmarkAdd;
