@@ -1,6 +1,6 @@
 #include "icons.h"
 
-icons::icons() {}
+icons::icons() = default;
 
 const QString icons::systemSearch = ":/icons/icon32-find.png";
 const QString icons::folderRemote = ":/icons/icon32-folder.png";

@@ -42,10 +42,7 @@ QString Settings::getUserAgent()
     {
         return userAgentVariant.value(userAgentName);
     }
-    else
-    {
-        return userAgentVariant.value("qOPDSbrowser");
-    }
+    return userAgentVariant.value("qOPDSbrowser");
 }
 
 QString Settings::getUserAgentName()
@@ -56,14 +53,11 @@ QString Settings::getUserAgentName()
     {
         return userAgentName;
     }
-    else
-    {
-        return "qOPDSbrowser";
-    }
+    return "qOPDSbrowser";
 }
 
 
-void Settings::setUserAgentName(QString userAgentName)
+void Settings::setUserAgentName(const QString& userAgentName)
 {
     getCfg()->setValue("userAgentName", userAgentName);
 }
@@ -83,7 +77,7 @@ QString Settings::getDefaultSaveDirectory()
     return getCfg()->value("defaultSaveDirectory", "").toString();
 }
 
-void Settings::setDefaultSaveDirectory(QString dir)
+void Settings::setDefaultSaveDirectory(const QString& dir)
 {
     getCfg()->setValue("defaultSaveDirectory", dir);
 }
@@ -93,7 +87,7 @@ QByteArray Settings::getMainWindowState() {
     return getCfg()->value("mainWindowState").toByteArray();
 }
 
-void Settings::setMainWindowState(QByteArray data) {
+void Settings::setMainWindowState(const QByteArray& data) {
     getCfg()->setValue("mainWindowState", data);
 }
 
@@ -105,7 +99,7 @@ QByteArray Settings::getMainWindowGeometry() {
     return getCfg()->value("mainWindowGeometry").toByteArray();
 }
 
-void Settings::setMainWindowGeometry(QByteArray data) {
+void Settings::setMainWindowGeometry(const QByteArray& data) {
     getCfg()->setValue("mainWindowGeometry", data);
 }
 
@@ -118,7 +112,7 @@ QByteArray Settings::getBrowserTableViewState() {
     return getCfg()->value("browserTableViewState").toByteArray();
 }
 
-void Settings::setBrowserTableViewState(QByteArray data) {
+void Settings::setBrowserTableViewState(const QByteArray& data) {
     getCfg()->setValue("browserTableViewState", data);
 }
 

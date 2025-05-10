@@ -13,15 +13,15 @@ public:
     static const int COLUMN_TITLE = 0;
     static const int COLUMN_SUMMARY = 1;
 
-    FeedParserViewModel(QObject *parent=nullptr);
+    explicit FeedParserViewModel(QObject *parent=nullptr);
 
-    int rowCount(const QModelIndex &) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    void populate(QList<FeedEntry> newValues);
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    int rowCount(const QModelIndex &) const override;
+    int columnCount(const QModelIndex &parent) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+    void populate(const QList<FeedEntry>& newValues);
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
-    FeedEntry at(int rowNum);
+    FeedEntry at(int rowNum) const;
 
 private:
     QList<FeedEntry> feedEntries;

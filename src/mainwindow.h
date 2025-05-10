@@ -33,11 +33,11 @@ public:
 
 private:
     void reloadBookmarks();
-    void navigateTo(QUrl url);
+    void navigateTo(const QUrl& url) const;
     void navigateFinish(QNetworkReply *reply);
-    void downloadTo(QUrl url, QString fileName);
+    void downloadTo(const QUrl& url, const QString& fileName);
     void downloadFinish(QNetworkReply *reply);
-    void stateSave();
+    void stateSave() const;
     void stateRestore();
 
     Ui::MainWindow *ui;
@@ -71,18 +71,18 @@ private:
 private slots:
     void actionExit();
     void actionAbout();
-    void actionBookmarkAdd();
-    void actionBookmarkEdit();
+    void actionBookmarkAdd() const;
+    void actionBookmarkEdit() const;
     void actionBookmarkRemove();
     void actionRefresh();
     void actionGoNext();
     void actionGoPrev();
-    void actionSettings();
-    void actionSearch();
+    void actionSettings() const;
+    void actionSearch() const;
 
-    void actionBookmarksViewActivated(QModelIndex modelIndex);
+    void actionBookmarksViewActivated(const QModelIndex& modelIndex);
     void actionBrowserViewActivated(QModelIndex modelIndex);
-    void actionTableDownloadsDoubleClick(QModelIndex modelIndex);
-    void actionTableDownloadsCustomContextMenu(QPoint pos);
+    void actionTableDownloadsDoubleClick(const QModelIndex& modelIndex) const;
+    void actionTableDownloadsCustomContextMenu(QPoint pos) const;
 };
 #endif // MAINWINDOW_H

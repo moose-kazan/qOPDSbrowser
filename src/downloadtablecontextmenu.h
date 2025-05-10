@@ -12,21 +12,21 @@ class DownloadTableContextMenu : QObject
 {
     Q_OBJECT
 public:
-    DownloadTableContextMenu(QWidget *parent);
-    QMenu *getMenu();
-    void setData(bool downloaded, QString fileName, QUrl downloadLink);
+    explicit DownloadTableContextMenu(QWidget *parent);
+    QMenu *getMenu() const;
+    void setData(bool downloaded, const QString& fileName, const QUrl& downloadLink);
 
 private:
     QAction *itemOpenFile;
     QAction *itemCopyLink;
     QMenu *contextMenu;
-    bool dataDownloaded;
+    bool dataDownloaded = false;
     QString dataFileName;
     QUrl dataDownloadLink;
 
 private slots:
-    void actionOpenFile();
-    void actionCopyLink();
+    void actionOpenFile() const;
+    void actionCopyLink() const;
 };
 
 #endif // DOWNLOADTABLECONTEXTMENU_H

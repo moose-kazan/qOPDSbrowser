@@ -32,11 +32,11 @@ class FeedParser: public QObject
     Q_OBJECT
 public:
     FeedParser();
-    bool parse(QByteArray data, QUrl baseXmlUrl);
+    bool parse(const QByteArray& data, const QUrl& baseXmlUrl);
     QString errorLine();
     QList<FeedEntry> getData();
-    bool haveSearch();
-    QString getSearchLink(QString searchTerms);
+    bool haveSearch() const;
+    QString getSearchLink(const QString& searchTerms) const;
 
 private:
     QString errorString;

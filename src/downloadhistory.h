@@ -28,26 +28,26 @@ public:
     static const int COLUMN_STATUS   = 1;
     static const int COLUMN_PROGRESS = 2;
 
-    DownloadHistory(QObject *parent=nullptr);
+    explicit DownloadHistory(QObject *parent=nullptr);
 
-    int rowCount(const QModelIndex &) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    int rowCount(const QModelIndex &) const override;
+    int columnCount(const QModelIndex &parent) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
-    QByteArray HistoryItemAdd(QUrl url, QString fileName);
-    DownloadHistoryItem HistoryItemGet(QByteArray id);
-    DownloadHistoryItem HistoryItemGetByRow(int row);
-    void HistoryItemSuccess(QByteArray id);
-    void HistoryItemFailed(QByteArray id);
-    void HistoryItemProgress(QByteArray id, qint64 bytesReceived, qint64 bytesTotal);
+    QByteArray HistoryItemAdd(const QUrl& url, const QString& fileName);
+    DownloadHistoryItem HistoryItemGet(const QByteArray& id) const;
+    DownloadHistoryItem HistoryItemGetByRow(int row) const;
+    void HistoryItemSuccess(const QByteArray& id);
+    void HistoryItemFailed(const QByteArray& id);
+    void HistoryItemProgress(const QByteArray& id, qint64 bytesReceived, qint64 bytesTotal);
 
 private:
     QList<DownloadHistoryItem> *historyList;
-    QString statusToString(DownloadHistoryItem::Status status) const;
-    QString stripFileName(QString fileName) const;
-    QString prepareProgress(DownloadHistoryItem historyItem) const;
-    QString prepareSize(qint64 size) const;
+    static QString statusToString(DownloadHistoryItem::Status status) ;
+    static QString stripFileName(const QString& fileName) ;
+    QString prepareProgress(const DownloadHistoryItem& historyItem) const;
+    static QString prepareSize(qint64 size) ;
 };
 
 #endif // DOWNLOADHISTORY_H

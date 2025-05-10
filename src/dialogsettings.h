@@ -19,14 +19,14 @@ class DialogSettings : public QDialog
 public:
     explicit DialogSettings(QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
     ~DialogSettings();
-    void setUaVariants(QMap<QString, QString> uaVariants, QString uaSelected);
-    QString getUserAgentName();
+    void setUaVariants(const QMap<QString, QString>& uaVariants, const QString& uaSelected) const;
+    QString getUserAgentName() const;
 
-    void setOpenAfterDownload(bool openAfterDownload);
-    bool getOpenAfterDownload();
+    void setOpenAfterDownload(bool openAfterDownload) const;
+    bool getOpenAfterDownload() const;
 
-    QString getDefaultSaveDirectory();
-    void setDefaultSaveDirectory(QString dir);
+    QString getDefaultSaveDirectory() const;
+    void setDefaultSaveDirectory(const QString& dir) const;
 
 private:
     Ui::DialogSettings *ui;
@@ -40,7 +40,7 @@ private:
 private slots:
     void actionOK();
     void actionCancel();
-    void actionSelectDefaultDownloadDirectory();
+    void actionSelectDefaultDownloadDirectory() const;
 };
 
 #endif // DIALOGSETTINGS_H

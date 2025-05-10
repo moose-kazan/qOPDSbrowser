@@ -17,12 +17,12 @@ DownloadTableContextMenu::DownloadTableContextMenu(QWidget *parent) {
     contextMenu->addAction(itemCopyLink);
 }
 
-QMenu *DownloadTableContextMenu::getMenu()
+QMenu *DownloadTableContextMenu::getMenu() const
 {
     return contextMenu;
 }
 
-void DownloadTableContextMenu::setData(bool downloaded, QString fileName, QUrl downloadLink)
+void DownloadTableContextMenu::setData(const bool downloaded, const QString& fileName, const QUrl& downloadLink)
 {
     dataDownloaded = downloaded;
     dataFileName = fileName;
@@ -31,7 +31,7 @@ void DownloadTableContextMenu::setData(bool downloaded, QString fileName, QUrl d
     itemOpenFile->setEnabled(dataDownloaded);
 }
 
-void DownloadTableContextMenu::actionOpenFile()
+void DownloadTableContextMenu::actionOpenFile() const
 {
     if (dataDownloaded)
     {
@@ -39,7 +39,7 @@ void DownloadTableContextMenu::actionOpenFile()
     }
 }
 
-void DownloadTableContextMenu::actionCopyLink()
+void DownloadTableContextMenu::actionCopyLink() const
 {
     QGuiApplication::clipboard()->setText(dataDownloadLink.toString());
 }

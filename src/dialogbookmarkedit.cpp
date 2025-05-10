@@ -3,7 +3,7 @@
 
 #include "urlvalidator.h"
 
-DialogBookmarkEdit::DialogBookmarkEdit(QWidget *parent, Qt::WindowFlags f) :
+DialogBookmarkEdit::DialogBookmarkEdit(QWidget *parent, const Qt::WindowFlags f) :
     QDialog(parent, f),
     ui(new Ui::DialogBookmarkEdit)
 {

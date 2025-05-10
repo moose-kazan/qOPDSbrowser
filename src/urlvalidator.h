@@ -6,7 +6,7 @@
 class UrlValidator : public QRegularExpressionValidator
 {
 public:
-    UrlValidator(QObject *parent = nullptr);
+    explicit UrlValidator(QObject *parent = nullptr);
 };
 
 #endif // URLVALIDATOR_H

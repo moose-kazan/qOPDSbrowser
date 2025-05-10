@@ -18,23 +18,23 @@ class OPDSList : public QAbstractListModel
 public:
     static const int COLUMN_TITLE = 0;
 
-    OPDSList(QObject *parent=nullptr);
+    explicit OPDSList(QObject *parent=nullptr);
 
-    int rowCount(const QModelIndex &) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    int rowCount(const QModelIndex &) const override;
+    int columnCount(const QModelIndex &parent) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
 
-    void add(QString url, QString title);
-    void remove(QString Id);
-    void update(QString Id, QString url, QString title);
-    OPDSFeedBookmark at(int rowNum);
+    void add(const QString& url, const QString& title);
+    void remove(const QString& Id);
+    void update(const QString& Id, const QString& url, const QString& title);
+    OPDSFeedBookmark at(int rowNum) const;
 
 
 protected:
     void load();
-    void save();
+    void save() const;
 
     static QSettings* getCfg();
     static QSettings* cfg;

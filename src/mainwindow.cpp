@@ -13,8 +13,6 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QStandardItem>
-#include <QMimeType>
-#include <QMimeDatabase>
 #include <QFileDialog>
 #include <QDesktopServices>
 
@@ -82,7 +80,7 @@ void MainWindow::actionAbout()
     QMessageBox::about(this, "qOPDSbrowser", tr("Simple client for OPDS feeds."));
 }
 
-void MainWindow::actionBookmarkAdd()
+void MainWindow::actionBookmarkAdd() const
 {
     if (dialogBookmarkAdd->exec() == QDialog::Accepted)
     {
@@ -90,7 +88,7 @@ void MainWindow::actionBookmarkAdd()
     }
 }
 
-void MainWindow::actionBookmarkEdit()
+void MainWindow::actionBookmarkEdit() const
 {
     QModelIndexList indexList = bookmarksView->selectionModel()->selectedIndexes();
 
@@ -129,13 +127,13 @@ void MainWindow::actionBookmarkRemove()
 }
 
 
-void MainWindow::actionBookmarksViewActivated(QModelIndex modelIndex)
+void MainWindow::actionBookmarksViewActivated(const QModelIndex& modelIndex)
 {
     QString url = bookmarksViewModel->at(modelIndex.row()).url;
     navigateTo(url);
 }
 
-void MainWindow::navigateTo(QUrl url)
+void MainWindow::navigateTo(const QUrl& url) const
 {
     //qDebug() << "navigate to:" << url;
 
@@ -150,13 +148,10 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
 {
     if (reply->error())
     {
-        QString loadErrorMsg = tr("Can't load %1: %2").arg(reply->url().toString())
-                .arg(reply->errorString());
+        QString loadErrorMsg = tr("Can't load %1: %2").arg(reply->url().toString(), reply->errorString());
 
         if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isValid()) {
-            loadErrorMsg = tr("Can't load %1 with http code %2: %3").arg(reply->url().toString())
-                    .arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toString())
-                    .arg(reply->errorString());
+            loadErrorMsg = tr("Can't load %1 with http code %2: %3").arg(reply->url().toString(), reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toString(), reply->errorString());
         }
 
 
@@ -174,7 +169,7 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
         QMessageBox::critical(
             this,
             tr("Can't parse url"),
-            tr("Can't parse %1: %2").arg(reply->url().toString()).arg(feedParser->errorLine())
+            tr("Can't parse %1: %2").arg(reply->url().toString(), feedParser->errorLine())
         );
 
         //qDebug() << responseBody;
@@ -272,7 +267,7 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
     qDebug() << feedEntry.entryType;
 }
 
-void MainWindow::downloadTo(QUrl url, QString fileName)
+void MainWindow::downloadTo(const QUrl& url, const QString& fileName)
 {
     QNetworkRequest request;
     request.setUrl(url);
@@ -298,7 +293,7 @@ void MainWindow::downloadFinish(QNetworkReply *reply)
         QMessageBox::critical(
             this,
             tr("Can't load url"),
-            tr("Can't load %1: %2").arg(reply->url().toString()).arg(reply->errorString())
+            tr("Can't load %1: %2").arg(reply->url().toString(), reply->errorString())
         );
         return;
     }
@@ -371,7 +366,7 @@ void MainWindow::actionGoPrev()
     }
 }
 
-void MainWindow::actionSettings()
+void MainWindow::actionSettings() const
 {
     dialogSettings->setUaVariants(Settings::getUserAgentVariants(), Settings::getUserAgentName());
     dialogSettings->setOpenAfterDownload(Settings::getOpenAfterDownload());
@@ -387,12 +382,12 @@ void MainWindow::actionSettings()
 }
 
 
-void MainWindow::actionSearch()
+void MainWindow::actionSearch() const
 {
     navigateTo(feedParser->getSearchLink(searchLineEdit->text()));
 }
 
-void MainWindow::actionTableDownloadsDoubleClick(QModelIndex modelIndex)
+void MainWindow::actionTableDownloadsDoubleClick(const QModelIndex& modelIndex) const
 {
     if (downloadHistory->HistoryItemGetByRow(modelIndex.row()).status == DownloadHistoryItem::downloadSuccess)
     {
@@ -400,17 +395,18 @@ void MainWindow::actionTableDownloadsDoubleClick(QModelIndex modelIndex)
     }
 }
 
-void MainWindow::actionTableDownloadsCustomContextMenu(QPoint pos)
+void MainWindow::actionTableDownloadsCustomContextMenu(const QPoint pos) const
 {
     QModelIndex index = tableDownloads->indexAt(pos);
     if (index.row() > -1) {
         tableDownloads->selectRow(index.row());
-        DownloadHistoryItem item = downloadHistory->HistoryItemGetByRow(index.row());
-        downloadTableContextMenu->setData(item.status == item.downloadSuccess, item.fileName, item.url);
+        const DownloadHistoryItem item = downloadHistory->HistoryItemGetByRow(index.row());
+        downloadTableContextMenu->setData(item.status == DownloadHistoryItem::downloadSuccess, item.fileName, item.url);
         downloadTableContextMenu->getMenu()->popup(tableDownloads->viewport()->mapToGlobal(pos));
     }
 }
-void MainWindow::stateSave() {
+void MainWindow::stateSave() const
+{
     Settings::setMainWindowState(saveState());
     Settings::setMainWindowGeometry(saveGeometry());
     Settings::setBrowserTableViewState(browserView->horizontalHeader()->saveState());

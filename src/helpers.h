@@ -7,7 +7,7 @@ class Helpers
 {
 public:
     Helpers();
-    static QString cleanFileName(QString baseName, QString extension = "");
+    static QString cleanFileName(QString baseName, const QString& extension = "");
 };
 
 #endif // HELPERS_H

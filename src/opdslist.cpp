@@ -9,7 +9,7 @@ OPDSList::OPDSList(QObject *parent) : QAbstractListModel(parent)
     load();
 }
 
-void OPDSList::add(QString url, QString title)
+void OPDSList::add(const QString& url, const QString& title)
 {
     if (url == "" || title == "")
     {
@@ -44,7 +44,7 @@ void OPDSList::add(QString url, QString title)
     save();
 }
 
-void OPDSList::remove(QString Id)
+void OPDSList::remove(const QString& Id)
 {
     int pos = -1;
     for (int i = 0; i < bookmarksList.count(); i++)
@@ -66,7 +66,7 @@ void OPDSList::remove(QString Id)
     save();
 }
 
-void OPDSList::update(QString Id, QString url, QString title)
+void OPDSList::update(const QString& Id, const QString& url, const QString& title)
 {
     if (url == "" || title == "")
     {
@@ -131,7 +131,7 @@ void OPDSList::update(QString Id, QString url, QString title)
     save();
 }
 
-OPDSFeedBookmark OPDSList::at(int rowNum)
+OPDSFeedBookmark OPDSList::at(int rowNum) const
 {
     return bookmarksList.at(rowNum);
 }
@@ -170,7 +170,7 @@ void OPDSList::load()
     }
 }
 
-void OPDSList::save()
+void OPDSList::save() const
 {
     getCfg()->beginWriteArray("bookmarks");
 
@@ -203,7 +203,7 @@ int OPDSList::columnCount(const QModelIndex &) const
     return 1;
 }
 
-QVariant OPDSList::data(const QModelIndex &index, int role) const
+QVariant OPDSList::data(const QModelIndex &index, const int role) const
 {
     QVariant value;
     switch (role)
@@ -238,14 +238,14 @@ QVariant OPDSList::data(const QModelIndex &index, int role) const
 }
 
 
-QVariant OPDSList::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant OPDSList::headerData(const int section, Qt::Orientation orientation, const int role) const
 {
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         switch (section) {
             case COLUMN_TITLE:
                 return QString(tr("Bookmark title"));
-            break;
+            default: ;
         }
     }
-    return QVariant();
+    return {};
 };

@@ -1,9 +1,7 @@
 #include "filetypes.h"
 
 FileTypes::FileTypes()
-{
-
-}
+= default;
 
 void FileTypes::reset()
 {
@@ -12,7 +10,7 @@ void FileTypes::reset()
     defaultSuffix = "";
 }
 
-bool FileTypes::add(QString mimeType, QString link)
+bool FileTypes::add(const QString& mimeType, const QString& link)
 {
     QString typeSuffix = mimeDB.mimeTypeForName(mimeType).preferredSuffix();
     QString typeComment = mimeDB.mimeTypeForName(mimeType).comment();
@@ -38,7 +36,7 @@ bool FileTypes::add(QString mimeType, QString link)
 
     if (typeSuffix != "" && typeComment != "")
     {
-        QString filterLine = QString("%1 (*.%2)").arg(typeComment).arg(typeSuffix);
+        QString filterLine = QString("%1 (*.%2)").arg(typeComment, typeSuffix);
         filterToLinkMap.insert(filterLine, link);
         nameFilters.append(filterLine);
 
@@ -64,7 +62,7 @@ QStringList FileTypes::getNameFilters()
     return nameFilters;
 }
 
-QString FileTypes::getLinkByNameFilter(QString nameFilter)
+QString FileTypes::getLinkByNameFilter(const QString& nameFilter)
 {
     return filterToLinkMap.value(nameFilter);
 }

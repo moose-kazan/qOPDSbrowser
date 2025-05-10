@@ -1,7 +1,7 @@
 #include "dialogsettings.h"
 #include "ui_dialogsettings.h"
 
-DialogSettings::DialogSettings(QWidget *parent, Qt::WindowFlags f) :
+DialogSettings::DialogSettings(QWidget *parent, const Qt::WindowFlags f) :
     QDialog(parent, f),
     ui(new Ui::DialogSettings)
 {
@@ -31,7 +31,7 @@ void DialogSettings::actionCancel()
     reject();
 }
 
-void DialogSettings::actionSelectDefaultDownloadDirectory()
+void DialogSettings::actionSelectDefaultDownloadDirectory() const
 {
     defaultDownloadDirectoryDialog->setDirectory(getDefaultSaveDirectory());
     if (defaultDownloadDirectoryDialog->exec() == QDialog::Accepted)
@@ -45,37 +45,37 @@ void DialogSettings::showEvent(QShowEvent *event)
     (void)event;
 }
 
-void DialogSettings::setUaVariants(QMap<QString, QString> uaVariants, QString uaSelected)
+void DialogSettings::setUaVariants(const QMap<QString, QString>& uaVariants, const QString& uaSelected) const
 {
     userAgentList->clear();
-    for (int i = 0; i < uaVariants.keys().size(); i++)
+    for (int i = 0; i < uaVariants.size(); i++)
     {
         userAgentList->addItem(uaVariants.keys().at(i));
     }
     userAgentList->setCurrentIndex(userAgentList->findText(uaSelected));
 }
 
-QString DialogSettings::getUserAgentName()
+QString DialogSettings::getUserAgentName() const
 {
     return userAgentList->currentText();
 }
 
-void DialogSettings::setOpenAfterDownload(bool openAfterDownload)
+void DialogSettings::setOpenAfterDownload(bool openAfterDownload) const
 {
     openFileAfterDownload->setChecked(openAfterDownload);
 }
 
-bool DialogSettings::getOpenAfterDownload()
+bool DialogSettings::getOpenAfterDownload() const
 {
     return openFileAfterDownload->isChecked();
 }
 
-QString DialogSettings::getDefaultSaveDirectory()
+QString DialogSettings::getDefaultSaveDirectory() const
 {
     return defaultDownloadDirectory->text();
 }
 
-void DialogSettings::setDefaultSaveDirectory(QString dir)
+void DialogSettings::setDefaultSaveDirectory(const QString& dir) const
 {
     defaultDownloadDirectory->setText(dir);
 }

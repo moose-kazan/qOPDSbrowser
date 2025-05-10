@@ -178,7 +178,7 @@ void FeedParser::collectLinks()
     }
 }
 
-bool FeedParser::parse(QByteArray data, QUrl baseXmlUrl)
+bool FeedParser::parse(const QByteArray& data, const QUrl& baseXmlUrl)
 {
     feedData.clear();
     baseUrl = baseXmlUrl;
@@ -220,12 +220,12 @@ QList<FeedEntry> FeedParser::getData()
     return feedData;
 }
 
-bool FeedParser::haveSearch()
+bool FeedParser::haveSearch() const
 {
     return searchLink != "";
 }
 
-QString FeedParser::getSearchLink(QString searchTerms)
+QString FeedParser::getSearchLink(const QString& searchTerms) const
 {
     QString searchUrl = searchLink;
 

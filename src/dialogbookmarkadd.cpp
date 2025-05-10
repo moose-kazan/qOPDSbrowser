@@ -7,7 +7,7 @@
 #include <QGuiApplication>
 
 
-DialogBookmarkAdd::DialogBookmarkAdd(QWidget *parent, Qt::WindowFlags f) :
+DialogBookmarkAdd::DialogBookmarkAdd(QWidget *parent, const Qt::WindowFlags f) :
     QDialog(parent, f),
     ui(new Ui::DialogBookmarkAdd)
 {

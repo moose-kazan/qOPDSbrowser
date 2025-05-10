@@ -13,24 +13,24 @@ public:
     static QString getUserAgent();
 
     static QString getUserAgentName();
-    static void setUserAgentName(QString userAgent);
+    static void setUserAgentName(const QString& userAgent);
 
     static bool getOpenAfterDownload();
     static void setOpenAfterDownload(bool openAfterDownload);
 
     static QString getDefaultSaveDirectory();
-    static void setDefaultSaveDirectory(QString dir);
+    static void setDefaultSaveDirectory(const QString& dir);
 
     static QByteArray getMainWindowState();
-    static void setMainWindowState(QByteArray data);
+    static void setMainWindowState(const QByteArray& data);
     static bool haveMainWindowState();
 
     static QByteArray getMainWindowGeometry();
-    static void setMainWindowGeometry(QByteArray data);
+    static void setMainWindowGeometry(const QByteArray& data);
     static bool haveMainWindowGeometry();
 
     static QByteArray getBrowserTableViewState();
-    static void setBrowserTableViewState(QByteArray data);
+    static void setBrowserTableViewState(const QByteArray& data);
     static bool haveBrowserTableViewState();
 
 protected:

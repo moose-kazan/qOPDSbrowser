@@ -45,6 +45,7 @@ QVariant FeedParserViewModel::data(const QModelIndex &index, int role) const
                         value = QTextDocumentFragment::fromHtml(feedEntries.at(index.row()).summary.value).toPlainText();
                     }
                 break;
+            default: ;
             }
         }
         break;
@@ -65,6 +66,7 @@ QVariant FeedParserViewModel::data(const QModelIndex &index, int role) const
                     value = feedEntries.at(index.row()).summary.value;
                 }
                 break;
+            default: ;
             }
         }
         break;
@@ -89,6 +91,7 @@ QVariant FeedParserViewModel::data(const QModelIndex &index, int role) const
                         break;
                     }
                 }
+            default: ;
             }
         }
         break;
@@ -109,6 +112,7 @@ QVariant FeedParserViewModel::data(const QModelIndex &index, int role) const
                     value = feedEntries.at(index.row()).summary.value;
                 }
                 break;
+        default: ;
             }
         }
         break;
@@ -120,7 +124,7 @@ QVariant FeedParserViewModel::data(const QModelIndex &index, int role) const
     return value;
 }
 
-void FeedParserViewModel::populate(QList<FeedEntry> newValues)
+void FeedParserViewModel::populate(const QList<FeedEntry>& newValues)
 {
     beginResetModel();
     feedEntries.clear();
@@ -138,18 +142,18 @@ QVariant FeedParserViewModel::headerData(int section, Qt::Orientation orientatio
         switch (section) {
             case COLUMN_TITLE:
                 return QString(tr("Title"));
-            break;
 
             case COLUMN_SUMMARY:
                 return QString(tr("Summary"));
-            break;
+
+            default: ;
         }
     }
-    return QVariant();
+    return {};
 }
 
 
-FeedEntry FeedParserViewModel::at(int rowNum)
+FeedEntry FeedParserViewModel::at(const int rowNum) const
 {
     return feedEntries.at(rowNum);
 }

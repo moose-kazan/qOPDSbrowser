@@ -14,10 +14,10 @@ public:
     FileTypes();
 
     void reset();
-    bool add(QString mimeType, QString link);
+    bool add(const QString& mimeType, const QString& link);
     QString getDefaultSuffix();
     QStringList getNameFilters();
-    QString getLinkByNameFilter(QString nameFilter);
+    QString getLinkByNameFilter(const QString& nameFilter);
     int count();
 private:
     QStringList nameFilters;
