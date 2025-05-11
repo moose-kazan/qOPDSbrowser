@@ -6,4 +6,4 @@ RUN apt update && apt install -y git debhelper dpkg-dev lsb-release cmake qt6-we
 ENV PKG_VERSION=0.0.1
 ENV PKG_PPAVER=1
 WORKDIR /
-ENTRYPOINT [ "/source/deb/ubuntu/run.sh" ]
+ENTRYPOINT [ "/source/package/deb/run.sh" ]
