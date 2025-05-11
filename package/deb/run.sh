@@ -20,7 +20,7 @@ cd /
 rm -rf /src
 cp -a /source /src
 cd /src
-rmm -rf build
+rm -rf build
 git checkout v${PKG_VERSION}
 
 PKG_DISTR=$(lsb_release -cs)
