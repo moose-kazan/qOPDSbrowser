@@ -12,7 +12,6 @@
 #include <QList>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QStandardItem>
 #include <QFileDialog>
 #include <QDesktopServices>
 
@@ -38,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     urlEdit = findChild<QLineEdit *>("urlEdit");
     searchLineEdit = findChild<QLineEdit *>("searchLine");
     tableDownloads = findChild<QTableView *>("tableDownloads");
+    statusBar = findChild<QStatusBar *>("statusBar");
 
     searchLineEdit->addAction(QIcon::fromTheme("system-search", QIcon(icons::systemSearch)), QLineEdit::TrailingPosition);
     searchLineEdit->setEnabled(false);
@@ -127,7 +127,7 @@ void MainWindow::actionBookmarkRemove()
 }
 
 
-void MainWindow::actionBookmarksViewActivated(const QModelIndex& modelIndex)
+void MainWindow::actionBookmarksViewActivated(const QModelIndex& modelIndex) const
 {
     QString url = bookmarksViewModel->at(modelIndex.row()).url;
     navigateTo(url);
@@ -136,6 +136,8 @@ void MainWindow::actionBookmarksViewActivated(const QModelIndex& modelIndex)
 void MainWindow::navigateTo(const QUrl& url) const
 {
     //qDebug() << "navigate to:" << url;
+    QString statusBarMessage = QString(tr("Loading feed %1")).arg(url.toString());
+    statusBar->showMessage(statusBarMessage, STATUSBAR_MESSAGE_TIMEOUT);
 
     QNetworkRequest request;
     request.setUrl(url);
@@ -155,25 +157,33 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
         }
 
 
+        QString statusBarMessage = QString(tr("Can't load feed"));
+        statusBar->showMessage(statusBarMessage, STATUSBAR_MESSAGE_TIMEOUT);
+
         QMessageBox::critical(
             this,
             tr("Can't load url"),
             loadErrorMsg
         );
+
         return;
     }
 
     QByteArray responseBody = reply->readAll();
-    if (!feedParser->parse(responseBody, reply->url()))
+    QUrl url = reply->url();
+
+    if (!feedParser->parse(responseBody, url))
     {
+        QString statusBarMessage = QString(tr("Broken feed loaded"));
+        statusBar->showMessage(statusBarMessage, STATUSBAR_MESSAGE_TIMEOUT);
+
         QMessageBox::critical(
             this,
             tr("Can't parse url"),
-            tr("Can't parse %1: %2").arg(reply->url().toString(), feedParser->errorLine())
+            tr("Can't parse %1: %2").arg(url.toString(), feedParser->errorLine())
         );
 
         //qDebug() << responseBody;
-
         return;
     }
 
@@ -182,7 +192,7 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
 
     browserView->scrollToTop();
 
-    urlEdit->setText(reply->url().toString());
+    urlEdit->setText(url.toString());
 
     switch (urlHistoryDirection)
     {
@@ -208,7 +218,7 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
             if (urlHistoryIndex <= urlHistoryList.count()-1)
             {
                 urlHistoryIndex++;
-                urlHistoryList.insert(urlHistoryIndex, reply->url());
+                urlHistoryList.insert(urlHistoryIndex, url);
             }
             else
             {
@@ -217,6 +227,9 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
             }
         break;
     }
+
+    QString statusBarMessage = QString(tr("Feed loaded"));
+    statusBar->showMessage(statusBarMessage, STATUSBAR_MESSAGE_TIMEOUT);
 
     urlHistoryDirection = historyGoDefault;
 

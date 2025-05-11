@@ -3,9 +3,7 @@
 
 #include <QMainWindow>
 #include <QListView>
-#include <QStandardItemModel>
 #include <QNetworkAccessManager>
-#include <QFileDialog>
 #include <QTableWidget>
 
 #include "dialogbookmarkadd.h"
@@ -27,12 +25,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    void closeEvent(QCloseEvent *event);
-    ~MainWindow();
+    explicit MainWindow(QWidget *parent = nullptr);
+    void closeEvent(QCloseEvent *event) override;
+    ~MainWindow() override;
+
+    const int STATUSBAR_MESSAGE_TIMEOUT = 3000; // Milliseconds
 
 private:
-    void reloadBookmarks();
     void navigateTo(const QUrl& url) const;
     void navigateFinish(QNetworkReply *reply);
     void downloadTo(const QUrl& url, const QString& fileName);
@@ -50,6 +49,7 @@ private:
     QLineEdit *urlEdit;
     QLineEdit *searchLineEdit;
     QTableView *tableDownloads;
+    QStatusBar *statusBar;
 
     QFileDialog *saveDialog;
 
@@ -80,7 +80,7 @@ private slots:
     void actionSettings() const;
     void actionSearch() const;
 
-    void actionBookmarksViewActivated(const QModelIndex& modelIndex);
+    void actionBookmarksViewActivated(const QModelIndex& modelIndex) const;
     void actionBrowserViewActivated(QModelIndex modelIndex);
     void actionTableDownloadsDoubleClick(const QModelIndex& modelIndex) const;
     void actionTableDownloadsCustomContextMenu(QPoint pos) const;
