@@ -59,9 +59,14 @@ void DialogBookmarkAdd::showEvent(QShowEvent *event)
     QClipboard *clipboard = QGuiApplication::clipboard();
     QString clipboardText = clipboard->text();
 
-    editTitle->setText("");
-    editUrl->setText("");
+    editTitle->clear();
+    editUrl->clear();
     editUrl->insert(clipboardText);
+    if (editUrl->text().length() == 0)
+    {
+        editUrl->insert(bookmarkUrl);
+    }
+
 
     bookmarkTitle = "";
     bookmarkUrl = editUrl->text();

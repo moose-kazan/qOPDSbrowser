@@ -1,6 +1,7 @@
 # Version 0.0.6
  * Context menu for bookmarks
  * "Copy Link" for bookmarks
+ * "Add bookmark": use current url if clipboard doesn't contains url
 
 # Version 0.0.5
  * Context menu for download-manager

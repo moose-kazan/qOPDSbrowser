@@ -95,6 +95,7 @@ void MainWindow::actionAbout()
 
 void MainWindow::actionBookmarkAdd() const
 {
+    dialogBookmarkAdd->bookmarkUrl = urlEdit->text();
     if (dialogBookmarkAdd->exec() == QDialog::Accepted)
     {
         bookmarksViewModel->add(dialogBookmarkAdd->bookmarkUrl, dialogBookmarkAdd->bookmarkTitle);
