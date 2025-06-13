@@ -6,6 +6,9 @@
 #include "helpers.h"
 
 #include "mainwindow.h"
+
+#include <QClipboard>
+
 #include "./ui_mainwindow.h"
 
 #include <QMessageBox>
@@ -60,6 +63,12 @@ MainWindow::MainWindow(QWidget *parent)
     bookmarksViewContextMenu = new QMenu(this);
     bookmarksViewContextMenu->addAction(findChild<QAction *>("actionBookmarkEdit"));
     bookmarksViewContextMenu->addAction(findChild<QAction *>("actionBookmarkRemove"));
+
+    //bookmarkActionCopyLink = QAction("bookmarkActionCopyLink", this);
+    //bookmarkActionCopyLink.setParent(this);
+    bookmarkActionCopyLink.setText(tr("Copy link"));
+    connect(&bookmarkActionCopyLink, &QAction::triggered, this, &MainWindow::actionBookmarkCopyLink);
+    bookmarksViewContextMenu->addAction(&bookmarkActionCopyLink);
 
     stateRestore();
 }
@@ -130,7 +139,21 @@ void MainWindow::actionBookmarkRemove()
     }
 }
 
+void MainWindow::actionBookmarkCopyLink() const
+{
+    QModelIndexList indexList = bookmarksView->selectionModel()->selectedIndexes();
 
+    if (indexList.count() != 1)
+    {
+        return;
+    }
+
+    OPDSFeedBookmark bm = bookmarksViewModel->at(indexList.at(0).row());
+
+    QGuiApplication::clipboard()->setText(bm.url);
+
+    statusBar->showMessage(tr("Bookmark link copied to clipboard"), STATUSBAR_MESSAGE_TIMEOUT);
+}
 void MainWindow::actionBookmarksViewActivated(const QModelIndex& modelIndex) const
 {
     QString url = bookmarksViewModel->at(modelIndex.row()).url;
@@ -428,10 +451,12 @@ void MainWindow::actionBookmarksViewCustomContextMenu(const QPoint pos) const
 {
     //qDebug() << "Context menu!";
     QModelIndex index = bookmarksView->indexAt(pos);
-    if (index.row() > -1) {
-        bookmarksView->setCurrentIndex(index);
-        bookmarksViewContextMenu->popup(bookmarksView->viewport()->mapToGlobal(pos));
+    if (index.row() < 0) {
+        return;
     }
+
+    bookmarksView->setCurrentIndex(index);
+    bookmarksViewContextMenu->popup(bookmarksView->viewport()->mapToGlobal(pos));
 }
 void MainWindow::stateSave() const
 {

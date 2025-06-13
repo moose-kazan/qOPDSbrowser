@@ -64,6 +64,7 @@ private:
     DownloadTableContextMenu *downloadTableContextMenu;
 
     QMenu *bookmarksViewContextMenu;
+    QAction bookmarkActionCopyLink;
 
     FileTypes fileTypes;
     QList<QUrl> urlHistoryList;
@@ -76,6 +77,7 @@ private slots:
     void actionBookmarkAdd() const;
     void actionBookmarkEdit() const;
     void actionBookmarkRemove();
+    void actionBookmarkCopyLink() const;
     void actionRefresh();
     void actionGoNext();
     void actionGoPrev();

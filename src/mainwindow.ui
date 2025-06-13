@@ -545,5 +545,6 @@
   <slot>actionTableDownloadsDoubleClick(QModelIndex)</slot>
   <slot>actionTableDownloadsCustomContextMenu(QPoint)</slot>
   <slot>actionBookmarksViewCustomContextMenu(QPoint)</slot>
+  <slot>actionBookmarkCopyLink()</slot>
  </slots>
 </ui>
