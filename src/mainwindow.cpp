@@ -57,6 +57,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     downloadTableContextMenu = new DownloadTableContextMenu(this);
 
+    bookmarksViewContextMenu = new QMenu(this);
+    bookmarksViewContextMenu->addAction(findChild<QAction *>("actionBookmarkEdit"));
+    bookmarksViewContextMenu->addAction(findChild<QAction *>("actionBookmarkRemove"));
+
     stateRestore();
 }
 
@@ -410,12 +414,23 @@ void MainWindow::actionTableDownloadsDoubleClick(const QModelIndex& modelIndex) 
 
 void MainWindow::actionTableDownloadsCustomContextMenu(const QPoint pos) const
 {
+    //qDebug() << "Context menu!";
     QModelIndex index = tableDownloads->indexAt(pos);
     if (index.row() > -1) {
         tableDownloads->selectRow(index.row());
         const DownloadHistoryItem item = downloadHistory->HistoryItemGetByRow(index.row());
         downloadTableContextMenu->setData(item.status == DownloadHistoryItem::downloadSuccess, item.fileName, item.url);
         downloadTableContextMenu->getMenu()->popup(tableDownloads->viewport()->mapToGlobal(pos));
+    }
+}
+
+void MainWindow::actionBookmarksViewCustomContextMenu(const QPoint pos) const
+{
+    //qDebug() << "Context menu!";
+    QModelIndex index = bookmarksView->indexAt(pos);
+    if (index.row() > -1) {
+        bookmarksView->setCurrentIndex(index);
+        bookmarksViewContextMenu->popup(bookmarksView->viewport()->mapToGlobal(pos));
     }
 }
 void MainWindow::stateSave() const

@@ -79,6 +79,9 @@
          <layout class="QVBoxLayout" name="bookmarksLayout">
           <item>
            <widget class="QListView" name="bookmarksView">
+            <property name="contextMenuPolicy">
+             <enum>Qt::CustomContextMenu</enum>
+            </property>
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
             </property>
@@ -509,6 +512,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>bookmarksView</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionBookmarksViewCustomContextMenu(QPoint)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>138</x>
+     <y>162</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>304</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>actionAbout()</slot>
@@ -525,5 +544,6 @@
   <slot>actionSearch()</slot>
   <slot>actionTableDownloadsDoubleClick(QModelIndex)</slot>
   <slot>actionTableDownloadsCustomContextMenu(QPoint)</slot>
+  <slot>actionBookmarksViewCustomContextMenu(QPoint)</slot>
  </slots>
 </ui>

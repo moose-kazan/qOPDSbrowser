@@ -63,6 +63,8 @@ private:
     DownloadHistory *downloadHistory;
     DownloadTableContextMenu *downloadTableContextMenu;
 
+    QMenu *bookmarksViewContextMenu;
+
     FileTypes fileTypes;
     QList<QUrl> urlHistoryList;
     int urlHistoryIndex = -1;
@@ -81,6 +83,7 @@ private slots:
     void actionSearch() const;
 
     void actionBookmarksViewActivated(const QModelIndex& modelIndex) const;
+    void actionBookmarksViewCustomContextMenu(QPoint pos) const;
     void actionBrowserViewActivated(QModelIndex modelIndex);
     void actionTableDownloadsDoubleClick(const QModelIndex& modelIndex) const;
     void actionTableDownloadsCustomContextMenu(QPoint pos) const;

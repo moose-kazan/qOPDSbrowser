@@ -1,3 +1,6 @@
+# Version 0.0.6
+ * Context menu for bookmarks
+
 # Version 0.0.5
  * Context menu for download-manager
  * Statusbar in main window
@@ -10,4 +13,4 @@
  * Added validator for links in Add/Update bookmark dialogs
  * Default config file (for new installs)
  * Switch to double-click to activate item
- * Refactroing and code cleanup
+ * Refactoring and code cleanup
