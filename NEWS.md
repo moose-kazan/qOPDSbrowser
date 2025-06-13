@@ -2,6 +2,7 @@
  * Context menu for bookmarks
  * "Copy Link" for bookmarks
  * "Add bookmark": use current url if clipboard doesn't contains url
+ * Handle feed title. Put into window title.
 
 # Version 0.0.5
  * Context menu for download-manager

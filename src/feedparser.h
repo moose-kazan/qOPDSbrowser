@@ -35,6 +35,7 @@ public:
     bool parse(const QByteArray& data, const QUrl& baseXmlUrl);
     QString errorLine();
     QList<FeedEntry> getData();
+    QString getTitle();
     bool haveSearch() const;
     QString getSearchLink(const QString& searchTerms) const;
 
@@ -44,8 +45,10 @@ private:
     QList<FeedEntry> feedData;
     void collectEntries();
     void collectLinks();
+    void collectMetadata();
     QUrl baseUrl;
     QString searchLink;
+    QString feedTitle;
 };
 
 #endif // FEEDPARSER_H

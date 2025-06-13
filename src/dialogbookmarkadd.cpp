@@ -65,6 +65,7 @@ void DialogBookmarkAdd::showEvent(QShowEvent *event)
     if (editUrl->text().length() == 0)
     {
         editUrl->insert(bookmarkUrl);
+        editTitle->setText(bookmarkTitle);
     }
 
 

@@ -178,11 +178,21 @@ void FeedParser::collectLinks()
     }
 }
 
+void FeedParser::collectMetadata()
+{
+    QDomElement elementTitle = parserXml->firstChildElement("feed").firstChildElement("title");
+    if (!elementTitle.isNull())
+    {
+        feedTitle = elementTitle.text();
+    }
+}
+
 bool FeedParser::parse(const QByteArray& data, const QUrl& baseXmlUrl)
 {
     feedData.clear();
     baseUrl = baseXmlUrl;
     searchLink = "";
+    feedTitle = "";
 
     QString paserXmlErrorMsg;
     int parserXmlErrorLine;
@@ -206,6 +216,8 @@ bool FeedParser::parse(const QByteArray& data, const QUrl& baseXmlUrl)
 
     collectLinks();
 
+    collectMetadata();
+
     errorString = "";
     return true;
 }
@@ -218,6 +230,11 @@ QString FeedParser::errorLine()
 QList<FeedEntry> FeedParser::getData()
 {
     return feedData;
+}
+
+QString FeedParser::getTitle()
+{
+    return feedTitle;
 }
 
 bool FeedParser::haveSearch() const

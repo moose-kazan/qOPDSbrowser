@@ -176,7 +176,7 @@
         <translation>Next page</translation>
     </message>
     <message>
-        <location filename="../feedparser.cpp" line="199"/>
+        <location filename="../feedparser.cpp" line="209"/>
         <source>Error at [%1:%2]: %3</source>
         <translation>Error at [%1:%2]: %3</translation>
     </message>
@@ -206,6 +206,7 @@
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.ui" line="14"/>
+        <location filename="../mainwindow.cpp" line="268"/>
         <source>OPDS Browser</source>
         <translation>OPDS Browser</translation>
     </message>
@@ -284,75 +285,80 @@
         <translation>Simple client for OPDS feeds.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="136"/>
+        <location filename="../mainwindow.cpp" line="139"/>
         <source>Remove bookmark</source>
         <translation>Remove bookmark</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="136"/>
+        <location filename="../mainwindow.cpp" line="139"/>
         <source>Do you want to remove this bookmark?</source>
         <translation>Do you want to remove this bookmark?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="155"/>
+        <location filename="../mainwindow.cpp" line="158"/>
         <source>Bookmark link copied to clipboard</source>
         <translation>Bookmark link copied to clipboard</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="166"/>
+        <location filename="../mainwindow.cpp" line="169"/>
         <source>Loading feed %1</source>
         <translation>Loading feed %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="180"/>
-        <location filename="../mainwindow.cpp" line="336"/>
+        <location filename="../mainwindow.cpp" line="183"/>
+        <location filename="../mainwindow.cpp" line="345"/>
         <source>Can&apos;t load %1: %2</source>
         <translation>Can&apos;t load %1: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="183"/>
+        <location filename="../mainwindow.cpp" line="186"/>
         <source>Can&apos;t load %1 with http code %2: %3</source>
         <translation>Can&apos;t load %1 with http code %2: %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="187"/>
+        <location filename="../mainwindow.cpp" line="190"/>
         <source>Can&apos;t load feed</source>
         <translation>Can&apos;t load feed</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="192"/>
-        <location filename="../mainwindow.cpp" line="335"/>
+        <location filename="../mainwindow.cpp" line="195"/>
+        <location filename="../mainwindow.cpp" line="344"/>
         <source>Can&apos;t load url</source>
         <translation>Can&apos;t load url</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="204"/>
+        <location filename="../mainwindow.cpp" line="207"/>
         <source>Broken feed loaded</source>
         <translation>Broken feed loaded</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="209"/>
+        <location filename="../mainwindow.cpp" line="212"/>
         <source>Can&apos;t parse url</source>
         <translation>Can&apos;t parse url</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="210"/>
+        <location filename="../mainwindow.cpp" line="213"/>
         <source>Can&apos;t parse %1: %2</source>
         <translation>Can&apos;t parse %1: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="258"/>
+        <location filename="../mainwindow.cpp" line="261"/>
         <source>Feed loaded</source>
         <translation>Feed loaded</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="274"/>
-        <location filename="../mainwindow.cpp" line="292"/>
+        <location filename="../mainwindow.cpp" line="271"/>
+        <source>OPDS Browser - %1</source>
+        <translation type="unfinished">OPDS Browser - %1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="283"/>
+        <location filename="../mainwindow.cpp" line="301"/>
         <source>Warning</source>
         <translation>Warning</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="274"/>
+        <location filename="../mainwindow.cpp" line="283"/>
         <source>No link found for this feed!</source>
         <translation>No link found for this feed!</translation>
     </message>
@@ -361,27 +367,27 @@
         <translation type="vanished">Zip-compressed %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="292"/>
+        <location filename="../mainwindow.cpp" line="301"/>
         <source>No link found for this book!</source>
         <translation>No link found for this book!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="345"/>
+        <location filename="../mainwindow.cpp" line="354"/>
         <source>Critical error</source>
         <translation>Critical error</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="346"/>
+        <location filename="../mainwindow.cpp" line="355"/>
         <source>Critical error: can&apos;t expand download id!</source>
         <translation>Critical error: can&apos;t expand download id!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="367"/>
+        <location filename="../mainwindow.cpp" line="376"/>
         <source>Can&apos;t save file</source>
         <translation>Can&apos;t save file</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="368"/>
+        <location filename="../mainwindow.cpp" line="377"/>
         <source>Can&apos;t save %1: %2</source>
         <translation>Can&apos;t save %1: %2</translation>
     </message>

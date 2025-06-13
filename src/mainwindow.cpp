@@ -96,6 +96,8 @@ void MainWindow::actionAbout()
 void MainWindow::actionBookmarkAdd() const
 {
     dialogBookmarkAdd->bookmarkUrl = urlEdit->text();
+    dialogBookmarkAdd->bookmarkTitle = feedParser->getTitle();
+
     if (dialogBookmarkAdd->exec() == QDialog::Accepted)
     {
         bookmarksViewModel->add(dialogBookmarkAdd->bookmarkUrl, dialogBookmarkAdd->bookmarkTitle);
@@ -262,6 +264,12 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
     urlHistoryDirection = historyGoDefault;
 
     searchLineEdit->setEnabled(feedParser->haveSearch());
+
+    setWindowTitle(tr("OPDS Browser"));
+    if (feedParser->getTitle().length() > 0)
+    {
+        setWindowTitle(QString(tr("OPDS Browser - %1")).arg(feedParser->getTitle()));
+    }
 }
 
 void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
