@@ -172,6 +172,7 @@ void MainWindow::navigateTo(const QUrl& url) const
     QNetworkRequest request;
     request.setUrl(url);
     request.setRawHeader("User-Agent", Settings::getUserAgent().toUtf8());
+    request.setTransferTimeout(Settings::getNetworkTimeout() * 1000);
 
     navigateManager->get(request);
 }
@@ -323,6 +324,7 @@ void MainWindow::downloadTo(const QUrl& url, const QString& fileName)
     request.setRawHeader("User-Agent", Settings::getUserAgent().toUtf8());
     QByteArray downloadID = downloadHistory->HistoryItemAdd(url, fileName);
     request.setRawHeader("Download-ID", downloadID);
+    request.setTransferTimeout(Settings::getNetworkTimeout() * 1000);
 
     QNetworkReply* networkReply = downloadManager->get(request);
     //connect(downloadManager, &QNetworkAccessManager::finished, this, &MainWindow::downloadFinish);
@@ -420,11 +422,13 @@ void MainWindow::actionSettings() const
     dialogSettings->setUaVariants(Settings::getUserAgentVariants(), Settings::getUserAgentName());
     dialogSettings->setOpenAfterDownload(Settings::getOpenAfterDownload());
     dialogSettings->setDefaultSaveDirectory(Settings::getDefaultSaveDirectory());
+    dialogSettings->setNetworkTimeout(Settings::getNetworkTimeout());
     if (dialogSettings->exec() == QDialog::Accepted)
     {
         Settings::setUserAgentName(dialogSettings->getUserAgentName());
         Settings::setOpenAfterDownload(dialogSettings->getOpenAfterDownload());
         Settings::setDefaultSaveDirectory(dialogSettings->getDefaultSaveDirectory());
+        Settings::setNetworkTimeout(dialogSettings->getNetworkTimeout());
 
         saveDialog->setDirectory(dialogSettings->getDefaultSaveDirectory());
     }

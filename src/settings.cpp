@@ -119,3 +119,11 @@ void Settings::setBrowserTableViewState(const QByteArray& data) {
 bool Settings::haveBrowserTableViewState() {
     return getCfg()->contains("browserTableViewState");
 }
+
+int Settings::getNetworkTimeout() {
+    return getCfg()->value("networkTimeout", 6).toInt();
+}
+
+void Settings::setNetworkTimeout(const int& value) {
+    getCfg()->setValue("networkTimeout", value);
+}

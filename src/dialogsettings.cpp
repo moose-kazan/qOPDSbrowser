@@ -10,6 +10,7 @@ DialogSettings::DialogSettings(QWidget *parent, const Qt::WindowFlags f) :
     userAgentList = findChild<QComboBox *>("userAgentList");
     openFileAfterDownload = findChild<QCheckBox *>("openFileAfterDownload");
     defaultDownloadDirectory = findChild<QLineEdit *>("defaultDownloadDirectoryEdit");
+    networkTimeoutSpin = findChild<QSpinBox *>("networkTimeoutSpin");
 
     defaultDownloadDirectoryDialog = new QFileDialog(this);
     defaultDownloadDirectoryDialog->setFileMode(QFileDialog::Directory);
@@ -78,4 +79,12 @@ QString DialogSettings::getDefaultSaveDirectory() const
 void DialogSettings::setDefaultSaveDirectory(const QString& dir) const
 {
     defaultDownloadDirectory->setText(dir);
+}
+
+int DialogSettings::getNetworkTimeout() {
+    return networkTimeoutSpin->value();
+}
+
+void DialogSettings::setNetworkTimeout(const int& value) {
+    networkTimeoutSpin->setValue(value);
 }

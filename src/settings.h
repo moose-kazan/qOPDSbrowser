@@ -33,6 +33,9 @@ public:
     static void setBrowserTableViewState(const QByteArray& data);
     static bool haveBrowserTableViewState();
 
+    static int getNetworkTimeout();
+    static void setNetworkTimeout(const int& value);
+
 protected:
     static QSettings* getCfg();
     static QSettings* cfg;

@@ -7,6 +7,7 @@
 #include <QLineEdit>
 #include <QFileDialog>
 #include <QStandardItemModel>
+#include <QSpinBox>
 
 namespace Ui {
 class DialogSettings;
@@ -28,6 +29,9 @@ public:
     QString getDefaultSaveDirectory() const;
     void setDefaultSaveDirectory(const QString& dir) const;
 
+    int getNetworkTimeout();
+    void setNetworkTimeout(const int& value);
+
 private:
     Ui::DialogSettings *ui;
     void showEvent(QShowEvent *event) override;
@@ -36,6 +40,7 @@ private:
     QCheckBox *openFileAfterDownload;
     QLineEdit *defaultDownloadDirectory;
     QFileDialog *defaultDownloadDirectoryDialog;
+    QSpinBox *networkTimeoutSpin;
 
 private slots:
     void actionOK();
