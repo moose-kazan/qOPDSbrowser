@@ -1,3 +1,4 @@
+#include "version.h"
 #include "dialogbookmarkadd.h"
 #include "feedparserviewmodel.h"
 #include "opdslist.h"
@@ -90,7 +91,10 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 void MainWindow::actionAbout()
 {
-    QMessageBox::about(this, "qOPDSbrowser", tr("Simple client for OPDS feeds."));
+    QMessageBox::about(this, "qOPDSbrowser",
+        tr("Simple client for OPDS feeds.") +
+        "\n" +
+        tr("Version: %1").arg(PROJECT_VERSION_STRING));
 }
 
 void MainWindow::actionBookmarkAdd() const

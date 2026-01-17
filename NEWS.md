@@ -4,6 +4,7 @@
  * "Add bookmark": use current url if clipboard doesn't contains url
  * Handle feed title. Put into window title.
  * New settings option: network timeout
+ * Show app version in "About" dialog
 
 # Version 0.0.5
  * Context menu for download-manager

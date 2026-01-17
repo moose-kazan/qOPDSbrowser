@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.18)
 
 project(qOPDSbrowser VERSION 0.1 LANGUAGES CXX)
 
@@ -113,3 +113,7 @@ endif()
 
 
 qt_finalize_executable(qOPDSbrowser)
+
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(GenerateVersion)
+include(Packing)
