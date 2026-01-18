@@ -6,6 +6,7 @@
 #include <QNetworkAccessManager>
 #include <QTableWidget>
 
+#include "browserviewcontextmenu.h"
 #include "dialogbookmarkadd.h"
 #include "dialogbookmarkedit.h"
 #include "dialogsettings.h"
@@ -62,6 +63,7 @@ private:
     FeedParser *feedParser;
     DownloadHistory *downloadHistory;
     DownloadTableContextMenu *downloadTableContextMenu;
+    BrowserViewContextMenu *browserViewContextMenu;
 
     QMenu *bookmarksViewContextMenu;
     QAction bookmarkActionCopyLink;
@@ -89,5 +91,6 @@ private slots:
     void actionBrowserViewActivated(QModelIndex modelIndex);
     void actionTableDownloadsDoubleClick(const QModelIndex& modelIndex) const;
     void actionTableDownloadsCustomContextMenu(QPoint pos) const;
+    void actionBrowserViewCustomContextMenu(QPoint pos) const;
 };
 #endif // MAINWINDOW_H

@@ -5,6 +5,7 @@
  * Handle feed title. Put into window title.
  * New settings option: network timeout
  * Show app version in "About" dialog
+ * Context menu for feed browser
 
 # Version 0.0.5
  * Context menu for download-manager

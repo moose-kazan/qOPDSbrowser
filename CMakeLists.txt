@@ -62,6 +62,8 @@ set(PROJECT_SOURCES
 	src/urlvalidator.cpp
 	src/downloadtablecontextmenu.h
 	src/downloadtablecontextmenu.cpp
+	src/browserviewcontextmenu.h
+	src/browserviewcontextmenu.cpp
 	src/icons.h
 	src/icons.cpp
 	src/helpers.h
@@ -75,6 +77,7 @@ set(PROJECT_SOURCES
 qt_add_executable(qOPDSbrowser
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
+    src/browserviewcontextmenu.h src/browserviewcontextmenu.cpp
 )
 
 qt6_standard_project_setup()

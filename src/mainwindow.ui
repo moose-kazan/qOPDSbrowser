@@ -80,10 +80,10 @@
           <item>
            <widget class="QListView" name="bookmarksView">
             <property name="contextMenuPolicy">
-             <enum>Qt::CustomContextMenu</enum>
+             <enum>Qt::ContextMenuPolicy::CustomContextMenu</enum>
             </property>
             <property name="editTriggers">
-             <set>QAbstractItemView::NoEditTriggers</set>
+             <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
             </property>
            </widget>
           </item>
@@ -116,14 +116,17 @@
         </item>
         <item>
          <widget class="QTableView" name="browserView">
+          <property name="contextMenuPolicy">
+           <enum>Qt::ContextMenuPolicy::CustomContextMenu</enum>
+          </property>
           <property name="editTriggers">
-           <set>QAbstractItemView::NoEditTriggers</set>
+           <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
           </property>
           <property name="selectionMode">
-           <enum>QAbstractItemView::SingleSelection</enum>
+           <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
           </property>
           <property name="selectionBehavior">
-           <enum>QAbstractItemView::SelectRows</enum>
+           <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
           </property>
           <property name="showGrid">
            <bool>false</bool>
@@ -141,16 +144,16 @@
       <item>
        <widget class="QTableView" name="tableDownloads">
         <property name="contextMenuPolicy">
-         <enum>Qt::CustomContextMenu</enum>
+         <enum>Qt::ContextMenuPolicy::CustomContextMenu</enum>
         </property>
         <property name="editTriggers">
-         <set>QAbstractItemView::NoEditTriggers</set>
+         <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
         </property>
         <property name="selectionMode">
-         <enum>QAbstractItemView::SingleSelection</enum>
+         <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
         </property>
         <property name="selectionBehavior">
-         <enum>QAbstractItemView::SelectRows</enum>
+         <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
         </property>
         <attribute name="horizontalHeaderVisible">
          <bool>true</bool>
@@ -170,7 +173,7 @@
      <x>0</x>
      <y>0</y>
      <width>609</width>
-     <height>22</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -528,6 +531,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>browserView</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionBrowserViewCustomContextMenu(QPoint)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>441</x>
+     <y>180</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>304</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>actionAbout()</slot>
@@ -546,5 +565,6 @@
   <slot>actionTableDownloadsCustomContextMenu(QPoint)</slot>
   <slot>actionBookmarksViewCustomContextMenu(QPoint)</slot>
   <slot>actionBookmarkCopyLink()</slot>
+  <slot>actionBrowserViewCustomContextMenu(QPoint)</slot>
  </slots>
 </ui>

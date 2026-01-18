@@ -60,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent)
     tableDownloads->setModel(downloadHistory);
 
     downloadTableContextMenu = new DownloadTableContextMenu(this);
+    browserViewContextMenu = new BrowserViewContextMenu(this);
 
     bookmarksViewContextMenu = new QMenu(this);
     bookmarksViewContextMenu->addAction(findChild<QAction *>("actionBookmarkEdit"));
@@ -449,6 +450,17 @@ void MainWindow::actionTableDownloadsDoubleClick(const QModelIndex& modelIndex) 
     if (downloadHistory->HistoryItemGetByRow(modelIndex.row()).status == DownloadHistoryItem::downloadSuccess)
     {
         QDesktopServices::openUrl(QUrl(downloadHistory->HistoryItemGetByRow(modelIndex.row()).fileName));
+    }
+}
+
+void MainWindow::actionBrowserViewCustomContextMenu(const QPoint pos) const
+{
+    QModelIndex index = browserView->indexAt(pos);
+    if (index.row() > - 1) {
+        browserView->selectRow(index.row());
+        const FeedEntry feedEntry = browserViewModel->at(index.row());
+        browserViewContextMenu->setData(feedEntry);
+        browserViewContextMenu->getMenu()->popup(browserView->viewport()->mapToGlobal(pos));
     }
 }
 

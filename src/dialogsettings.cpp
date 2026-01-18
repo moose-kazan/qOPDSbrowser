@@ -6,6 +6,7 @@ DialogSettings::DialogSettings(QWidget *parent, const Qt::WindowFlags f) :
     ui(new Ui::DialogSettings)
 {
     ui->setupUi(this);
+    setFixedSize(size());
 
     userAgentList = findChild<QComboBox *>("userAgentList");
     openFileAfterDownload = findChild<QCheckBox *>("openFileAfterDownload");
