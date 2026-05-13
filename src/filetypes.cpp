@@ -32,6 +32,16 @@ bool FileTypes::add(const QString& mimeType, const QString& link)
             typeSuffix = "djvu";
             typeComment = "DJVU Document";
         }
+        else if (mimeType == "application/epub")
+        {
+            typeSuffix = "epub";
+            typeComment = "Epub Document";
+        }
+        else if (mimeType == "application/x-mobipocket-ebook")
+        {
+            typeSuffix = "mobi";
+            typeComment = "Mobibook Document";
+        }
     }
 
     if (typeSuffix != "" && typeComment != "")

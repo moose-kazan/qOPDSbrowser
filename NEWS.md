@@ -7,6 +7,7 @@
  * Show app version in "About" dialog
  * Context menu for feed browser
  * Migrate to Qt6.5+
+ * Improve handle for links with some incorrect types
 
 # Version 0.0.5
  * Context menu for download-manager
