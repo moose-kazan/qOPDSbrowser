@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.20)
 
 project(qOPDSbrowser VERSION 0.1 LANGUAGES CXX)
 
@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Network Xml LinguistTools)
-find_package(Qt6 REQUIRED COMPONENTS Gui Widgets Network Xml LinguistTools)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Gui Widgets Network Xml LinguistTools)
 
 set (ICON_FILES
     src/icons/icon16.png

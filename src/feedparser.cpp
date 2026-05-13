@@ -194,21 +194,12 @@ bool FeedParser::parse(const QByteArray& data, const QUrl& baseXmlUrl)
     searchLink = "";
     feedTitle = "";
 
-    QString paserXmlErrorMsg;
-    int parserXmlErrorLine;
-    int parserXmlErrorColumn;
+    QDomDocument::ParseResult result = parserXml->setContent(data);
 
-    if (!parserXml->setContent(
-        QString::fromUtf8(data),
-        true,
-        &paserXmlErrorMsg,
-        &parserXmlErrorLine,
-        &parserXmlErrorColumn)
-    )
+    if (!result)
     {
-        errorString = QString(tr("Error at [%1:%2]: %3")).arg(parserXmlErrorLine)
-                .arg(parserXmlErrorColumn)
-                .arg(paserXmlErrorMsg);
+        errorString = QString(tr("Error at [%1:%2]: %3")).arg(result.errorLine)
+                .arg(result.errorColumn).arg(result.errorMessage);
         return false;
     }
 
