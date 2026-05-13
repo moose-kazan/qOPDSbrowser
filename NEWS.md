@@ -6,6 +6,7 @@
  * New settings option: network timeout
  * Show app version in "About" dialog
  * Context menu for feed browser
+ * Migrate to Qt6.5+
 
 # Version 0.0.5
  * Context menu for download-manager
