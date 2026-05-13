@@ -194,7 +194,7 @@
         <translation>Next page</translation>
     </message>
     <message>
-        <location filename="../feedparser.cpp" line="209"/>
+        <location filename="../feedparser.cpp" line="201"/>
         <source>Error at [%1:%2]: %3</source>
         <translation>Error at [%1:%2]: %3</translation>
     </message>
@@ -218,6 +218,21 @@
         <location filename="../filetypes.cpp" line="27"/>
         <source>Zip-compressed %1</source>
         <translation>Zip-compressed %1</translation>
+    </message>
+    <message>
+        <location filename="../filetypes.cpp" line="33"/>
+        <source>DJVU Document</source>
+        <translation>DJVU Document</translation>
+    </message>
+    <message>
+        <location filename="../filetypes.cpp" line="38"/>
+        <source>EPub Document</source>
+        <translation>EPub Document</translation>
+    </message>
+    <message>
+        <location filename="../filetypes.cpp" line="43"/>
+        <source>Mobibook Document</source>
+        <translation>Mobibook Document</translation>
     </message>
 </context>
 <context>

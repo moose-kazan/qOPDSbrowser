@@ -30,17 +30,17 @@ bool FileTypes::add(const QString& mimeType, const QString& link)
         else if (mimeType == "application/djvu")
         {
             typeSuffix = "djvu";
-            typeComment = "DJVU Document";
+            typeComment = tr("DJVU Document");
         }
         else if (mimeType == "application/epub")
         {
             typeSuffix = "epub";
-            typeComment = "Epub Document";
+            typeComment = tr("EPub Document");
         }
         else if (mimeType == "application/x-mobipocket-ebook")
         {
             typeSuffix = "mobi";
-            typeComment = "Mobibook Document";
+            typeComment = tr("Mobibook Document");
         }
     }
 
