@@ -16,7 +16,7 @@ struct DownloadHistoryItem
     qint64 bytesReceived;
     qint64 bytesTotal;
     QTime moment = QTime::currentTime();
-    enum Status {downloadWaiting, downloadProgress, downloadSuccess, downloadFailed} status = downloadWaiting;
+    enum class Status {downloadWaiting, downloadProgress, downloadSuccess, downloadFailed} status = Status::downloadWaiting;
 };
 
 
@@ -43,11 +43,12 @@ public:
     void HistoryItemProgress(const QByteArray& id, qint64 bytesReceived, qint64 bytesTotal);
 
 private:
-    QList<DownloadHistoryItem> *historyList;
-    static QString statusToString(DownloadHistoryItem::Status status) ;
-    static QString stripFileName(const QString& fileName) ;
+    QList<DownloadHistoryItem> historyList;
+    static QString statusToString(DownloadHistoryItem::Status status);
+    static QString stripFileName(const QString& fileName);
     QString prepareProgress(const DownloadHistoryItem& historyItem) const;
-    static QString prepareSize(qint64 size) ;
+    static QString prepareSize(qint64 size);
+    void updateItemStatus(const QByteArray& id, DownloadHistoryItem::Status newStatus, qint64 bytesReceived = 0, qint64 bytesTotal = 0);
 };
 
 #endif // DOWNLOADHISTORY_H

@@ -5,6 +5,8 @@
 #include <QListView>
 #include <QNetworkAccessManager>
 #include <QTableWidget>
+#include <QScopedPointer>
+#include <memory>
 
 #include "dialogbookmarkadd.h"
 #include "dialogbookmarkedit.h"
@@ -59,17 +61,17 @@ private:
     QNetworkAccessManager *downloadManager;
     QNetworkAccessManager *navigateManager;
 
-    FeedParser *feedParser;
+    QScopedPointer<FeedParser> feedParser;
     DownloadHistory *downloadHistory;
     DownloadTableContextMenu *downloadTableContextMenu;
 
     QMenu *bookmarksViewContextMenu;
-    QAction bookmarkActionCopyLink;
+    std::unique_ptr<QAction> bookmarkActionCopyLink;
 
     FileTypes fileTypes;
     QList<QUrl> urlHistoryList;
     int urlHistoryIndex = -1;
-    enum {historyGoDefault, historyGoBack, historyGoRefresh, historyGoNext} urlHistoryDirection = historyGoDefault;
+    enum class UrlHistoryDirection {defaultDir, goBack, goRefresh, goNext} urlHistoryDirection = UrlHistoryDirection::defaultDir;
 
 private slots:
     void actionExit();

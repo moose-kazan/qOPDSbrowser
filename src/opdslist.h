@@ -36,8 +36,7 @@ protected:
     void load();
     void save() const;
 
-    static QSettings* getCfg();
-    static QSettings* cfg;
+    static QSettings& getCfg();
 
 private:
     QList<OPDSFeedBookmark> bookmarksList;

@@ -2,8 +2,6 @@
 
 #include <QUuid>
 
-QSettings *OPDSList::cfg = nullptr;
-
 OPDSList::OPDSList(QObject *parent) : QAbstractListModel(parent)
 {
     load();
@@ -36,7 +34,7 @@ void OPDSList::add(const QString& url, const QString& title)
         }
     }
 
-    int newRow = bookmarksList.count()+1;
+    int newRow = bookmarksList.count();
     beginInsertRows(QModelIndex(), newRow, newRow);
     bookmarksList.append(newBookmark);
     endInsertRows();
@@ -84,7 +82,6 @@ void OPDSList::update(const QString& Id, const QString& url, const QString& titl
 
             bookmarksList[indexOld].title = title;
             bookmarksList[indexOld].url = url;
-            dataChanged(createIndex(indexOld, 0), createIndex(indexOld,0));
 
             break;
         }
@@ -96,9 +93,9 @@ void OPDSList::update(const QString& Id, const QString& url, const QString& titl
     }
 
     QList<OPDSFeedBookmark> bookmarksListTmp = bookmarksList;
-    for (int i = 0; i < bookmarksListTmp.count()-1; i++)
+    for (int i = 0; i + 1 < bookmarksListTmp.count(); i++)
     {
-        for (int j = i+1; j < bookmarksListTmp.count(); j++)
+        for (int j = i + 1; j < bookmarksListTmp.count(); j++)
         {
             if (bookmarksListTmp[i].title.compare(bookmarksListTmp[j].title, Qt::CaseInsensitive) > 0)
             {
@@ -115,17 +112,16 @@ void OPDSList::update(const QString& Id, const QString& url, const QString& titl
         }
     }
 
-    if (indexOld > indexNew)
+    if (indexOld != indexNew)
     {
         beginMoveRows(QModelIndex(), indexOld, indexOld, QModelIndex(), indexNew);
         bookmarksList.move(indexOld, indexNew);
         endMoveRows();
+        emit dataChanged(createIndex(indexNew, 0), createIndex(indexNew, 0));
     }
-    else if (indexOld < indexNew)
+    else
     {
-        beginMoveRows(QModelIndex(), indexOld, indexOld, QModelIndex(), indexNew+1);
-        bookmarksList.move(indexOld, indexNew);
-        endMoveRows();
+        emit dataChanged(createIndex(indexOld, 0), createIndex(indexOld, 0));
     }
 
     save();
@@ -140,15 +136,15 @@ void OPDSList::load()
 {
     bookmarksList.clear();
 
-    int size = getCfg()->beginReadArray("bookmarks");
+    int size = getCfg().beginReadArray("bookmarks");
 
     for (int i = 0; i < size; i++)
     {
-        getCfg()->setArrayIndex(i);
+        getCfg().setArrayIndex(i);
         OPDSFeedBookmark bookmark;
-        bookmark.url = getCfg()->value("url", "").toString();
-        bookmark.title = getCfg()->value("title", "").toString();
-        bookmark.id = getCfg()->value("id", "").toString();
+        bookmark.url = getCfg().value("url", "").toString();
+        bookmark.title = getCfg().value("title", "").toString();
+        bookmark.id = getCfg().value("id", "").toString();
 
         if (bookmark.url != "" && bookmark.title != "")
         {
@@ -156,11 +152,11 @@ void OPDSList::load()
         }
     }
 
-    getCfg()->endArray();
+    getCfg().endArray();
 
-    for (int i = 0; i < bookmarksList.count()-1; i++)
+    for (int i = 0; i + 1 < bookmarksList.count(); i++)
     {
-        for (int j = i+1; j < bookmarksList.count(); j++)
+        for (int j = i + 1; j < bookmarksList.count(); j++)
         {
             if (bookmarksList[i].title.compare(bookmarksList[j].title, Qt::CaseInsensitive) > 0)
             {
@@ -172,24 +168,22 @@ void OPDSList::load()
 
 void OPDSList::save() const
 {
-    getCfg()->beginWriteArray("bookmarks");
+    getCfg().beginWriteArray("bookmarks");
 
     for (int i = 0; i < bookmarksList.count(); i++)
     {
-        getCfg()->setArrayIndex(i);
-        getCfg()->setValue("url", bookmarksList.at(i).url);
-        getCfg()->setValue("title", bookmarksList.at(i).title);
-        getCfg()->setValue("id", bookmarksList.at(i).id);
+        getCfg().setArrayIndex(i);
+        getCfg().setValue("url", bookmarksList.at(i).url);
+        getCfg().setValue("title", bookmarksList.at(i).title);
+        getCfg().setValue("id", bookmarksList.at(i).id);
     }
-    getCfg()->endArray();
+    getCfg().endArray();
 }
 
-QSettings* OPDSList::getCfg()
+QSettings& OPDSList::getCfg()
 {
-    if (cfg == nullptr) {
-      cfg = new QSettings("YLSoftware", "qOPDSbrowser");
-    }
-    return cfg;
+    static QSettings instance("YLSoftware", "qOPDSbrowser");
+    return instance;
 }
 
 
@@ -206,6 +200,7 @@ int OPDSList::columnCount(const QModelIndex &) const
 QVariant OPDSList::data(const QModelIndex &index, const int role) const
 {
     QVariant value;
+    const OPDSFeedBookmark &bookmark = bookmarksList.at(index.row());
     switch (role)
     {
         case Qt::DisplayRole: //string
@@ -214,7 +209,7 @@ QVariant OPDSList::data(const QModelIndex &index, const int role) const
             {
                 case COLUMN_TITLE:
                 {
-                    value = bookmarksList.at(index.row()).title;
+                    value = bookmark.title;
                 }
                 break;
             }
@@ -223,29 +218,28 @@ QVariant OPDSList::data(const QModelIndex &index, const int role) const
 
         case Qt::UserRole: //data
         {
-            value = bookmarksList.at(index.row()).title;
+            value = bookmark.title;
         }
         break;
 
         default:
-        break;
+            break;
     }
-
-    //qDebug() << "DownloadHistory::data" << value;
 
     return value;
 
 }
 
 
-QVariant OPDSList::headerData(const int section, Qt::Orientation orientation, const int role) const
+QVariant OPDSList::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         switch (section) {
             case COLUMN_TITLE:
                 return QString(tr("Bookmark title"));
-            default: ;
+            default:
+                break;
         }
     }
     return {};
-};
+}

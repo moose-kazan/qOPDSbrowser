@@ -5,11 +5,9 @@
 #include <QStringList>
 #include <QMap>
 #include <QMimeDatabase>
-#include <QObject>
 
-class FileTypes: public QObject
+class FileTypes
 {
-    Q_OBJECT
 public:
     FileTypes();
 

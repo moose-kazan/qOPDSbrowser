@@ -7,8 +7,6 @@ class Settings
 {
 
 public:
-    Settings();
-
     static QMap<QString, QString> getUserAgentVariants();
     static QString getUserAgent();
 
@@ -33,10 +31,7 @@ public:
     static void setBrowserTableViewState(const QByteArray& data);
     static bool haveBrowserTableViewState();
 
-protected:
-    static QSettings* getCfg();
-    static QSettings* cfg;
-    static QMap<QString,QString> *userAgentVariants;
+    static QSettings& getCfg();
 };
 
 #endif // SETTINGS_H

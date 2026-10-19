@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.16)
 
 project(qOPDSbrowser VERSION 0.1 LANGUAGES CXX)
 
@@ -72,12 +72,12 @@ set(PROJECT_SOURCES
 	${TS_FILES}
 )
 
+qt6_standard_project_setup()
+
 qt_add_executable(qOPDSbrowser
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
 )
-
-qt6_standard_project_setup()
 
 qt_add_translations(
     qOPDSbrowser
@@ -85,9 +85,9 @@ qt_add_translations(
     RESOURCE_PREFIX "i18n"
 )
 
-target_link_libraries(qOPDSbrowser PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-target_link_libraries(qOPDSbrowser PRIVATE Qt${QT_VERSION_MAJOR}::Network)
-target_link_libraries(qOPDSbrowser PRIVATE Qt${QT_VERSION_MAJOR}::Xml)
+target_link_libraries(qOPDSbrowser PRIVATE Qt6::Widgets)
+target_link_libraries(qOPDSbrowser PRIVATE Qt6::Network)
+target_link_libraries(qOPDSbrowser PRIVATE Qt6::Xml)
 
 set_target_properties(qOPDSbrowser PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER com.ylsoftware.qopdsbrowser
@@ -104,12 +104,10 @@ install(TARGETS qOPDSbrowser
 if(UNIX AND NOT APPLE)
     install(FILES qOPDSbrowser.desktop DESTINATION share/applications)
     install(FILES src/icons/icon512.png DESTINATION share/icons RENAME qOPDSbrowser.png)
-    install(FILES qOPDSbrowser.conf DESTINATION /etc/xdg/YLSoftware/)
+    install(FILES qOPDSbrowser.conf DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/xdg/YLSoftware/)
     foreach(SIZE 16 24 32 48 64 96 128 256 512)
 	install(FILES src/icons/icon${SIZE}.png DESTINATION share/icons/hicolor/${SIZE}x${SIZE}/apps RENAME qOPDSbrowser.png)
     endforeach()
 endif()
-#install(FILES qOPDSbrowser.conf DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/xdg/YLSoftware/)
-
 
 qt_finalize_executable(qOPDSbrowser)

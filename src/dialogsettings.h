@@ -35,12 +35,12 @@ private:
     QComboBox *userAgentList;
     QCheckBox *openFileAfterDownload;
     QLineEdit *defaultDownloadDirectory;
-    QFileDialog *defaultDownloadDirectoryDialog;
+    QFileDialog defaultDownloadDirectoryDialog;
 
 private slots:
     void actionOK();
     void actionCancel();
-    void actionSelectDefaultDownloadDirectory() const;
+    void actionSelectDefaultDownloadDirectory();
 };
 
 #endif // DIALOGSETTINGS_H

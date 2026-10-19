@@ -24,7 +24,7 @@ bool FileTypes::add(const QString& mimeType, const QString& link)
             intExt.replace(mimeType.length()-QString("+zip").length(), QString("+zip").length(), "");
             intExt.replace(0, QString("application/").length(), "");
 
-            typeComment = tr("Zip-compressed %1").arg(intExt.toUpper());
+            typeComment = QString("Zip-compressed %1").arg(intExt.toUpper());
             typeSuffix = intExt.toLower() + ".zip";
         }
         else if (mimeType == "application/djvu")

@@ -10,8 +10,8 @@ DownloadTableContextMenu::DownloadTableContextMenu(QWidget *parent) {
     itemOpenFile = new QAction(tr("Open file"), parent);
     itemCopyLink = new QAction(tr("Copy link"), parent);
 
-    connect(itemOpenFile, SIGNAL(triggered()), this, SLOT(actionOpenFile()));
-    connect(itemCopyLink, SIGNAL(triggered()), this, SLOT(actionCopyLink()));
+    connect(itemOpenFile, &QAction::triggered, this, [this] { actionOpenFile(); });
+    connect(itemCopyLink, &QAction::triggered, this, [this] { actionCopyLink(); });
 
     contextMenu->addAction(itemOpenFile);
     contextMenu->addAction(itemCopyLink);

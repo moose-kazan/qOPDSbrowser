@@ -11,25 +11,22 @@
 
 DownloadHistory::DownloadHistory(QObject *parent) :QAbstractListModel(parent)
 {
-    //qDebug() << "DownloadHistory::DownloadHistory";
-    historyList = new QList<DownloadHistoryItem>();
 }
 
 int DownloadHistory::rowCount(const QModelIndex &) const
 {
-    //qDebug() << "DownloadHistory::rowCount" << historyList->count();
-    return historyList->count();
+    return historyList.count();
 }
 
 int DownloadHistory::columnCount(const QModelIndex &) const
 {
-    //qDebug() << "DownloadHistory::columnCount";
     return 3;
 }
 
 QVariant DownloadHistory::data( const QModelIndex &index, int role ) const
 {
     QVariant value;
+    const DownloadHistoryItem &historyItem = historyList.at(index.row());
     switch (role)
     {
         case Qt::DisplayRole: //string
@@ -38,19 +35,19 @@ QVariant DownloadHistory::data( const QModelIndex &index, int role ) const
             {
                 case COLUMN_FILENAME:
                 {
-                    value = stripFileName(historyList->at(index.row()).fileName);
+                    value = stripFileName(historyItem.fileName);
                 }
                 break;
 
                 case COLUMN_PROGRESS:
                 {
-                    value = prepareProgress(historyList->at(index.row()));
+                    value = prepareProgress(historyItem);
                 }
                 break;
 
                 case COLUMN_STATUS:
                 {
-                    value = statusToString(historyList->at(index.row()).status);
+                    value = statusToString(historyItem.status);
                 }
                 break;
             }
@@ -59,22 +56,19 @@ QVariant DownloadHistory::data( const QModelIndex &index, int role ) const
 
         case Qt::UserRole: //data
         {
-            value = historyList->at(index.row()).fileName;
+            value = historyItem.fileName;
         }
         break;
 
         default:
-        break;
+            break;
     }
-
-    //qDebug() << "DownloadHistory::data" << value;
 
     return value;
 }
 
-QVariant DownloadHistory::headerData(int section, const Qt::Orientation orientation, const int role) const
+QVariant DownloadHistory::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    //qDebug() << "DownloadHistory::headerData" << section << orientation << role;
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         switch (section) {
             case COLUMN_FILENAME:
@@ -85,7 +79,8 @@ QVariant DownloadHistory::headerData(int section, const Qt::Orientation orientat
 
             case COLUMN_STATUS:
                 return QString(tr("Download status"));
-            default: ;
+            default:
+                break;
         }
     }
     return {};
@@ -100,10 +95,10 @@ QByteArray DownloadHistory::HistoryItemAdd(const QUrl& url, const QString& fileN
     newItem.url = url;
     newItem.isNull = false;
 
-    int newRow = historyList->count()+1;
+    int newRow = historyList.count();
     beginInsertRows(QModelIndex(), newRow, newRow);
 
-    historyList->append(newItem);
+    historyList.append(newItem);
 
     endInsertRows();
 
@@ -112,11 +107,11 @@ QByteArray DownloadHistory::HistoryItemAdd(const QUrl& url, const QString& fileN
 
 DownloadHistoryItem DownloadHistory::HistoryItemGet(const QByteArray& id) const
 {
-    for (int i = 0; i < historyList->length(); i++)
+    for (int i = 0; i < historyList.length(); i++)
     {
-        if (historyList->at(i).id == id)
+        if (historyList.at(i).id == id)
         {
-            return historyList->at(i);
+            return historyList.at(i);
         }
     }
     return {};
@@ -124,62 +119,46 @@ DownloadHistoryItem DownloadHistory::HistoryItemGet(const QByteArray& id) const
 
 DownloadHistoryItem DownloadHistory::HistoryItemGetByRow(const int row) const
 {
-    return historyList->at(row);
+    if (row < 0 || row >= historyList.count())
+    {
+        return {};
+    }
+    return historyList.at(row);
 }
 
 void DownloadHistory::HistoryItemSuccess(const QByteArray& id)
 {
-    for (int i = 0; i < historyList->length(); i++)
-    {
-        if (historyList->at(i).id == id)
-        {
-            DownloadHistoryItem tmpItem = historyList->at(i);
-            tmpItem.status = DownloadHistoryItem::downloadSuccess;
-            historyList->replace(i, tmpItem);
-
-            QModelIndex item_idx_s = this->index(i, 0);
-            QModelIndex item_idx_e = this->index(i, this->columnCount(QModelIndex()));
-            emit this->dataChanged(item_idx_s ,item_idx_e);
-
-            return;
-        }
-    }
+    updateItemStatus(id, DownloadHistoryItem::Status::downloadSuccess);
 }
 
 void DownloadHistory::HistoryItemFailed(const QByteArray& id)
 {
-    for (int i = 0; i < historyList->length(); i++)
-    {
-        if (historyList->at(i).id == id)
-        {
-            DownloadHistoryItem tmpItem = historyList->at(i);
-            tmpItem.status = DownloadHistoryItem::downloadFailed;
-            historyList->replace(i, tmpItem);
-
-            QModelIndex item_idx_s = this->index(i, 0);
-            QModelIndex item_idx_e = this->index(i, this->columnCount(QModelIndex()));
-            emit this->dataChanged(item_idx_s ,item_idx_e);
-
-            return;
-        }
-    }
+    updateItemStatus(id, DownloadHistoryItem::Status::downloadFailed);
 }
 
 void DownloadHistory::HistoryItemProgress(const QByteArray& id, qint64 bytesReceived, const qint64 bytesTotal)
 {
-    for (int i = 0; i < historyList->length(); i++)
+    updateItemStatus(id, DownloadHistoryItem::Status::downloadProgress, bytesReceived, bytesTotal);
+}
+
+void DownloadHistory::updateItemStatus(const QByteArray& id, DownloadHistoryItem::Status newStatus, qint64 bytesReceived, qint64 bytesTotal)
+{
+    for (int i = 0; i < historyList.length(); i++)
     {
-        if (historyList->at(i).id == id)
+        if (historyList.at(i).id == id)
         {
-            DownloadHistoryItem tmpItem = historyList->at(i);
-            tmpItem.status = DownloadHistoryItem::downloadProgress;
-            tmpItem.bytesReceived = bytesReceived;
-            tmpItem.bytesTotal = bytesTotal;
-            historyList->replace(i, tmpItem);
+            DownloadHistoryItem tmpItem = historyList.at(i);
+            tmpItem.status = newStatus;
+            if (newStatus == DownloadHistoryItem::Status::downloadProgress)
+            {
+                tmpItem.bytesReceived = bytesReceived;
+                tmpItem.bytesTotal = bytesTotal;
+            }
+            historyList.replace(i, tmpItem);
 
             QModelIndex item_idx_s = this->index(i, 0);
             QModelIndex item_idx_e = this->index(i, this->columnCount(QModelIndex()));
-            emit this->dataChanged(item_idx_s ,item_idx_e);
+            emit this->dataChanged(item_idx_s, item_idx_e);
 
             return;
         }
@@ -191,19 +170,19 @@ QString DownloadHistory::statusToString(const DownloadHistoryItem::Status status
     QString statusName;
     switch (status)
     {
-        case DownloadHistoryItem::downloadWaiting:
+        case DownloadHistoryItem::Status::downloadWaiting:
             statusName = tr("Waiting");
         break;
 
-        case DownloadHistoryItem::downloadProgress:
+        case DownloadHistoryItem::Status::downloadProgress:
             statusName = tr("Progress");
         break;
 
-        case DownloadHistoryItem::downloadFailed:
+        case DownloadHistoryItem::Status::downloadFailed:
             statusName = tr("Failed");
         break;
 
-        case DownloadHistoryItem::downloadSuccess:
+        case DownloadHistoryItem::Status::downloadSuccess:
             statusName = tr("Success");
         break;
     }
@@ -220,7 +199,7 @@ QString DownloadHistory::stripFileName(const QString& fileName)
 
 QString DownloadHistory::prepareProgress(const DownloadHistoryItem& historyItem) const
 {
-    if (historyItem.status != DownloadHistoryItem::downloadProgress)
+    if (historyItem.status != DownloadHistoryItem::Status::downloadProgress)
     {
         return "";
     }
@@ -243,8 +222,8 @@ QString DownloadHistory::prepareSize(const qint64 size)
     }
     else if (size < 1024*1024)
     {
-        return QString("%1Kb").arg(static_cast<qint64>(size / 1024));
+        return QString("%1KB").arg(static_cast<qint64>(size / 1024));
     }
 
-    return QString("%1Kb").arg(static_cast<qint64>(size / (1024 * 1024)));
+    return QString("%1MB").arg(static_cast<qint64>(size / (1024 * 1024)));
 }

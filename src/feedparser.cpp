@@ -10,8 +10,10 @@
 
 FeedParser::FeedParser()
 {
-    parserXml = new QDomDocument();
+    parserXml.reset(new QDomDocument());
 }
+
+FeedParser::~FeedParser() = default;
 
 void FeedParser::collectEntries()
 {
@@ -22,8 +24,7 @@ void FeedParser::collectEntries()
         FeedEntry fEntry;
         fEntry.title = docEntries.at(i).firstChildElement("title").text();
 
-        QDomElement authorItem = docEntries.at(i).firstChildElement("author");
-        if (!authorItem.isNull())
+        if (!docEntries.at(i).firstChildElement("author").isNull())
         {
             QDomElement authorName = docEntries.at(i).firstChildElement("author").firstChildElement("name");
             if (!authorName.isNull() && authorName.text() != "")
@@ -38,12 +39,12 @@ void FeedParser::collectEntries()
             QString summaryType = summaryItem.attribute("type", "text").toLower();
             if (summaryType == "text")
             {
-                fEntry.summary.type = FeedEntry::Summary::text;
+                fEntry.summary.type = FeedEntry::Summary::Type::text;
                 fEntry.summary.value = summaryItem.text();
             }
             else if (summaryType == "html")
             {
-                fEntry.summary.type = FeedEntry::Summary::html;
+                fEntry.summary.type = FeedEntry::Summary::Type::html;
                 fEntry.summary.value = summaryItem.text();
             }
         }
@@ -54,12 +55,12 @@ void FeedParser::collectEntries()
             QString contentType = contentItem.attribute("type", "text").toLower();
             if (contentType == "text")
             {
-                fEntry.content.type = FeedEntry::Content::text;
+                fEntry.content.type = FeedEntry::Content::Type::text;
                 fEntry.content.value = contentItem.text();
             }
             else if (contentType == "html")
             {
-                fEntry.content.type = FeedEntry::Content::html;
+                fEntry.content.type = FeedEntry::Content::Type::html;
                 fEntry.content.value = contentItem.text();
             }
         }
@@ -84,13 +85,12 @@ void FeedParser::collectEntries()
                 continue;
             }
 
-            //qDebug() << i << fEntry.title << "Rel:" << linkRel << ", Type:" << linkType << ", Url: " << baseUrl;
-
             FeedEntryLink fLink;
             fLink.link = baseUrl.resolved(linkItem.attribute("href", "")).toString();
             fLink.type = linkType;
 
-            bool linkToFeed = linkType.split(";").contains("profile=opds-catalog") || linkType.split(";").contains("application/atom+xml");
+            const QStringList linkTypeParts = linkType.split(";");
+            bool linkToFeed = linkTypeParts.contains("profile=opds-catalog") || linkTypeParts.contains("application/atom+xml");
 
             if (linkToFeed)
             {
@@ -107,17 +107,17 @@ void FeedParser::collectEntries()
 
         if (bookLinks.count() > 0)
         {
-            fEntry.entryType = FeedEntry::book;
+            fEntry.entryType = FeedEntry::EntryType::book;
             fEntry.links.append(bookLinks);
         }
         else if (feedLinks.count() > 0)
         {
-            fEntry.entryType = FeedEntry::feed;
+            fEntry.entryType = FeedEntry::EntryType::feed;
             fEntry.links.append(feedLinks);
         }
 
 
-        if (fEntry.entryType != FeedEntry::unknown)
+        if (fEntry.entryType != FeedEntry::EntryType::unknown)
         {
             feedData.append(fEntry);
         }
@@ -141,7 +141,8 @@ void FeedParser::collectLinks()
         QString linkRel = linkItem.attribute("rel", "");
         QString linkType = linkItem.attribute("type", "").toLower();
 
-        bool linkToFeed = linkType.split(";").contains("profile=opds-catalog") || linkType.split(";").contains("application/atom+xml");
+        const QStringList linkTypeParts = linkType.split(";");
+        bool linkToFeed = linkTypeParts.contains("profile=opds-catalog") || linkTypeParts.contains("application/atom+xml");
 
         if (!linkToFeed)
         {
@@ -150,9 +151,9 @@ void FeedParser::collectLinks()
 
         if (linkRel == "next" || linkRel == "prev" || linkRel == "previous") {
             FeedEntry fEntry;
-            fEntry.entryType = FeedEntry::feed;
+            fEntry.entryType = FeedEntry::EntryType::feed;
 
-            fEntry.title = tr("Prveious page");
+            fEntry.title = tr("Previous page");
             if (linkRel == "next")
             {
                 fEntry.title = tr("Next page");
@@ -194,21 +195,16 @@ bool FeedParser::parse(const QByteArray& data, const QUrl& baseXmlUrl)
     searchLink = "";
     feedTitle = "";
 
-    QString paserXmlErrorMsg;
+    QString parserXmlErrorMsg;
     int parserXmlErrorLine;
     int parserXmlErrorColumn;
 
-    if (!parserXml->setContent(
-        QString::fromUtf8(data),
-        true,
-        &paserXmlErrorMsg,
-        &parserXmlErrorLine,
-        &parserXmlErrorColumn)
-    )
+    QDomDocument::ParseResult parseResult = parserXml->setContent(data);
+    if (!parseResult)
     {
-        errorString = QString(tr("Error at [%1:%2]: %3")).arg(parserXmlErrorLine)
-                .arg(parserXmlErrorColumn)
-                .arg(paserXmlErrorMsg);
+        errorString = QString(tr("Error at [%1:%2]: %3")).arg(parseResult.errorLine)
+                .arg(parseResult.errorColumn)
+                .arg(parseResult.errorMessage);
         return false;
     }
 

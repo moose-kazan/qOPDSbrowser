@@ -13,7 +13,7 @@ public:
     static const int COLUMN_TITLE = 0;
     static const int COLUMN_SUMMARY = 1;
 
-    explicit FeedParserViewModel(QObject *parent=nullptr);
+    explicit FeedParserViewModel(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &) const override;
     int columnCount(const QModelIndex &parent) const override;

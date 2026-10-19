@@ -56,8 +56,7 @@ void DialogBookmarkAdd::showEvent(QShowEvent *event)
 {
     (void)event;
 
-    QClipboard *clipboard = QGuiApplication::clipboard();
-    QString clipboardText = clipboard->text();
+    QString clipboardText = QGuiApplication::clipboard()->text();
 
     editTitle->clear();
     editUrl->clear();

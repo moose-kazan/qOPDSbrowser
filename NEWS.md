@@ -1,8 +1,9 @@
-# Version 0.0.6
+# Version 0.0.6 dev
  * Context menu for bookmarks
  * "Copy Link" for bookmarks
  * "Add bookmark": use current url if clipboard doesn't contains url
  * Handle feed title. Put into window title.
+ * Fix some memory leaks and other bugs
 
 # Version 0.0.5
  * Context menu for download-manager

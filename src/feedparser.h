@@ -7,6 +7,7 @@
 #include <QDomDocument>
 #include <QList>
 #include <QUrl>
+#include <QScopedPointer>
 
 struct FeedEntryLink {
     QString link;
@@ -17,13 +18,13 @@ struct FeedEntry {
     QString title;
     struct Summary {
         QString value;
-        enum {unknown, text, html} type = unknown;
+        enum class Type {unknown, text, html} type = Type::unknown;
     } summary;
     struct Content {
         QString value;
-        enum {unknown, text, html} type = unknown;
+        enum class Type {unknown, text, html} type = Type::unknown;
     } content;
-    enum {unknown, feed, book} entryType = unknown;
+    enum class EntryType {unknown, feed, book} entryType = EntryType::unknown;
     QList<FeedEntryLink> links;
 };
 
@@ -32,6 +33,7 @@ class FeedParser: public QObject
     Q_OBJECT
 public:
     FeedParser();
+    ~FeedParser() override;
     bool parse(const QByteArray& data, const QUrl& baseXmlUrl);
     QString errorLine();
     QList<FeedEntry> getData();
@@ -41,7 +43,7 @@ public:
 
 private:
     QString errorString;
-    QDomDocument *parserXml;
+    QScopedPointer<QDomDocument> parserXml;
     QList<FeedEntry> feedData;
     void collectEntries();
     void collectLinks();

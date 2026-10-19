@@ -8,6 +8,7 @@
 #include "mainwindow.h"
 
 #include <QClipboard>
+#include <QGuiApplication>
 
 #include "./ui_mainwindow.h"
 
@@ -28,12 +29,12 @@ MainWindow::MainWindow(QWidget *parent)
     dialogBookmarkEdit = new DialogBookmarkEdit(this, Qt::Dialog);
     dialogSettings= new DialogSettings(this, Qt::Dialog);
 
-    downloadManager = new QNetworkAccessManager();
-    navigateManager = new QNetworkAccessManager();
+    downloadManager = new QNetworkAccessManager(this);
+    navigateManager = new QNetworkAccessManager(this);
     connect(navigateManager, &QNetworkAccessManager::finished, this, &MainWindow::navigateFinish);
     connect(downloadManager, &QNetworkAccessManager::finished, this, &MainWindow::downloadFinish);
 
-    feedParser = new FeedParser();
+    feedParser.reset(new FeedParser());
 
     bookmarksView = findChild<QListView *>("bookmarksView");
     browserView = findChild<QTableView *>("browserView");
@@ -64,11 +65,9 @@ MainWindow::MainWindow(QWidget *parent)
     bookmarksViewContextMenu->addAction(findChild<QAction *>("actionBookmarkEdit"));
     bookmarksViewContextMenu->addAction(findChild<QAction *>("actionBookmarkRemove"));
 
-    //bookmarkActionCopyLink = QAction("bookmarkActionCopyLink", this);
-    //bookmarkActionCopyLink.setParent(this);
-    bookmarkActionCopyLink.setText(tr("Copy link"));
-    connect(&bookmarkActionCopyLink, &QAction::triggered, this, &MainWindow::actionBookmarkCopyLink);
-    bookmarksViewContextMenu->addAction(&bookmarkActionCopyLink);
+    bookmarkActionCopyLink = std::make_unique<QAction>(tr("Copy link"), this);
+    connect(bookmarkActionCopyLink.get(), &QAction::triggered, this, &MainWindow::actionBookmarkCopyLink);
+    bookmarksViewContextMenu->addAction(bookmarkActionCopyLink.get());
 
     stateRestore();
 }
@@ -165,7 +164,6 @@ void MainWindow::actionBookmarksViewActivated(const QModelIndex& modelIndex) con
 
 void MainWindow::navigateTo(const QUrl& url) const
 {
-    //qDebug() << "navigate to:" << url;
     QString statusBarMessage = QString(tr("Loading feed %1")).arg(url.toString());
     statusBar->showMessage(statusBarMessage, STATUSBAR_MESSAGE_TIMEOUT);
 
@@ -213,7 +211,6 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
             tr("Can't parse %1: %2").arg(url.toString(), feedParser->errorLine())
         );
 
-        //qDebug() << responseBody;
         return;
     }
 
@@ -226,25 +223,25 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
 
     switch (urlHistoryDirection)
     {
-        case historyGoBack:
+        case UrlHistoryDirection::goBack:
             if (urlHistoryIndex > 0)
             {
                 urlHistoryIndex--;
             }
         break;
 
-        case historyGoNext:
+        case UrlHistoryDirection::goNext:
             if (urlHistoryIndex < urlHistoryList.count()-1)
             {
                 urlHistoryIndex++;
             }
         break;
 
-        case historyGoRefresh:
+        case UrlHistoryDirection::goRefresh:
             // Do nothing
         break;
 
-        case historyGoDefault:
+        case UrlHistoryDirection::defaultDir:
             if (urlHistoryIndex <= urlHistoryList.count()-1)
             {
                 urlHistoryIndex++;
@@ -261,7 +258,7 @@ void MainWindow::navigateFinish(QNetworkReply *reply)
     QString statusBarMessage = QString(tr("Feed loaded"));
     statusBar->showMessage(statusBarMessage, STATUSBAR_MESSAGE_TIMEOUT);
 
-    urlHistoryDirection = historyGoDefault;
+    urlHistoryDirection = UrlHistoryDirection::defaultDir;
 
     searchLineEdit->setEnabled(feedParser->haveSearch());
 
@@ -276,7 +273,7 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
 {
     FeedEntry feedEntry = browserViewModel->at(modelIndex.row());
 
-    if (feedEntry.entryType == FeedEntry::feed)
+    if (feedEntry.entryType == FeedEntry::EntryType::feed)
     {
         if (feedEntry.links.count() == 0)
         {
@@ -288,7 +285,7 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
         return;
 
     }
-    else if (feedEntry.entryType == FeedEntry::book) {
+    else if (feedEntry.entryType == FeedEntry::EntryType::book) {
         fileTypes.reset();
 
         for (int i = 0; i < feedEntry.links.count(); i++)
@@ -311,9 +308,6 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
         }
         return;
     }
-
-    qDebug() << "Not implemented";
-    qDebug() << feedEntry.entryType;
 }
 
 void MainWindow::downloadTo(const QUrl& url, const QString& fileName)
@@ -325,7 +319,6 @@ void MainWindow::downloadTo(const QUrl& url, const QString& fileName)
     request.setRawHeader("Download-ID", downloadID);
 
     QNetworkReply* networkReply = downloadManager->get(request);
-    //connect(downloadManager, &QNetworkAccessManager::finished, this, &MainWindow::downloadFinish);
     connect(networkReply, &QNetworkReply::downloadProgress, [=] (qint64 bytesReceived, qint64 bytesTotal) {
         downloadHistory->HistoryItemProgress(downloadID, bytesReceived, bytesTotal);
     });
@@ -392,7 +385,7 @@ void MainWindow::actionRefresh()
 {
     if (urlEdit->text() != "")
     {
-        urlHistoryDirection = historyGoRefresh;
+        urlHistoryDirection = UrlHistoryDirection::goRefresh;
         navigateTo(urlEdit->text());
     }
 }
@@ -401,7 +394,7 @@ void MainWindow::actionGoNext()
 {
     if (urlHistoryIndex < urlHistoryList.count()-1)
     {
-        urlHistoryDirection = historyGoNext;
+        urlHistoryDirection = UrlHistoryDirection::goNext;
         navigateTo(urlHistoryList.at(urlHistoryIndex+1));
     }
 }
@@ -410,7 +403,7 @@ void MainWindow::actionGoPrev()
 {
     if (urlHistoryIndex > 0 && urlHistoryList.count() > 1)
     {
-        urlHistoryDirection = historyGoBack;
+        urlHistoryDirection = UrlHistoryDirection::goBack;
         navigateTo(urlHistoryList.at(urlHistoryIndex-1));
     }
 }
@@ -438,7 +431,7 @@ void MainWindow::actionSearch() const
 
 void MainWindow::actionTableDownloadsDoubleClick(const QModelIndex& modelIndex) const
 {
-    if (downloadHistory->HistoryItemGetByRow(modelIndex.row()).status == DownloadHistoryItem::downloadSuccess)
+    if (downloadHistory->HistoryItemGetByRow(modelIndex.row()).status == DownloadHistoryItem::Status::downloadSuccess)
     {
         QDesktopServices::openUrl(QUrl(downloadHistory->HistoryItemGetByRow(modelIndex.row()).fileName));
     }
@@ -446,12 +439,11 @@ void MainWindow::actionTableDownloadsDoubleClick(const QModelIndex& modelIndex) 
 
 void MainWindow::actionTableDownloadsCustomContextMenu(const QPoint pos) const
 {
-    //qDebug() << "Context menu!";
     QModelIndex index = tableDownloads->indexAt(pos);
     if (index.row() > -1) {
         tableDownloads->selectRow(index.row());
         const DownloadHistoryItem item = downloadHistory->HistoryItemGetByRow(index.row());
-        downloadTableContextMenu->setData(item.status == DownloadHistoryItem::downloadSuccess, item.fileName, item.url);
+        downloadTableContextMenu->setData(item.status == DownloadHistoryItem::Status::downloadSuccess, item.fileName, item.url);
         downloadTableContextMenu->getMenu()->popup(tableDownloads->viewport()->mapToGlobal(pos));
     }
 }
