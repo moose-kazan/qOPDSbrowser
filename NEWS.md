@@ -4,6 +4,8 @@
  * "Add bookmark": use current url if clipboard doesn't contains url
  * Handle feed title. Put into window title.
  * Fix some memory leaks and other bugs
+ * Improve support for Qt 6.10+
+ * Fix for default file name in save dialog
 
 # Version 0.0.5
  * Context menu for download-manager

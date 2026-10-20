@@ -49,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     saveDialog = new QFileDialog(this);
     saveDialog->setAcceptMode(QFileDialog::AcceptSave);
     saveDialog->setDirectory(Settings::getDefaultSaveDirectory());
+    saveDialog->setOption(QFileDialog::DontUseNativeDialog, true);
 
     bookmarksViewModel = new OPDSList(this);
     bookmarksView->setModel(bookmarksViewModel);
@@ -300,7 +301,13 @@ void MainWindow::actionBrowserViewActivated(QModelIndex modelIndex)
         }
 
         saveDialog->setNameFilters(fileTypes.getNameFilters());
-        saveDialog->selectFile(Helpers::cleanFileName(feedEntry.title, fileTypes.getDefaultSuffix()));
+
+        QString fileName = Helpers::cleanFileName(feedEntry.title, fileTypes.getDefaultSuffix());
+        if (fileName.isEmpty() || fileName.startsWith('.') || fileName == "_")
+        {
+            fileName = "untitled." + fileTypes.getDefaultSuffix();
+        }
+        saveDialog->selectFile(fileName);
         saveDialog->setDefaultSuffix(fileTypes.getDefaultSuffix());
         if (saveDialog->exec() == QDialog::Accepted)
         {
